@@ -1,0 +1,11 @@
+{
+    "extends": "rallycoding",
+    "rules": {
+        "quotes":"off",
+        "no-underscore-dangle": "off",
+        "curly":"off",
+        "arrow-body-style":"off",
+        "react/sort-comp": "off",
+        "no-shadow":"warn"
+    }
+}
