@@ -1,34 +1,16 @@
 import React, { Component } from "react";
 import { View, ScrollView } from "react-native";
-import { Button } from "react-native-elements";
+//import { Button } from "react-native-elements";
 import { connect } from 'react-redux';
 import _ from "lodash";
 //import { AppLoading } from 'expo';
 import { saveCode, walRes, itemsFetch } from "../actions";
 import ItemDetals from "../components/ItemDetals";
-import Confirm from "../components/confirm";
-import { PRIMARY_COLOR } from "../constants/style";
+//import Confirm from "../components/confirm";
+//import { PRIMARY_COLOR } from "../constants/style";
 
 class SearchResultsScreen extends Component {
-    static navigationOptions = ({ navigation }) => (
-    {
-        tabBarVisible: false,
-        title: "Item",
-        tabBarLabel: "main",
-        headerTitleStyle: {
-          textAlign: "center",
-          alignSelf: "center"
-        }, 
-        headerLeft: (
-            <Button
-              navigate={navigation.navigate}
-              large
-              icon={{ name: "menu" }}
-              backgroundColor={PRIMARY_COLOR}
-              onPress={() => navigation.navigate("DrawerOpen")}
-            />
-          )
-        });
+    
         state = {
           isVisible: false,
           saved: false
@@ -49,49 +31,49 @@ class SearchResultsScreen extends Component {
             this.setState({ isVisible: false });
             this.props.navigation.navigate('SavedItems');
           }
-       onSaveButton() {
-         const { itemInfo, saveCode } = this.props;
-         //this.checkIfSaved.bind(this);
-         const { codeData, codeType } = itemInfo;
-         const length = this.props.savedItems.length;
-         //console.log(length);
-         for (let i = 0; i < length; i++) { 
-         // console.log(this.props.savedItems[i].itemInfo);
-         if (codeData === this.props.savedItems[i].itemInfo.codeData && 
-           codeType === this.props.savedItems[i].itemInfo.codeType) {
-            this.setState({ isVisible: true });
-            console.log("already saved");
-            return { isSaved: true };
-           }
-       }  
-          saveCode(itemInfo);
-          this.props.navigation.navigate('SavedItems');
-      }
+      //  onSaveButton() {
+      //    const { itemInfo, saveCode } = this.props;
+      //    //this.checkIfSaved.bind(this);
+      //    const { codeData, codeType } = itemInfo;
+      //    const length = this.props.savedItems.length;
+      //    //console.log(length);
+      //    for (let i = 0; i < length; i++) { 
+      //    // console.log(this.props.savedItems[i].itemInfo);
+      //    if (codeData === this.props.savedItems[i].itemInfo.codeData && 
+      //      codeType === this.props.savedItems[i].itemInfo.codeType) {
+      //       this.setState({ isVisible: true });
+      //       console.log("already saved");
+      //       return { isSaved: true };
+      //      }
+      //  }  
+      //     saveCode(itemInfo);
+      //     this.props.navigation.navigate('SavedItems');
+
+       /* <Button
+        buttonStyle={styles.save.buttonStyle} 
+        raised
+        title="SAVE!!!"
+        onPress={this.onSaveButton.bind(this)}
+        />
+        </View>               
+        </ScrollView>
+       <Confirm
+       onNoPress={this.onNoButton.bind(this)}
+       onYesPress={this.onYesButton.bind(this)}
+       visible={this.state.isVisible}
+       >
+       You curently have {this.props.itemInfo.name} saved. Would you like to save it again?
+       </Confirm>*/
+  
     render() {   
      // console.log(this.props.savedItems);   
         return (
           <View>
             <ScrollView>
-             <ItemDetals {...this.props} />   
-            <View
-            style={styles.save.ViewStyle}
-            >               
-            <Button
-            buttonStyle={styles.save.buttonStyle} 
-            raised
-            title="SAVE!!!"
-            onPress={this.onSaveButton.bind(this)}
-            />
-            </View>               
+             <ItemDetals {...this.props} />
             </ScrollView>
-           <Confirm
-           onNoPress={this.onNoButton.bind(this)}
-           onYesPress={this.onYesButton.bind(this)}
-           visible={this.state.isVisible}
-           >
-           You curently have {this.props.itemInfo.name} saved. Would you like to save it again?
-           </Confirm>
-        </View>
+            </View>
+
         );
       }
       

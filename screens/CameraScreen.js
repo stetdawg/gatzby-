@@ -54,7 +54,7 @@ class CameraScreen extends Component {
             return (
               <View style={{ flex: 1 }}>
                 <BarCodeScanner
-                  /*torchMode="on"*/
+                  torchMode="on"
                   onBarCodeRead={this._handleBarCodeRead}
                   style={StyleSheet.absoluteFill}
                   torchMode={this.state.light}

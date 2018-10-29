@@ -5,8 +5,11 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import cameraScreen from '../screens/CameraScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import SeachResultsScreen from '../screens/SearchResultsScreen';
 
+const navigationOptions = {
+header: 'null'
+};
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
 });
@@ -31,6 +34,7 @@ const cameraStack = createStackNavigator({
 
 cameraStack.navigationOptions = {
   tabBarLabel: 'cam',
+  header: 'null',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -39,12 +43,12 @@ cameraStack.navigationOptions = {
   ),
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+const SeachResultsStack = createStackNavigator({
+  searchResults: SeachResultsScreen,
 });
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+SeachResultsStack.navigationOptions = {
+  tabBarLabel: 'results',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -53,8 +57,10 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-export default createBottomTabNavigator({
+export default createBottomTabNavigator(
+  {
   HomeStack,
   cameraStack,
-  SettingsStack,
-});
+  SeachResultsStack,
+  },
+  navigationOptions);

@@ -3,7 +3,6 @@ import { Modal, Text, View } from 'react-native';
 import { Button, Card } from "react-native-elements";
 
 const confirm = ({ children, onNoPress, onYesPress, visible }) => {
-    
     return (
         <Modal
         visible={visible}
