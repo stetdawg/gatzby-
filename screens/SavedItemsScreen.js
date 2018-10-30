@@ -10,24 +10,6 @@ import SavedList from "../components/SavedList";
 class SavedItemsScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
   // Properties automatically referred to by react-navigation navigators
-  static navigationOptions = ({ navigation }) => ({
-    tabBarVisible: false,
-    title: "Saved Items",
-    tabBarLabel: "main",
-    headerTitleStyle: {
-      textAlign: "center",
-      alignSelf: "center"
-    },
-    headerLeft: (
-      <Button
-        navigate={navigation.navigate}
-        large
-        icon={{ name: "menu" }}
-        backgroundColor={PRIMARY_COLOR}
-        onPress={() => navigation.navigate("DrawerOpen")}
-      />
-    )
-  });
 
 
   //////////////////////////////////////////////////////////////////////////////////
