@@ -4,7 +4,7 @@ import { Button } from "react-native-elements";
 import { connect } from "react-redux";
 import _ from "lodash";
 import { itemsFetch, savedToResults } from "../actions";
-import { PRIMARY_COLOR } from "../constants/style";
+//import { PRIMARY_COLOR } from "../constants/style";
 import SavedList from "../components/SavedList";
 
 class SavedItemsScreen extends Component {

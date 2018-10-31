@@ -10,7 +10,9 @@ import ItemDetals from "../components/ItemDetals";
 //import { PRIMARY_COLOR } from "../constants/style";
 
 class SearchResultsScreen extends Component {
-    
+  static navigationOptions = {
+    header: null,
+  };
         state = {
           isVisible: false,
           saved: false

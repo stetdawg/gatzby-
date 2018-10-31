@@ -8,7 +8,7 @@ import cameraScreen from '../screens/CameraScreen';
 import SeachResultsScreen from '../screens/SearchResultsScreen';
 
 const navigationOptions = {
-header: 'null'
+header: null
 };
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -34,7 +34,7 @@ const cameraStack = createStackNavigator({
 
 cameraStack.navigationOptions = {
   tabBarLabel: 'cam',
-  header: 'null',
+  header: 'none',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -49,6 +49,7 @@ const SeachResultsStack = createStackNavigator({
 
 SeachResultsStack.navigationOptions = {
   tabBarLabel: 'results',
+  header: null,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
