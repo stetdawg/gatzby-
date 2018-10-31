@@ -12,7 +12,7 @@ import { barCodeType,
 
 class CameraScreen extends Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
         state = {
           hasCameraPermission: null,

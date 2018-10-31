@@ -11,7 +11,7 @@ import ItemDetals from "../components/ItemDetals";
 
 class SearchResultsScreen extends Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
         state = {
           isVisible: false,

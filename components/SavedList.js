@@ -51,10 +51,10 @@ class SavedList extends Component {
 
     return (
       <View>
-      <Swipeout 
+      {/* <Swipeout 
       right={swipeoutBtns}
       autoClose={true}
-      >
+      > */}
           <Card
           image={{ uri: this.props.item.itemInfo.largeImage }}
           >
@@ -64,14 +64,14 @@ class SavedList extends Component {
               onPress={this.onButtonPress.bind(this)}
               />
           </Card>
-      </Swipeout>
-      <Confirm
+      {/* </Swipeout> */}
+      {/* <Confirm
            onNoPress={this.onNoButton.bind(this)}
            onYesPress={this.onYesButton.bind(this)}
            visible={this.state.visible}
       >
            Are you sure that you want to deleate {this.props.item.itemInfo.name}?
-           </Confirm>
+           </Confirm> */}
       </View>
     );
     }
