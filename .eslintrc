@@ -6,6 +6,9 @@
         "curly":"off",
         "arrow-body-style":"off",
         "react/sort-comp": "off",
+        "global-require":"warn",
+        "object-curly-spacing":"off",
+        "react/jsx-closing-bracket-location": "off",
         "no-shadow":"warn"
     }
 }
