@@ -133,4 +133,4 @@ const styles = {
   }
 };
   export default connect(null, { saveCode,
-                                 walRes    })(SearchResultsScreen);
+                                 walRes })(SearchResultsScreen);
