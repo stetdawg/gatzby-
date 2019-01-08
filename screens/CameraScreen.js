@@ -16,9 +16,7 @@ class CameraScreen extends Component {
     header: null
   };
  
-  onScantog() {
-    this.props.cameraTog = false;
-  }
+  
         state = {
           hasCameraPermission: null,
         };
@@ -54,17 +52,11 @@ class CameraScreen extends Component {
               </View>
             );
         }
-       styles = StyleSheet.create({
-          
-
-      });
-
       }
       
   const mapStateToProps = state => {
       return {
         codeData: state.code.codeData,
-        cameraTog: state.home.cameraTogle
         };
     };
 
@@ -73,4 +65,4 @@ class CameraScreen extends Component {
                                 barCodeType,
                                 walResponse,
                                 lightSwitch,
-                                 cameraTogle })(CameraScreen);
+                                 })(CameraScreen);

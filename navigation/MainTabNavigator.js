@@ -4,7 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import cameraScreen from '../screens/CameraScreen';
+import searchScreen from '../screens/searchScreen';
 import SeachResultsScreen from '../screens/SearchResultsScreen';
 
 const navigationOptions = {
@@ -28,12 +28,12 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const cameraStack = createStackNavigator({
-  camera: cameraScreen,
+const searchStack = createStackNavigator({
+  seach: searchScreen,
 });
 
-cameraStack.navigationOptions = {
-  tabBarLabel: 'cam',
+searchStack.navigationOptions = {
+  tabBarLabel: 'seach',
   header: 'none',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -61,7 +61,7 @@ SeachResultsStack.navigationOptions = {
 export default createBottomTabNavigator(
   {
   HomeStack,
-  cameraStack,
+  searchStack,
   SeachResultsStack,
   },
   navigationOptions);

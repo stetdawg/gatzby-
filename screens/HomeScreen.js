@@ -6,18 +6,21 @@ import {
   ImageBackground,
   View,
   Dimensions,
-  Modal
+  Modal, 
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import {Permissions} from 'expo';
 import {Button} from 'react-native-elements';
 import { connect } from 'react-redux';
 import CameraScreen from "./CameraScreen";
-import {cameraTogle} from "../actions";
+
 
 class HomeScreen extends React.Component {
+ 
   async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+    const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
+    this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camer
     }
     componentWillReceiveProps() {
     }
@@ -29,8 +32,9 @@ class HomeScreen extends React.Component {
     cameraVisable: false
   };
   onScantog() {
-    console.log(this.state.cameraVisable);
-    this.setState({cameraVisable: true !== this.state.cameraVisable });
+    //console.log(this.state.cameraVisable); for debuging
+
+    this.setState({cameraVisable:  true !== this.state.cameraVisable  });
   }
   render() {
     return (
@@ -38,7 +42,7 @@ class HomeScreen extends React.Component {
       style={styles.container}
       >      
          <ImageBackground
-           style={styles.backgroundStyle}
+          style={styles.backgroundStyle}
           source={require("../assets/images/home2.png")}
           resizeMode='cover'
           >
@@ -47,12 +51,18 @@ class HomeScreen extends React.Component {
              <Text
              style={styles.textnameStyle}>
              GATZBY
-              </Text>
+            </Text>
             </View>
-            <Button
-            title='scan'
-            onPress={this.onScantog.bind(this)}
-            />
+       
+            <View
+            style={styles.searchContainerStyle}>
+                <TouchableOpacity onPress={this.onScantog.bind(this)}>
+      <Image
+        style={styles.scanButtonStyle}
+        source={require('../assets/images/scan.png')}
+      />
+    </TouchableOpacity>
+            </View>
             
                <Modal
         visible={this.state.cameraVisable}
@@ -80,9 +90,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  searchContainerStyle: {
+    alignSelf: 'center',
+    marginTop: '40%',
+    width: '90%', 
+    height: '5%',
+    backgroundColor: 'blue',
+    borderRadius: 20
     
   },
+  scanButtonStyle: {
+    height:"100%",
+    width: "100%",
+    resizeMode:"contain",
+
+    },
   cameraStyle: {
+    
     marginTop: '30%',
     width: '100%', 
     height: '100%'
@@ -105,8 +130,8 @@ const styles = StyleSheet.create({
 );
 const mapStateToProps = state => {
   return {
-    cameraVisable: state.home.cameraTogle
+    
     };
 };
 
-export default connect(mapStateToProps, { cameraTogle })(HomeScreen);
+export default connect(mapStateToProps, null )(HomeScreen);
