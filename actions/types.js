@@ -19,6 +19,7 @@ export const AUTH_SIGNOUT_USER = "signout_user";
 export const RESET_APP_STATE = "reset_app_state";
 
 export const LIGHT_TOGLE = "light_togle";
+export const CAMERA_TOGLE = "camera_togle";
 
 export const ITEM_INFO = "item Info";
 
