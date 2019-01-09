@@ -1,7 +1,7 @@
 
 import { Facebook, SecureStore } from 'expo';
 import firebase from 'firebase';
-import { FACEBOOK_API_KEY } from '../constants/api_keys';
+import { FACEBOOK_API_KEY } from '../assests/constants/api_keys';
 import {
   FACEBOOK_LOGIN_SUCCESS,
   FACEBOOK_LOGIN_FAIL,

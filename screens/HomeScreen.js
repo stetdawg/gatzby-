@@ -55,15 +55,15 @@ class HomeScreen extends React.Component {
             </View>
        
             <View
-            style={styles.searchContainerStyle}>
-                <TouchableOpacity onPress={this.onScantog.bind(this)}>
+            style={styles.searchContainerStyle}>            
+            <TouchableOpacity onPress={this.onScantog.bind(this)}>
+            
       <Image
         style={styles.scanButtonStyle}
         source={require('../assets/images/scan.png')}
       />
     </TouchableOpacity>
-            </View>
-            
+    </View>
                <Modal
         visible={this.state.cameraVisable}
         transparent
@@ -95,15 +95,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: '40%',
     width: '90%', 
-    height: '5%',
+    height: '10%',
     backgroundColor: 'blue',
     borderRadius: 20
     
   },
   scanButtonStyle: {
-    height:"100%",
-    width: "100%",
-    resizeMode:"contain",
+  resizeMode: 'cover',
+  height: "20%",
+  width: "10%",
+  marginLeft: "8%",
 
     },
   cameraStyle: {
