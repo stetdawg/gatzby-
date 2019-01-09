@@ -55,11 +55,7 @@ class HomeScreen extends React.Component {
             </View>
        
             <View
-<<<<<<< HEAD
-            style={styles.searchContainerStyle}>            
-=======
             style={styles.searchContainerStyle}/>            
->>>>>>> fixed buggs
             <TouchableOpacity onPress={this.onScantog.bind(this)}>
             
       <Image
@@ -67,11 +63,7 @@ class HomeScreen extends React.Component {
         source={require('../assets/images/scan.png')}
       />
     </TouchableOpacity>
-<<<<<<< HEAD
-    </View>
-=======
     
->>>>>>> fixed buggs
                <Modal
         visible={this.state.cameraVisable}
         transparent
@@ -110,10 +102,7 @@ const styles = StyleSheet.create({
   },
   scanButtonStyle: {
   resizeMode: 'cover',
-<<<<<<< HEAD
-=======
   marginTop:"1%",
->>>>>>> fixed buggs
   height: "20%",
   width: "10%",
   marginLeft: "8%",
