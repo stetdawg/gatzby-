@@ -1,4 +1,4 @@
-import * as apiKeys from "../constants/api_keys";
+import * as apiKeys from "../assets/constants/api_keys";
 
 export const warlmartAPIUrl = (upc) => {
  return `http://api.walmartlabs.com/v1/items?apiKey=${apiKeys.WalmartAPI}&upc=${upc}&format=json`;
