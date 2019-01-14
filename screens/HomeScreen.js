@@ -11,7 +11,7 @@ import {
   Image
 } from 'react-native';
 import {Permissions} from 'expo';
-import {Button} from 'react-native-elements';
+import {Button, SearchBar} from 'react-native-elements';
 import { connect } from 'react-redux';
 import CameraScreen from "./CameraScreen";
 
@@ -53,16 +53,25 @@ class HomeScreen extends React.Component {
              GATZBY
             </Text>
             </View>
-       
             <View
-            style={styles.searchContainerStyle}/>            
-            <TouchableOpacity onPress={this.onScantog.bind(this)}>
+                    style={styles.searchContainerStyle}>
+            <SearchBar
+                     placeholder='Type Here...' 
+                     round={true}
+                     inputStyle={{backgroundColor:"white"}}
+                     lightTheme={false}
+                     containerStyle={styles.containerStyle}
+                      
+                     />            
+                     <TouchableOpacity onPress={this.onScantog.bind(this)}>
             
-      <Image
-        style={styles.scanButtonStyle}
-        source={require('../assets/images/scan.png')}
-      />
-    </TouchableOpacity>
+                     <Image
+                       style={styles.scanButtonStyle}
+                       source={require('../assets/images/scan.png')}
+                     />
+                   </TouchableOpacity>
+            </View>            
+
     
                <Modal
         visible={this.state.cameraVisable}
@@ -72,11 +81,11 @@ class HomeScreen extends React.Component {
         >
         <View
             style={styles.cameraStyle}>
-            <CameraScreen />
             <Button
             title="Back to home"
             onPress={this.onScantog.bind(this)}
             />
+            <CameraScreen />
             </View>
             </Modal>
             
@@ -93,18 +102,27 @@ const styles = StyleSheet.create({
   },
   searchContainerStyle: {
     alignSelf: 'center',
-    marginTop: '40%',
+    marginTop: '20%',
     width: '90%', 
-    height: '10%',
-    backgroundColor: 'blue',
-    borderRadius: 20
+    height: '40%',
+    borderRadius: 20,
+    backgroundColor: 'transparent',
     
   },
+  containerStyle: {
+    borderRadius: 30,
+    borderWidth: 0,
+    borderColor: "transparent",
+    backgroundColor: "transparent",
+    borderTopColor: "transparent",
+    borderBottomColor: "transparent"
+
+   },
   scanButtonStyle: {
-  resizeMode: 'cover',
+  resizeMode: 'center',
   marginTop:"1%",
-  height: "20%",
-  width: "10%",
+  height:"50%",
+  width: "15%",
   marginLeft: "8%",
 
     },
