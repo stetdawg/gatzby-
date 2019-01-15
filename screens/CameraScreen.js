@@ -9,6 +9,7 @@ import { barCodeType,
          lightSwitch, 
          cameraTogle
         } from "../actions";
+import { Button } from "react-native-elements";
 
 
 class CameraScreen extends Component {
@@ -48,7 +49,10 @@ class CameraScreen extends Component {
                 <BarCodeScanner                  
                   onBarCodeRead={this._handleBarCodeRead}
                   style={StyleSheet.absoluteFill}
+                >
+                <Button
                 />
+                </BarCodeScanner>
               </View>
             );
         }

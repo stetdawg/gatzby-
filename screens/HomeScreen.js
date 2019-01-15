@@ -52,11 +52,19 @@ class HomeScreen extends React.Component {
              style={styles.textnameStyle}>
              GATZBY
             </Text>
+            <Text
+             style={styles.textsubStyle}>
+             Shop Smarter.
+            </Text>
+            <Text
+             style={styles.textsubStyle}>
+             Save Time.
+            </Text>
             </View>
             <View
                     style={styles.searchContainerStyle}>
             <SearchBar
-                     placeholder='Type Here...' 
+                     placeholder='Enter UPC' 
                      round={true}
                      inputStyle={{backgroundColor:"white"}}
                      lightTheme={false}
@@ -81,11 +89,12 @@ class HomeScreen extends React.Component {
         >
         <View
             style={styles.cameraStyle}>
+            
+            <CameraScreen />
             <Button
             title="Back to home"
             onPress={this.onScantog.bind(this)}
             />
-            <CameraScreen />
             </View>
             </Modal>
             
@@ -128,9 +137,12 @@ const styles = StyleSheet.create({
     },
   cameraStyle: {
     
-    marginTop: '30%',
-    width: '100%', 
-    height: '100%'
+    marginTop: '40%',
+    width: '90%', 
+    height: '100%',
+    alignSelf: 'center',
+    marginBottom: '10%',
+    
   },
   nameStyle: {
     alignSelf: 'center',
@@ -139,6 +151,12 @@ const styles = StyleSheet.create({
   textnameStyle: {
     fontSize: 40,
     fontWeight: 'bold',
+    color: 'white',
+    textShadowColor: 'black'
+  },
+  textsubStyle: {
+    fontSize: 15,
+    textAlign: "center",
     color: 'white',
     textShadowColor: 'black'
   },
