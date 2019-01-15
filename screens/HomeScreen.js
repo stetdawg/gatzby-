@@ -7,33 +7,45 @@ import {
   View,
   Dimensions,
   Modal, 
-  TouchableOpacity,
-  Image
+  TouchableOpacity
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
 import {Button, SearchBar} from 'react-native-elements';
 import { connect } from 'react-redux';
 import CameraScreen from "./CameraScreen";
+import {barCodeData
+        } from "../actions";
 
 
 class HomeScreen extends React.Component {
- 
+  static navigationOptions = {
+    header: null,
+    lazy: false
+  };
+  state = {
+    hasCameraPermission: null,
+    cameraVisable: false
+  };
+  ///////////////////////////////////////////////
+  //
+  //
+  //
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camer
     }
     componentWillReceiveProps() {
     }
-  static navigationOptions = {
-    header: null,
-  };
-  state = {
-    hasCameraPermission: null,
-    cameraVisable: false
-  };
+    /////////////////////////////////////////////
+    //
+    //
+    //
+    handleBarCodeScanned = ({ type, data }) => {
+      alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+      this.props.barCodeData({ type, data });
+    }
   onScantog() {
-    //console.log(this.state.cameraVisable); for debuging
-
     this.setState({cameraVisable:  true !== this.state.cameraVisable  });
   }
   render() {
@@ -70,17 +82,18 @@ class HomeScreen extends React.Component {
                      lightTheme={false}
                      containerStyle={styles.containerStyle}
                       
-                     />            
-                     <TouchableOpacity onPress={this.onScantog.bind(this)}>
-            
-                     <Image
-                       style={styles.scanButtonStyle}
-                       source={require('../assets/images/scan.png')}
                      />
-                   </TouchableOpacity>
+                      
+                    <TouchableOpacity onPress={this.onScantog.bind(this)}>
+                     <Icon
+                     activeOpacity={20}
+                     style={{paddingLeft:"8%",
+                    paddingTop:0}}
+                     name="barcode-scan"
+                     size={50}
+                     />  
+                     </TouchableOpacity>  
             </View>            
-
-    
                <Modal
         visible={this.state.cameraVisable}
         transparent
@@ -90,10 +103,9 @@ class HomeScreen extends React.Component {
         <View
             style={styles.cameraStyle}>
             
-            <CameraScreen />
-            <Button
-            title="Back to home"
-            onPress={this.onScantog.bind(this)}
+            <CameraScreen 
+            camTog={this.onScantog.bind(this)}
+            BarCodeRead={this.handleBarCodeScanned.bind(this)}
             />
             </View>
             </Modal>
@@ -166,10 +178,6 @@ const styles = StyleSheet.create({
 }
 
 );
-const mapStateToProps = state => {
-  return {
-    
-    };
-};
 
-export default connect(mapStateToProps, null )(HomeScreen);
+
+export default connect(null, {barCodeData})(HomeScreen);
