@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "My New Project",
+    "name": "Gatzby",
     "description": "A very interesting project.",
     "slug": "my-new-project",
     "privacy": "public",
@@ -10,8 +10,8 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/images/icon.png",
+      "resizeMode": "contian",
       "backgroundColor": "#ffffff"
     },
     "updates": {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, ImageBackground } from "react-native";
 //import { Button } from "react-native-elements";
 import { connect } from 'react-redux';
 import _ from "lodash";
@@ -71,9 +71,15 @@ class SearchResultsScreen extends Component {
      // console.log(this.props.savedItems);   
         return (
           <View>
+             <ImageBackground
+          style={styles.backgroundStyle}
+          source={require("../assets/images/Results.png")}
+          resizeMode='cover'
+          >
             <ScrollView>
              <ItemDetals {...this.props} />
             </ScrollView>
+            </ImageBackground>
             </View>
 
         );
@@ -98,6 +104,8 @@ const mapStateToProps = state => {
 
 
 const styles = { 
+  backgroundStyle: {
+    width: '100%', height: '100%'},
   save: {
     ViewStyle: {
       marginBottom: 10,
