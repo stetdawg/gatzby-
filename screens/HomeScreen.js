@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   StyleSheet,
@@ -11,7 +10,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
-import {Button, SearchBar} from 'react-native-elements';
+import { SearchBar} from 'react-native-elements';
 import { connect } from 'react-redux';
 import CameraScreen from "./CameraScreen";
 import {barCodeData
@@ -20,34 +19,53 @@ import {barCodeData
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
-    header: null,
-    lazy: false
+    header: null
   };
   state = {
     hasCameraPermission: null,
     cameraVisable: false
   };
   ///////////////////////////////////////////////
-  //
-  //
-  //
+  // checks if we have permistion to used the camera from the user
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
-    this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camer
+    this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera
     }
     componentWillReceiveProps() {
     }
+
+
     /////////////////////////////////////////////
-    //
-    //
-    //
+    //first checks to see if app has permistion to use the camera
+    // if not will re ask for permission and show camera if granted
+  async onScantog() {
+    if (this.state.hasCameraPermission)
+        this.setState({cameraVisable:  true !== this.state.cameraVisable });
+    else
+    {
+    alert("We need your permission to used the camera feture");
+    const { status } = await Permissions.askAsync(Permissions.CAMERA); 
+    this.setState({ hasCameraPermission: status === 'granted' }); 
+    if (this.state.hasCameraPermission)
+    this.setState({cameraVisable: true !== this.state.cameraVisable });
+  }
+  }
+
+
+  /////////////////////////////////////////////
+  //after barcode is read will pass to this function
+  //this function togles camera, sends bar code info to
+  //reducers and sends the user to the results screen.
     handleBarCodeScanned = ({ type, data }) => {
+      console.log(data);
       alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+      this.setState({cameraVisable:  true !== this.state.cameraVisable });
       this.props.barCodeData({ type, data });
     }
-  onScantog() {
-    this.setState({cameraVisable:  true !== this.state.cameraVisable  });
-  }
+
+
+   ////////////////////////////////////////////////////////
+   //gui for home screen   
   render() {
     return (
       <View
@@ -58,6 +76,9 @@ class HomeScreen extends React.Component {
           source={require("../assets/images/home2.png")}
           resizeMode='cover'
           >
+          {/************************************************************************************
+          the name and sub text of the home screen
+          */}
            <View
             style={styles.nameStyle}>
              <Text
@@ -73,6 +94,14 @@ class HomeScreen extends React.Component {
              Save Time.
             </Text>
             </View>
+            {/*
+            end name and subText
+            ****************************************************************************/}
+
+            
+            {/* **************************************************************************
+            seach section of the home screen
+            */}
             <View
                     style={styles.searchContainerStyle}>
             <SearchBar
@@ -93,7 +122,15 @@ class HomeScreen extends React.Component {
                      size={50}
                      />  
                      </TouchableOpacity>  
-            </View>            
+            </View>  
+            {/*
+            end seach section of home screen 
+          ***************************************************************************************/}
+
+
+            {/************************************************************************************
+              camera section and passes in function for the camera
+            */}          
                <Modal
         visible={this.state.cameraVisable}
         transparent
@@ -109,13 +146,16 @@ class HomeScreen extends React.Component {
             />
             </View>
             </Modal>
-            
+            {/*
+            end camera pop up
+             **********************************************************************************/}
           </ImageBackground>
       </View>
           );
   }
 }
-
+////////////////////////////////////////
+//all the different style components for the home screen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -176,8 +216,7 @@ const styles = StyleSheet.create({
   width: '100%', height: '100%'}, 
   
 }
-
 );
 
-
+//expots and conects home to the rest of the app.
 export default connect(null, {barCodeData})(HomeScreen);
