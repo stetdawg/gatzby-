@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../constants/style';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -61,8 +60,6 @@ const styles = {
     color: '#FFF'
   },
   buttonStyle: {
-    backgroundColor: PRIMARY_COLOR
-    //marginTop: 15
   }
 };
 

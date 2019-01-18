@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
-import { SearchBar} from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
-import CameraScreen from "./CameraScreen";
+import Camera from "../components/Camera";
 import {barCodeData
         } from "../actions";
 
@@ -40,14 +40,13 @@ class HomeScreen extends React.Component {
     // if not will re ask for permission and show camera if granted
   async onScantog() {
     if (this.state.hasCameraPermission)
-        this.setState({cameraVisable:  true !== this.state.cameraVisable });
-    else
-    {
+        this.setState({cameraVisable: !this.state.cameraVisable });//toggle the camera
+    else {
     alert("We need your permission to used the camera feture");
     const { status } = await Permissions.askAsync(Permissions.CAMERA); 
     this.setState({ hasCameraPermission: status === 'granted' }); 
     if (this.state.hasCameraPermission)
-    this.setState({cameraVisable: true !== this.state.cameraVisable });
+    this.setState({cameraVisable: !this.state.cameraVisable });
   }
   }
 
@@ -56,11 +55,11 @@ class HomeScreen extends React.Component {
   //after barcode is read will pass to this function
   //this function togles camera, sends bar code info to
   //reducers and sends the user to the results screen.
-    handleBarCodeScanned = ({ type, data }) => {
+    handleBarCodeScanned = (data) => {
       console.log(data);
-      alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-      this.setState({cameraVisable:  true !== this.state.cameraVisable });
-      this.props.barCodeData({ type, data });
+      alert(data);
+      this.setState({cameraVisable: !this.state.cameraVisable });
+     // this.props.barCodeData(type, data);
     }
 
 
@@ -100,14 +99,14 @@ class HomeScreen extends React.Component {
 
             
             {/* **************************************************************************
-            seach section of the home screen
+            search section of the home screen
             */}
             <View
                     style={styles.searchContainerStyle}>
             <SearchBar
                      placeholder='Enter UPC' 
-                     round={true}
-                     inputStyle={{backgroundColor:"white"}}
+                     round
+                     inputStyle={{backgroundColor: "white"}}
                      lightTheme={false}
                      containerStyle={styles.containerStyle}
                       
@@ -116,8 +115,8 @@ class HomeScreen extends React.Component {
                     <TouchableOpacity onPress={this.onScantog.bind(this)}>
                      <Icon
                      activeOpacity={20}
-                     style={{paddingLeft:"8%",
-                    paddingTop:0}}
+                     style={{paddingLeft: "8%",
+                    paddingTop: 0}}
                      name="barcode-scan"
                      size={50}
                      />  
@@ -139,8 +138,7 @@ class HomeScreen extends React.Component {
         >
         <View
             style={styles.cameraStyle}>
-            
-            <CameraScreen 
+            <Camera
             camTog={this.onScantog.bind(this)}
             BarCodeRead={this.handleBarCodeScanned.bind(this)}
             />
@@ -181,8 +179,8 @@ const styles = StyleSheet.create({
    },
   scanButtonStyle: {
   resizeMode: 'center',
-  marginTop:"1%",
-  height:"50%",
+  marginTop: "1%",
+  height: "50%",
   width: "15%",
   marginLeft: "8%",
 
