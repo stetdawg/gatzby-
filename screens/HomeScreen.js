@@ -13,8 +13,10 @@ import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Camera from "../components/Camera";
+import homeBB from "../components/homeBottomButtons";
 import {barCodeData
         } from "../actions";
+
 
 
 class HomeScreen extends React.Component {
@@ -33,7 +35,7 @@ class HomeScreen extends React.Component {
     }
     componentWillReceiveProps() {
     }
-
+      logInBool = false;
 
     /////////////////////////////////////////////
     //first checks to see if app has permistion to use the camera
@@ -125,13 +127,16 @@ class HomeScreen extends React.Component {
             {/*
             end seach section of home screen 
           ***************************************************************************************/}
+           
             { /********************************************************************************
                 bottom button section
             */
             }
 
-
-            {
+              <homeBB 
+              ifLogedIn={this.props.loginBool}
+              />
+           {
               /*
               end bottom button section
               *********************************************************************************/
@@ -250,6 +255,9 @@ const styles = StyleSheet.create({
   
 }
 );
+mapStateToProps () => {
+
+}
 
 //expots and conects home to the rest of the app.
 export default connect(null, {barCodeData})(HomeScreen);
