@@ -8,14 +8,14 @@ class searchScreen extends Component {
     header: null
   };
    search = "";
-   changnedText (){
+   changnedText() {
 
    }
 
         render() {
             return (
               <View
-              style={{flex:1,
+              style={{ flex: 1,
               paddingTop: "10%"}}>
              <SearchBar
                      placeholder='Type Here...' />
@@ -23,5 +23,5 @@ class searchScreen extends Component {
               </View>
             );
             }
-  }; 
+  }
   export default searchScreen;
