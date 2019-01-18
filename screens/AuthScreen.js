@@ -11,8 +11,6 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { Spinner } from '../components/Spinner';
 
-import { PRIMARY_COLOR } from '../constants/style';
-
 // Purpose of this auth screen is just to call action creator
 class AuthScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
@@ -120,7 +118,6 @@ class AuthScreen extends Component {
           <Button
             title="Sign Up"
             //icon={{ name: 'vpn-key' }}
-            backgroundColor={PRIMARY_COLOR}
             onPress={this.onStandardSignupButtonPress}
           />
 
@@ -150,7 +147,6 @@ class AuthScreen extends Component {
         <Button
           title="Log In"
           //icon={{ name: 'vpn-key' }}
-          backgroundColor={PRIMARY_COLOR}
           onPress={this.onStandardLoginButtonPress}
         />
 

@@ -9,6 +9,7 @@
         "global-require":"warn",
         "object-curly-spacing":"off",
         "react/jsx-closing-bracket-location": "off",
-        "no-shadow":"warn"
+        "no-shadow":"warn",
+        "max-len":"off"
     }
 }

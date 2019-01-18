@@ -12,7 +12,6 @@ export const GOOGLE_FIREBASE_CONFIG = {
     projectId: "gatzby",
     storageBucket: "gatzby.appspot.com",
     messagingSenderId: "329908819186"
-
 };
 
 //https://developer.walmartlabs.com/apps/
