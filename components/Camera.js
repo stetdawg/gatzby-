@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from "react-native";
 import { BarCodeScanner} from "expo";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const CameraScreen = ({ camTog, BarCodeRead }) => {
+const Camera = ({ camTog, BarCodeRead }) => {
             return (
               <View
               style={{ flex: 1,
@@ -11,7 +11,7 @@ const CameraScreen = ({ camTog, BarCodeRead }) => {
                }}
               >
                 <BarCodeScanner                  
-                  onBarCodeRead={BarCodeRead}
+                  onBarCodeScanned={BarCodeRead}
                   style={{
                     width: '100%', 
                     height: '100%',
@@ -21,8 +21,8 @@ const CameraScreen = ({ camTog, BarCodeRead }) => {
                 onPress={camTog}>
                      <Icon
                      activeOpacity={20}
-                     style={{paddingLeft:"85%",
-                     paddingTop:0 }}
+                     style={{paddingLeft: "85%",
+                     paddingTop: 0 }}
                      name="home"
                      color='white'
                      size={50}
@@ -33,4 +33,4 @@ const CameraScreen = ({ camTog, BarCodeRead }) => {
             );
                     }
 ;
-export default CameraScreen;
+export default Camera;
