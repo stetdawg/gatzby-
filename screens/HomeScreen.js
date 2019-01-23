@@ -14,7 +14,8 @@ import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Camera from "../components/Camera";
 
-import {barCodeData
+import {barCodeData,
+        walRes
         } from "../actions";
 
 class HomeScreen extends React.Component {
@@ -23,7 +24,8 @@ class HomeScreen extends React.Component {
   };
   state = {
     hasCameraPermission: null,
-    cameraVisable: false
+    cameraVisable: false,
+    textInput: ''
   };
   ///////////////////////////////////////////////
   // checks if we have permistion to used the camera from the user
@@ -50,15 +52,22 @@ class HomeScreen extends React.Component {
   }
   }
 
+  handleTextInput = async () => {
+    console.log(`${this.state.textInput}`);
+   this.props.barCodeData("UPC", this.state.textInput);
+   await this.props.walRes(this.state.textInput);
+   this.props.navigation.navigate('searchResults');
+ }
 
   /////////////////////////////////////////////
   //after barcode is read will pass to this function
   //this function togles camera, sends bar code info to
   //reducers and sends the user to the results screen.
-     handleBarCodeScanned = ({data, type}) => {
+     handleBarCodeScanned = async ({data, type}) => {
        console.log(`${data} ${type}`);
       this.setState({cameraVisable: !this.state.cameraVisable });
       this.props.barCodeData(type, data);
+      await this.props.walRes(data);
       this.props.navigation.navigate('searchResults');
     }
 
@@ -109,7 +118,8 @@ class HomeScreen extends React.Component {
                      inputStyle={{backgroundColor: "white"}}
                      lightTheme={false}
                      containerStyle={styles.containerStyle}
-                      
+                     onChangeText={(text) => this.setState({textInput: text})}
+                     onSubmitEditing={this.handleTextInput.bind(this)}
                      />
                       
                     <TouchableOpacity onPress={this.onScantog.bind(this)}>
@@ -255,4 +265,5 @@ return ({});
 }
 
 //expots and conects home to the rest of the app.
-export default connect(mapStateToProps, {barCodeData})(HomeScreen);
+export default connect(mapStateToProps, {barCodeData,
+                                         walRes})(HomeScreen);

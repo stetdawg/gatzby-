@@ -11,8 +11,7 @@ import ItemDetals from "../components/ItemDetals";
 
 class SearchResultsScreen extends Component {
   static navigationOptions = {
-    header: null,
-    lazy: true
+    header: null
   };
         state = {
           isVisible: false,
@@ -22,8 +21,7 @@ class SearchResultsScreen extends Component {
         async componentWillMount() {
            const { codeData } = this.props;
           //await this.props.itemsFetch();
-          console.log(codeData);
-          await this.props.walRes(codeData); 
+          console.log(this.props.itemInfo); 
           }          
           
           onNoButton() {
