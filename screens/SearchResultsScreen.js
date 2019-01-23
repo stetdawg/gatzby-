@@ -11,7 +11,8 @@ import ItemDetals from "../components/ItemDetals";
 
 class SearchResultsScreen extends Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    lazy: true
   };
         state = {
           isVisible: false,
@@ -20,7 +21,8 @@ class SearchResultsScreen extends Component {
 
         async componentWillMount() {
            const { codeData } = this.props;
-          await this.props.itemsFetch();
+          //await this.props.itemsFetch();
+          console.log(codeData);
           await this.props.walRes(codeData); 
           }          
           
@@ -68,7 +70,8 @@ class SearchResultsScreen extends Component {
        </Confirm>*/
   
     render() {   
-     // console.log(this.props.savedItems);   
+     // console.log(this.props.savedItems);  
+     //console.log(this.props); 
         return (
           <View>
              <ImageBackground

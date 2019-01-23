@@ -13,11 +13,9 @@ import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Camera from "../components/Camera";
-import homeBB from "../components/homeBottomButtons";
+
 import {barCodeData
         } from "../actions";
-
-
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -57,11 +55,11 @@ class HomeScreen extends React.Component {
   //after barcode is read will pass to this function
   //this function togles camera, sends bar code info to
   //reducers and sends the user to the results screen.
-    handleBarCodeScanned = (data) => {
-      console.log(data);
-      alert(data);
+     handleBarCodeScanned = ({data, type}) => {
+       console.log(`${data} ${type}`);
       this.setState({cameraVisable: !this.state.cameraVisable });
-     // this.props.barCodeData(type, data);
+      this.props.barCodeData(type, data);
+      this.props.navigation.navigate('searchResults');
     }
 
 
@@ -133,9 +131,6 @@ class HomeScreen extends React.Component {
             */
             }
 
-              <homeBB 
-              ifLogedIn={this.props.loginBool}
-              />
            {
               /*
               end bottom button section
@@ -255,9 +250,9 @@ const styles = StyleSheet.create({
   
 }
 );
-mapStateToProps () => {
-
+const mapStateToProps = (state) => {
+return ({});
 }
 
 //expots and conects home to the rest of the app.
-export default connect(null, {barCodeData})(HomeScreen);
+export default connect(mapStateToProps, {barCodeData})(HomeScreen);
