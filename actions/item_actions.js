@@ -30,7 +30,7 @@ export const deleteItem = ({ uid }) => {
   };
 
 export const barCodeData = (type, codeData) => {
-  //console.log(`data = ${text}`);
+  console.log(`data = ${codeData}`);
   let data = String(codeData); 
   let codeType = String(type);
   if (codeType.includes('EAN_13') || 
@@ -43,6 +43,8 @@ switch (codeType) {
   case "QR":
   Linking.once(codeData);
   break;
+  case "512":
+  codeType = "UPC";
   default:
   }
   return {
@@ -99,6 +101,7 @@ const AmData = (dispatch, amdata) => {
 };
 
 const walmartdata = (dispatch, waldata) => {
+  console.log(waldata);
   dispatch({
     type: WALMART,
     payload: waldata

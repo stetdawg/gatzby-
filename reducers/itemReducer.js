@@ -10,23 +10,23 @@ const INITIAL_STATE = {
      walResponseData: {
         items: [ 
             {
-            name: "",
-            salePrice: '',
-            upc: "",
-            shortDescription: '',
+            name: "No Item found",
+            salePrice: '$1.00',
+            upc: "0000000000",
+            shortDescription: 'This is a very short description.',
             thumbnailImage: '',
-            msrp: ""
+            msrp: "$9999999999.99"
             }
         ]
      },
      amResponseData: {},
      itemInfo:  
         {
-        name: "",
+        name: "No Item found",
         salePrice: '',
         codeData: "",
         codeType: '',
-        shortDescription: '',
+        shortDescription: 'This is a very short description.',
         thumbnailImage: '',
         }   
 };
