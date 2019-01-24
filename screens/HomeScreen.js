@@ -126,6 +126,7 @@ class HomeScreen extends React.Component {
                      <Icon
                      activeOpacity={20}
                      style={{paddingLeft: "8%",
+                     paddingRight:'70%',
                     paddingTop: 0}}
                      name="barcode-scan"
                      size={50}
