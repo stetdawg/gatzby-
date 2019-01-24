@@ -16,6 +16,7 @@ import Camera from "../components/Camera";
 
 import {barCodeData
         } from "../actions";
+import HomeBottomButtons from '../components/HomeBottomButtons';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -23,7 +24,8 @@ class HomeScreen extends React.Component {
   };
   state = {
     hasCameraPermission: null,
-    cameraVisable: false
+    cameraVisable: false,
+    logInBool: true
   };
   ///////////////////////////////////////////////
   // checks if we have permistion to used the camera from the user
@@ -32,9 +34,12 @@ class HomeScreen extends React.Component {
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera
     }
     componentWillReceiveProps() {
-    }
-      logInBool = false;
+    } 
+    
 
+     logOutBut() {
+     console.log("hi"); 
+    }
     /////////////////////////////////////////////
     //first checks to see if app has permistion to use the camera
     // if not will re ask for permission and show camera if granted
@@ -130,7 +135,11 @@ class HomeScreen extends React.Component {
                 bottom button section
             */
             }
-
+            <View>
+              <HomeBottomButtons 
+              ifLoggedIn={this.state.logInBool}
+              logOutButton={this.logOutBut.bind(this)} />
+            </View>
            {
               /*
               end bottom button section
