@@ -5,7 +5,8 @@ import { View,
   Text, 
   Image,
   Linking,
-  TouchableOpacity
+  TouchableOpacity,
+  Modal
 } from "react-native";
 import { Button } from "react-native-elements";
 import { connect } from 'react-redux';
@@ -20,7 +21,6 @@ class SearchResultsScreen extends Component {
   };
         state = {
           isVisible: false,
-          saved: false
         };
 
         async componentWillMount() {
@@ -30,6 +30,9 @@ class SearchResultsScreen extends Component {
           }          
           onHomeButtonPress() {
             this.props.navigation.navigate('Home');
+          }
+          onDescripTog() {
+            this.setState({isVisible: !this.state.isVisible});
           }
           onNoButton() {
             this.setState({ isVisible: false });
@@ -96,13 +99,13 @@ class SearchResultsScreen extends Component {
             <Image
             source={{ uri: this.props.itemInfo.largeImage }} 
             style={styles.ImageStyle} />
-            <ScrollView
+            <View
             style={styles.DescriptionViewStyle}>
             <View
-            style={{flex: 1,
-            marginTop: "2%",
-            paddingLeft: "2%",
-            marginBottom: "2%"}}>
+            style={{
+              marginTop: "2%",
+              paddingLeft: "2%",
+              marginBottom: "2%"}}>
             <Text
             style={styles.DescritionTextStyle}>
               MSRP: {this.props.itemInfo.MSRP}
@@ -111,15 +114,34 @@ class SearchResultsScreen extends Component {
             style={styles.DescritionTextStyle}>
               Current Price: {this.props.itemInfo.salePrice}
               </Text>
+              </View>
+              <Button
+              title='Description'
+              onPress={this.onDescripTog.bind(this)}
+              buttonStyle={{borderRadius:15}}
+              />
+            {/* <ScrollView
+            >
+            <View
+            style={{flex: 1,
+            marginTop: "2%",
+            paddingLeft: "2%",
+            }}>
+            
               <Text
             style={styles.DescritionTextStyle}>
               Description: {this.props.itemInfo.shortDescription}
             </Text>
+            
+           </View>
+            </ScrollView> */}
             </View>
-            </ScrollView>
             
             <ScrollView
             horizontal
+            style={{
+              maxHeight: 100
+            }}
             >
             <View
               style={styles.Walmart.ViewStyle}
@@ -158,22 +180,64 @@ class SearchResultsScreen extends Component {
             />
             </View> 
             </ScrollView> 
+
             <TouchableOpacity 
             alignContent='center'
             onPress={this.onHomeButtonPress.bind(this)}
-            >
+            style={{
+              alignSelf: 'center',
+              position:"absolute",
+              bottom: 0
+            }}>
+            
              <Icon
                activeOpacity={20}
                name="home"
                size={75}
                color='white'
                style={{
-                marginBottom:0,
                 alignSelf: 'center'
               }}
                      /> 
+                     
              </TouchableOpacity> 
-            </View>                
+            </View>
+            <Modal
+        visible={this.state.isVisible}
+        animationType='fade'
+        transparent
+        onRequestClose={() => {}}
+        >
+        <View
+        >
+        <ScrollView
+        style={styles.DescriptionModalStyle}
+        >
+        <View
+        style={{
+          marginLeft: '2%',
+          marginRight: '2%'
+        }}>
+          <Text 
+          style={styles.DescritionTextStyle}
+          >Description: {this.props.itemInfo.shortDescription}</Text>
+          
+          </View>
+          
+        </ScrollView>
+        <Button
+          title='Close'
+          onPress={this.onDescripTog.bind(this)}
+          buttonStyle={{
+            borderBottomLeftRadius: 20,
+            borderBottomRightRadius: 20,
+            width: '97%',
+            alignSelf: 'center',
+            
+          }}
+          />
+          </View>
+        </Modal>  
             </ImageBackground>
             </View>
 
@@ -212,8 +276,7 @@ const styles = {
       height: '90%',
       backgroundColor: "rgba(52, 52, 52, 0.5)",
       borderRadius: 20,
-      flexDirection: 'column',
-      justifyContent: 'space-between'
+      flexDirection: 'column'
     },
     ItemNameViewStyle: {
       alignSelf: 'center',
@@ -229,12 +292,12 @@ const styles = {
       height: '30%',
       resizeMode: "cover"
     },
-    DescriptionViewStyle: {
+    DescriptionModalStyle: {
       alignSelf: 'center',
-      marginTop: '10%',
-      marginBottom: '5%',
-      height: '30%',
-      backgroundColor: "rgba(52, 52, 52, 0.7)",
+      marginTop: '65%',
+      height: '54%',
+      width: "90%",
+      backgroundColor: "rgba(52, 52, 52, 1)",
     },
     DescritionTextStyle: {
       fontSize: 15,
