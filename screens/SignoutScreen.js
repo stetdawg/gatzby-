@@ -57,7 +57,7 @@ class AuthScreen extends Component {
         this.props.navigation.dispatch({
           type: 'Navigation/RESET',
           index: 0,
-          actions: [{ type: 'Navigate', routeName: 'cameraScreen' }]
+          actions: [{ type: 'Navigate', routeName: 'home' }]
         });
         this.props.navigation.NavigationActions.navigate('auth');
       }
