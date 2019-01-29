@@ -3,10 +3,13 @@ import { Button } from "react-native-elements";
 import { View } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const HomeBottomButtons = ({ifLogedIn,
-  logOutButton}) => {  
-
-  if(ifLogedIn){
+const HomeBottomButtons = ({rightButtonPush,
+                            rightButtonName,
+                            leftButtonName,
+                          leftButtonPush,
+                          iconLeft,
+                          iconRight}) => {  
+//console.log(ifLogedIn);
     return (
       <View style={{
         //flex: 1,
@@ -16,58 +19,28 @@ const HomeBottomButtons = ({ifLogedIn,
       }}>>
         <View style={styles.ViewStyle}>
           <Button 
-          icon={{name: 'md-person',
+          icon={{name: iconLeft,
                 color: 'white'}}
           buttonStyle={styles.buttonStyle}
-          title='Log Out'
-          onPress={logOutButton}   
+          title={leftButtonName}
+          onPress={leftButtonPush}   
           />
         </View>
       
       <View style={styles.ViewStyle}>
+      
         <Button 
-        icon={{name: 'md-person',
-        color: 'white'}}
+        icon={{name: iconRight,
+              color: 'white'}}
         buttonStyle={styles.buttonStyle}
-        title='Saved List' 
-        //onPress={() => 
+        title={rightButtonName} 
+        onPress={rightButtonPush}
         />
       </View>
       
     </View>
     );
-  }
-  else{
-    return (
-      <View style={{
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'stretch',
-      }}>>
-      <View style={styles.ViewStyle}>
-        <Button 
-        icon={{name: 'person',
-        color: 'white'}}
-        buttonStyle={styles.buttonStyle}
-          title ='Log In' 
-          //onPress={() => 
-          />
-      </View>
-      
-      <View style={styles.ViewStyle}>
-        <Button 
-        icon={{name: 'person',
-        color: 'white'}}
-        buttonStyle={styles.buttonStyle}
-        title ='Sign Up' 
-        //onPress={() => 
-        />
-      </View>
-      
-    </View>
-    );
-  }
+  
 
   };
 const styles = {

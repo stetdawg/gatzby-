@@ -24,9 +24,14 @@ class HomeScreen extends React.Component {
   };
   state = {
     hasCameraPermission: null,
-    cameraVisable: false,
-    logInBool: true
+    cameraVisable: false
   };
+
+   logInBool= false
+   leftButton = "Log In"
+   rightButton= "Sign Up"
+   leftIcon = 'person'
+   rightIcon = 'person-add'
   ///////////////////////////////////////////////
   // checks if we have permistion to used the camera from the user
   async componentWillMount() {
@@ -35,10 +40,47 @@ class HomeScreen extends React.Component {
     }
     componentWillReceiveProps() {
     } 
-    
-
-     logOutBut() {
-     console.log("hi"); 
+   
+    handleLeftButtonPush() {
+      if (!this.logInBool) {
+      //console.log("Log In Button Pushed");
+      this.logInBool = true;
+      this.leftButton = "Log Out";
+      this.rightButton = "Saved List";
+      this.leftIcon = 'person-outline';
+      this.rightIcon = 'list';
+      //console.log(this.logInBool);
+      this.forceUpdate();
+      } else {
+          //console.log("Log out Button Pushed");
+          this.logInBool = false;
+          //console.log(this.logInBool);
+          this.leftButton = "Log In";
+          this.rightButton = "Sign Up";
+          this.leftIcon = 'person';
+          this.rightIcon = 'person-add';
+          this.forceUpdate();
+      }
+    }
+    handleRightButtonPush() {
+      if (!this.logInBool) {
+      //console.log("Sign Up Button Pushed");
+      this.logInBool = true;
+      this.leftButton = "Log Out";
+      this.rightButton = "Saved List";
+      this.leftIcon = 'person-outline';
+      this.rightIcon = 'list';
+      //console.log(this.logInBool);
+      this.forceUpdate();
+      } else {
+          console.log("Saved List Button Pushed");
+          //this.logInBool = false;
+          console.log(this.logInBool);
+          //this.leftButton = "Log In";
+          //this.rightButton = "Sign Up";
+          
+          this.forceUpdate();
+      }
     }
     /////////////////////////////////////////////
     //first checks to see if app has permistion to use the camera
@@ -137,8 +179,13 @@ class HomeScreen extends React.Component {
             }
             <View>
               <HomeBottomButtons 
-              ifLoggedIn={this.state.logInBool}
-              logOutButton={this.logOutBut.bind(this)} />
+             leftButtonName={this.leftButton}
+             leftButtonPush={this.handleLeftButtonPush.bind(this)}
+             rightButtonName={this.rightButton}
+             rightButtonPush={this.handleRightButtonPush.bind(this)}
+             iconRight={this.rightIcon}
+             iconLeft={this.leftIcon}
+             />
             </View>
            {
               /*
