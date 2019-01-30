@@ -25,7 +25,7 @@
     },
     "android": {
       "package": "tech.gatzby.app1",
-      "permissions": []
+      "permissions": ["CAMERA"]
     }
   }
 }
