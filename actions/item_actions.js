@@ -53,6 +53,10 @@ switch (codeType) {
     };
 };
 
+export const textData = (text) => {
+  console.log(`Query = ${text}`);
+};
+
 export const savedToResults = (Item) => {
   return {
     type: ITEM_INFO,
