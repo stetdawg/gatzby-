@@ -295,8 +295,8 @@ const styles = {
     },
     DescriptionModalStyle: {
       alignSelf: 'center',
-      marginTop: '65%',
-      height: '54%',
+      marginTop: '74%',
+      height: '55%',
       width: "90%",
       backgroundColor: "rgba(52, 52, 52, 1)",
     },
