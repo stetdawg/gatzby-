@@ -1,22 +1,16 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  ImageBackground,
-  View,
-  Dimensions,
-  Modal, 
-  TouchableOpacity
-} from 'react-native';
+import { StyleSheet, Text, ImageBackground, View, Dimensions, Modal, TouchableOpacity } from 'react-native';
+import firebase from "firebase";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Camera from "../components/Camera";
-
-import {barCodeData
-        } from "../actions";
+import LoginForm from "../components/LoginForm";
 import HomeBottomButtons from '../components/HomeBottomButtons';
+import { barCodeData } from "../actions";
+import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys"
+import { Spinner } from "../components/common/Spinner"
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -24,10 +18,12 @@ class HomeScreen extends React.Component {
   };
   state = {
     hasCameraPermission: null,
-    cameraVisable: false
+    cameraVisable: false,
+    loginScreenVisable: false,
+    logInBool: null
   };
 
-   logInBool= false
+   //logInBool= false
    leftButton = "Log In"
    rightButton= "Sign Up"
    leftIcon = 'person'
@@ -36,21 +32,51 @@ class HomeScreen extends React.Component {
   // checks if we have permistion to used the camera from the user
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
-    this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera
+    this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera'
+    firebase.initializeApp({ GOOGLE_FIREBASE_CONFIG });
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ logInBool: true});
+      } else {
+        this.setState({ logInBool: false});
+      }
+    });
     }
     componentWillReceiveProps() {
     } 
-   
+    
+    renderButtons() {
+      switch (this.state.logInBool) {
+        case true:
+          this.leftButton = "Log Out";
+          this.rightButton = "Saved List";
+          this.leftIcon = 'person-outline';
+          this.rightIcon = 'list';
+          this.forceUpdate();
+        case false:
+          this.leftButton = "Log In";
+          this.rightButton = "Sign Up";
+          this.leftIcon = 'person';
+          this.rightIcon = 'person-add';
+          this.forceUpdate();
+        default:
+          return (
+            <View>
+            <Spinner size="large" />
+          </View>);
+      }
+    }
+
     handleLeftButtonPush() {
-      if (!this.logInBool) {
+      if (this.state.logInBool) {
       //console.log("Log In Button Pushed");
       this.logInBool = true;
-      this.leftButton = "Log Out";
-      this.rightButton = "Saved List";
-      this.leftIcon = 'person-outline';
-      this.rightIcon = 'list';
+      //this.leftButton = "Log Out";
+      //this.rightButton = "Saved List";
+      //this.leftIcon = 'person-outline';
+      //this.rightIcon = 'list';
+      // this.forceUpdate();
       //console.log(this.logInBool);
-      this.forceUpdate();
       } else {
           //console.log("Log out Button Pushed");
           this.logInBool = false;
@@ -187,6 +213,19 @@ class HomeScreen extends React.Component {
              iconLeft={this.leftIcon}
              />
             </View>
+            <Modal
+              visible={this.state.loginScreenVisable}
+              transparent
+              animationType='slide'
+              onRequestClose={() => {}}
+              >
+              <View>
+                <LoginForm>
+                  
+                </LoginForm>
+              </View>
+              
+              </Modal>
            {
               /*
               end bottom button section
@@ -197,19 +236,19 @@ class HomeScreen extends React.Component {
               camera section and passes in function for the camera
             */}          
                <Modal
-        visible={this.state.cameraVisable}
-        transparent
-        animationType='slide'
-        onRequestClose={() => {}}
-        >
-        <View
-            style={styles.cameraStyle}>
-            <Camera
-            camTog={this.onScantog.bind(this)}
-            BarCodeRead={this.handleBarCodeScanned.bind(this)}
-            />
-            </View>
-            </Modal>
+                  visible={this.state.cameraVisable}
+                  transparent
+                  animationType='slide'
+                  onRequestClose={() => {}}
+                  >
+                <View
+                  style={styles.cameraStyle}>
+                  <Camera
+                  camTog={this.onScantog.bind(this)}
+                  BarCodeRead={this.handleBarCodeScanned.bind(this)}
+                  />
+                </View>
+              </Modal>
             {/*
             end camera pop up
              **********************************************************************************/}

@@ -1,7 +1,8 @@
 import React from "react";
 import { Button } from "react-native-elements";
 import { View } from "react-native";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import firebase from "firebase";
+//import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const HomeBottomButtons = ({rightButtonPush,
                             rightButtonName,
@@ -16,9 +17,10 @@ const HomeBottomButtons = ({rightButtonPush,
         flexDirection: 'row',
         justifyContent: 'center',
         //alignItems: 'stretch',
-      }}>>
+      }}>
         <View style={styles.ViewStyle}>
           <Button 
+          onPress={() => firebase.auth().signOut()},
           icon={{name: iconLeft,
                 color: 'white'}}
           buttonStyle={styles.buttonStyle}
