@@ -9,8 +9,8 @@ import Camera from "../components/Camera";
 import LoginForm from "../components/LoginForm";
 import HomeBottomButtons from '../components/HomeBottomButtons';
 import { barCodeData } from "../actions";
-import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys"
-import { Spinner } from "../components/common/Spinner"
+import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
+import { Spinner } from "../components/common/Spinner";
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -20,7 +20,10 @@ class HomeScreen extends React.Component {
     hasCameraPermission: null,
     cameraVisable: false,
     loginScreenVisable: false,
-    logInBool: null
+    logInBool: false,
+    email: "",
+    password: "",
+    repeatPassword: ""
   };
 
    //logInBool= false
@@ -34,13 +37,13 @@ class HomeScreen extends React.Component {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera'
     firebase.initializeApp({ GOOGLE_FIREBASE_CONFIG });
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ logInBool: true});
-      } else {
-        this.setState({ logInBool: false});
-      }
-    });
+    // firebase.auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     this.setState({ logInBool: true});
+    //   } else {
+    //     this.setState({ logInBool: false});
+    //   }
+    // });
     }
     componentWillReceiveProps() {
     } 
@@ -53,12 +56,14 @@ class HomeScreen extends React.Component {
           this.leftIcon = 'person-outline';
           this.rightIcon = 'list';
           this.forceUpdate();
+          break;
         case false:
           this.leftButton = "Log In";
           this.rightButton = "Sign Up";
           this.leftIcon = 'person';
           this.rightIcon = 'person-add';
           this.forceUpdate();
+          break;
         default:
           return (
             <View>
@@ -67,25 +72,19 @@ class HomeScreen extends React.Component {
       }
     }
 
-    handleLeftButtonPush() {
+    async logInfunction() {
+
+    }
+
+    async handleLeftButtonPush() {
       if (this.state.logInBool) {
       //console.log("Log In Button Pushed");
-      this.logInBool = true;
-      //this.leftButton = "Log Out";
-      //this.rightButton = "Saved List";
-      //this.leftIcon = 'person-outline';
-      //this.rightIcon = 'list';
-      // this.forceUpdate();
-      //console.log(this.logInBool);
-      } else {
-          //console.log("Log out Button Pushed");
-          this.logInBool = false;
-          //console.log(this.logInBool);
-          this.leftButton = "Log In";
-          this.rightButton = "Sign Up";
-          this.leftIcon = 'person';
-          this.rightIcon = 'person-add';
-          this.forceUpdate();
+      this.setState({logInBool: false});
+      this.renderButtons();
+      } 
+      else 
+      {
+        this.setState({ loginScreenVisable: true});          
       }
     }
     handleRightButtonPush() {
@@ -182,7 +181,6 @@ class HomeScreen extends React.Component {
                      inputStyle={{backgroundColor: "white"}}
                      lightTheme={false}
                      containerStyle={styles.containerStyle}
-                      
                      />
                       
                     <TouchableOpacity onPress={this.onScantog.bind(this)}>
@@ -213,19 +211,7 @@ class HomeScreen extends React.Component {
              iconLeft={this.leftIcon}
              />
             </View>
-            <Modal
-              visible={this.state.loginScreenVisable}
-              transparent
-              animationType='slide'
-              onRequestClose={() => {}}
-              >
-              <View>
-                <LoginForm>
-                  
-                </LoginForm>
-              </View>
-              
-              </Modal>
+            
            {
               /*
               end bottom button section
@@ -257,6 +243,18 @@ class HomeScreen extends React.Component {
                 sign up pop up section
             */
             }
+            <Modal
+              visible={this.state.loginScreenVisable}
+              transparent
+              animationType='slide'
+              onRequestClose={() => {}}
+              >
+              <View>
+                <LoginForm 
+                Title="Log In"/>
+              </View>
+              
+              </Modal>
 
 
             {
