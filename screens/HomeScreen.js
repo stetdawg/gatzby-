@@ -6,12 +6,14 @@ import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Camera from "../components/Camera";
+
 import LoginForm from "../components/LoginForm";
 import HomeBottomButtons from '../components/HomeBottomButtons';
-import { barCodeData } from "../actions";
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
-
+import {barCodeData,
+        walRes
+        } from "../actions";
 class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null
@@ -23,7 +25,9 @@ class HomeScreen extends React.Component {
     logInBool: false,
     email: "",
     password: "",
-    repeatPassword: ""
+    repeatPassword: "",
+    textInput: ''
+
   };
 
    //logInBool= false
@@ -122,15 +126,22 @@ class HomeScreen extends React.Component {
   }
   }
 
+  handleTextInput = async () => {
+    console.log(`${this.state.textInput}`);
+   this.props.barCodeData("UPC", this.state.textInput);
+   await this.props.walRes(this.state.textInput);
+   this.props.navigation.navigate('searchResults');
+ }
 
   /////////////////////////////////////////////
   //after barcode is read will pass to this function
   //this function togles camera, sends bar code info to
   //reducers and sends the user to the results screen.
-     handleBarCodeScanned = ({data, type}) => {
+     handleBarCodeScanned = async ({data, type}) => {
        console.log(`${data} ${type}`);
       this.setState({cameraVisable: !this.state.cameraVisable });
       this.props.barCodeData(type, data);
+      await this.props.walRes(data);
       this.props.navigation.navigate('searchResults');
     }
 
@@ -181,12 +192,15 @@ class HomeScreen extends React.Component {
                      inputStyle={{backgroundColor: "white"}}
                      lightTheme={false}
                      containerStyle={styles.containerStyle}
+                     onChangeText={(text) => this.setState({textInput: text})}
+                     onSubmitEditing={this.handleTextInput.bind(this)}
                      />
                       
                     <TouchableOpacity onPress={this.onScantog.bind(this)}>
                      <Icon
                      activeOpacity={20}
                      style={{paddingLeft: "8%",
+                     paddingRight:'70%',
                     paddingTop: 0}}
                      name="barcode-scan"
                      size={50}
@@ -348,4 +362,5 @@ return ({});
 }
 
 //expots and conects home to the rest of the app.
-export default connect(mapStateToProps, {barCodeData})(HomeScreen);
+export default connect(mapStateToProps, {barCodeData,
+                                         walRes})(HomeScreen);
