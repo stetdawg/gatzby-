@@ -56,6 +56,10 @@ switch (codeType) {
 
 export const textData = (text) => {
   console.log(`Query = ${text}`);
+  return {
+    type: BAR_CODE_DATA,
+    payload: {text}
+  };
 };
 
 export const savedToResults = (Item) => {

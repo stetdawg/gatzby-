@@ -54,10 +54,16 @@ class HomeScreen extends React.Component {
   }
 
   handleTextInput = async () => {
-    console.log(`${this.state.textInput}`);
-   this.props.barCodeData("UPC", this.state.textInput);
-   await this.props.walRes(this.state.textInput);
-   this.props.navigation.navigate('searchResults');
+    if (typeof this.state.textInput === 'number') { 
+      this.props.barCodeData("UPC", this.state.textInput);
+      await this.props.walRes(this.state.textInput);
+      this.props.navigation.navigate('searchResults');
+    }
+    if (typeof this.state.textInput === 'string') {
+      this.props.barCodeData("text", this.state.textInput);
+      await this.props.walRes(this.state.textInput);
+      this.props.navigation.navigate('searchResults');
+    }
  }
 
   /////////////////////////////////////////////
