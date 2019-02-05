@@ -10,9 +10,14 @@ const LoginForm = ({ onChange1, onChange2, form1, form2, Title, visible = false,
                   animationType='slide'
                   onRequestClose={() => {}}
                   >
-<View>
+<View 
+style={{ flex: 1,
+        paddingTop: 20,
+        borderRadius: 30,
+        justifyContent: 'center'
+               }}>
 <Card
-Title={Title}
+title={Title}
 >
 <FormLabel>{form1}</FormLabel>
 <FormInput
@@ -20,14 +25,15 @@ onChangeText={onChange1}
 />
 <FormLabel>{form2}</FormLabel>
 <FormInput
+secureTextEntry
 onChangeText={onChange2}
 />
 {childeren}
 <Button 
-title="summit"
+title="Summit"
 />
 <Button 
-title="cancel"
+title="Cancel"
 onPress={onCancelButton}
 />
 </Card>

@@ -248,7 +248,9 @@ class HomeScreen extends React.Component {
                 onChange2={(text) => this.setState({passowrd: text})} 
                 form1='Email'
                 form2='Password'
-                />
+                onCancelButton={this.onLogintog.bind(this)}>
+                <Text></Text>
+                </LoginForm>
             {
               /*
               sign up pop up section
