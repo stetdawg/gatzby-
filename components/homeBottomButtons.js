@@ -1,8 +1,6 @@
 import React from "react";
 import { Button } from "react-native-elements";
 import { View } from "react-native";
-import firebase from "firebase";
-//import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const HomeBottomButtons = ({rightButtonPush,
                             rightButtonName,
@@ -12,15 +10,13 @@ const HomeBottomButtons = ({rightButtonPush,
                           iconRight}) => {  
 //console.log(ifLogedIn);
     return (
-      <View style={{
-        //flex: 1,
+      <View 
+      style={{
         flexDirection: 'row',
         justifyContent: 'center',
-        //alignItems: 'stretch',
       }}>
         <View style={styles.ViewStyle}>
-          <Button 
-          onPress={() => firebase.auth().signOut()},
+          <Button
           icon={{name: iconLeft,
                 color: 'white'}}
           buttonStyle={styles.buttonStyle}
@@ -42,8 +38,6 @@ const HomeBottomButtons = ({rightButtonPush,
       
     </View>
     );
-  
-
   };
 const styles = {
   textStyle: {
@@ -62,15 +56,9 @@ const styles = {
     paddingBottom: 10
   },
   buttonStyle: {
-    //flex: 1,
-    //alignSelf: 'stretch'
     backgroundColor: '#0489B1',
     borderRadius: 10,
     borderWidth: 0.5,
-    //BorderColor: '#007aff',
-    //marginLeft: 10,
-    //marginRight: 10,
-    //marginBottom: 10
     width: 125,
     height: 45,
   }

@@ -14,6 +14,7 @@ import { Spinner } from "../components/common/Spinner";
 import {barCodeData,
         walRes
         } from "../actions";
+
 class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null
@@ -21,16 +22,14 @@ class HomeScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     cameraVisable: false,
-    loginScreenVisable: false,
+    loginVisable: false,
     logInBool: false,
     email: "",
     password: "",
     repeatPassword: "",
     textInput: ''
-
   };
 
-   //logInBool= false
    leftButton = "Log In"
    rightButton= "Sign Up"
    leftIcon = 'person'
@@ -41,16 +40,15 @@ class HomeScreen extends React.Component {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera'
     firebase.initializeApp({ GOOGLE_FIREBASE_CONFIG });
-    // firebase.auth().onAuthStateChanged((user) => {
-    //   if (user) {
-    //     this.setState({ logInBool: true});
-    //   } else {
-    //     this.setState({ logInBool: false});
-    //   }
-    // });
     }
     componentWillReceiveProps() {
     } 
+    onLogintog() {
+      if (this.state.loginVisable)
+      this.setState({loginVisable: false});
+      else
+      this.setState({loginVisable: true});
+    }
     
     renderButtons() {
       switch (this.state.logInBool) {
@@ -76,7 +74,7 @@ class HomeScreen extends React.Component {
       }
     }
 
-    async logInfunction() {
+    logInfunction() {
 
     }
 
@@ -88,33 +86,17 @@ class HomeScreen extends React.Component {
       } 
       else 
       {
-        this.setState({ loginScreenVisable: true});          
+        console.log(this.state.loginVisable);
+        this.onLogintog(this);          
       }
     }
     handleRightButtonPush() {
-      if (!this.logInBool) {
-      //console.log("Sign Up Button Pushed");
-      this.logInBool = true;
-      this.leftButton = "Log Out";
-      this.rightButton = "Saved List";
-      this.leftIcon = 'person-outline';
-      this.rightIcon = 'list';
-      //console.log(this.logInBool);
-      this.forceUpdate();
-      } else {
-          console.log("Saved List Button Pushed");
-          //this.logInBool = false;
-          console.log(this.logInBool);
-          //this.leftButton = "Log In";
-          //this.rightButton = "Sign Up";
-          
-          this.forceUpdate();
-      }
+      
     }
     /////////////////////////////////////////////
     //first checks to see if app has permistion to use the camera
     // if not will re ask for permission and show camera if granted
-  async onScantog() {
+  async onScantog(){
     if (this.state.hasCameraPermission)
         this.setState({cameraVisable: !this.state.cameraVisable });//toggle the camera
     else {
@@ -125,6 +107,8 @@ class HomeScreen extends React.Component {
     this.setState({cameraVisable: !this.state.cameraVisable });
   }
   }
+
+ 
 
   handleTextInput = async () => {
     console.log(`${this.state.textInput}`);
@@ -257,26 +241,28 @@ class HomeScreen extends React.Component {
                 sign up pop up section
             */
             }
-            <Modal
-              visible={this.state.loginScreenVisable}
-              transparent
-              animationType='slide'
-              onRequestClose={() => {}}
-              >
-              <View>
-                <LoginForm 
-                Title="Log In"/>
-              </View>
-              
-              </Modal>
-
-
+              <LoginForm 
+              visible={this.state.loginVisable}
+                Title="Log In"
+                onChange1={(text) => this.setState({email: text})}
+                onChange2={(text) => this.setState({passowrd: text})} 
+                form1='Email'
+                form2='Password'
+                />
             {
               /*
               sign up pop up section
               *********************************************************************************/
             }
-
+              <LoginForm 
+                Title="Sign Up"
+                onChange1={(text) => this.setState({email: text})}
+                onChange2={(text) => this.setState({passowrd: text})} 
+                form1='Email'
+                form2='Password'
+                onCancelButton={this.onLogintog.bind(this)}>
+                <Text></Text>
+                </LoginForm>
 
             { /********************************************************************************
                 sign in pop up section
@@ -293,6 +279,7 @@ class HomeScreen extends React.Component {
       </View>
           );
   }
+
 }
 ////////////////////////////////////////
 //all the different style components for the home screen
@@ -357,6 +344,7 @@ const styles = StyleSheet.create({
   
 }
 );
+
 const mapStateToProps = (state) => {
 return ({});
 }

@@ -1,113 +1,38 @@
-import React, { Component } from "react";
-import { Text, View } from 'react-native';
-import firebase from 'firebase';
-import { Button, Input } from "react-native-elements";
-import { Spinner } from './common';
+import React from "react";
+import { Modal, View } from 'react-native';
+import { Button, Card, FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
 
-// class LoginForm extends Component {
-//     state = { email: '', password: '', error: '', loading: false};
-
-//     onButtonPress() {
-//         const {email, password} = this.state;
-
-//         this.setState({ error: '', loading: true });
-
-//         firebase.auth().signInWithEmailAndPassword(email, password)
-//         .this(this.onLoginSuccess.bind(this))
-//         .catch(() => { 
-//             firebase.auth().createUserWithEmailAndPassword(email, password)
-//             .this(this.onLoginSuccess.bind(this))
-//             .catch(this.onLoginFail.bind(this));
-//         });
-//     }
-
-//     onLoginSuccess() {
-//         this.setState({
-//             email: '',
-//             password: '', 
-//             error: '', 
-//             loading: false
-//         });
-//     }
-
-//     onLoginFail() {
-//         this.setState({
-//             //email: '',
-//             //password: '', 
-//             error: 'Authenitcaiton Failed', 
-//             loading: false
-//         });
-//     }
-
-//  renderButton() {
-//      if (this.state.loading) {
-//          return <Spinner size="small" />;
-//      }
-      
-//      return <Button onPress={this.onButtonPress.bind.this} title='Log In' />;  
-//  }
-
-//  render() {
-//     return (
-//         <View>
-//             <View>
-//                 <Input
-//                 placeHolder="user@gmail.com"
-//                 label="Email"
-//                 value={this.state.email}
-//                 onChangeText={email => this.setState({ email })}
-//                 />
-//             </View>
-
-//             <View>
-//                 <Input
-//                 secureTextEntry
-//                 placeHolder="password"
-//                 label="Password"
-//                 value={this.state.password}
-//                 onChangeText={password => this.setState({ password })}
-//                 />
-//             </View>
-
-//             <Text style={styles.errorTextStyle}>
-//                 {this.state.error}
-//             </Text>
-
-//             <View>
-//                 {this.renderButton()}
-//             </View>
-            
-//         </View>
-//     );
-//  }
-// }
-
-// const styles = {
-//     errorTextStyle: {
-//         fontSize: 20,
-//         alignSelf: 'center',
-//         color: 'red'
-//     }
-// }
-
-//  export default LoginForm;
-const LoginForm = {onEmailChange, onPasswordChange, onSignInPress, Title} => {
-
-return (
+const LoginForm = ({ onChange1, onChange2, form1, form2, Title, visible = false, childeren, onCancelButton }) => {
+    return (
+    <Modal
+                  visible={visible}
+                  transparent
+                  animationType='slide'
+                  onRequestClose={() => {}}
+                  >
 <View>
-    <Text>
-        {Title}
-    </Text>
-    <Input
-    label="Email"
-    placeholder='Someone@test.com'
-    onChangeText= {onEmailChange}/>
-    <Input
-    label="Password"
-    placeholder= "p@ssord12!"
-    onChangeText= {onPasswordChange}/>
-
+<Card
+Title={Title}
+>
+<FormLabel>{form1}</FormLabel>
+<FormInput
+onChangeText={onChange1}
+/>
+<FormLabel>{form2}</FormLabel>
+<FormInput
+onChangeText={onChange2}
+/>
+{childeren}
+<Button 
+title="summit"
+/>
+<Button 
+title="cancel"
+onPress={onCancelButton}
+/>
+</Card>
 </View>
+</Modal>
 );
-}
+};
 export default LoginForm;
