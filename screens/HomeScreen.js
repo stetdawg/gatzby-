@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, ImageBackground, View, Dimensions, Modal, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, ImageBackground, View, Dimensions, TouchableOpacity } from 'react-native';
 import firebase from "firebase";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
@@ -23,6 +23,7 @@ class HomeScreen extends React.Component {
     hasCameraPermission: null,
     cameraVisable: false,
     loginVisable: false,
+    signUpVisable: false,
     logInBool: false,
     email: "",
     password: "",
@@ -43,12 +44,7 @@ class HomeScreen extends React.Component {
     }
     componentWillReceiveProps() {
     } 
-    onLogintog() {
-      if (this.state.loginVisable)
-      this.setState({loginVisable: false});
-      else
-      this.setState({loginVisable: true});
-    }
+    
     
     renderButtons() {
       switch (this.state.logInBool) {
@@ -83,20 +79,24 @@ class HomeScreen extends React.Component {
       //console.log("Log In Button Pushed");
       this.setState({logInBool: false});
       this.renderButtons();
-      } 
-      else 
-      {
+      } else {
         console.log(this.state.loginVisable);
         this.onLogintog(this);          
       }
     }
     handleRightButtonPush() {
-      
+      if (this.state.logInBool) {
+        //console.log("Log In Button Pushed");
+        this.setState({logInBool: false});
+        this.renderButtons();
+        } else {
+          this.onSignUptog(this);          
+        }
     }
     /////////////////////////////////////////////
     //first checks to see if app has permistion to use the camera
     // if not will re ask for permission and show camera if granted
-  async onScantog(){
+  async onScantog() {
     if (this.state.hasCameraPermission)
         this.setState({cameraVisable: !this.state.cameraVisable });//toggle the camera
     else {
@@ -108,7 +108,19 @@ class HomeScreen extends React.Component {
   }
   }
 
- 
+  onLogintog() {
+    if (this.state.loginVisable)
+    this.setState({loginVisable: false});
+    else
+    this.setState({loginVisable: true});
+  }
+
+  onSignUptog() {
+    if (this.state.signUpVisable)
+    this.setState({signUpVisable: false});
+    else
+    this.setState({signUpVisable: true});
+  }
 
   handleTextInput = async () => {
     console.log(`${this.state.textInput}`);
@@ -184,7 +196,7 @@ class HomeScreen extends React.Component {
                      <Icon
                      activeOpacity={20}
                      style={{paddingLeft: "8%",
-                     paddingRight:'70%',
+                     paddingRight: '70%',
                     paddingTop: 0}}
                      name="barcode-scan"
                      size={50}
@@ -193,14 +205,14 @@ class HomeScreen extends React.Component {
             </View>  
             {/*
             end seach section of home screen 
-          ***************************************************************************************/}
+            *************************************************************************************/}
            
             { /********************************************************************************
                 bottom button section
             */
             }
-            <View>
-              <HomeBottomButtons 
+           
+            <HomeBottomButtons 
              leftButtonName={this.leftButton}
              leftButtonPush={this.handleLeftButtonPush.bind(this)}
              rightButtonName={this.rightButton}
@@ -208,7 +220,6 @@ class HomeScreen extends React.Component {
              iconRight={this.rightIcon}
              iconLeft={this.leftIcon}
              />
-            </View>
             
            {
               /*
@@ -219,60 +230,57 @@ class HomeScreen extends React.Component {
             {/************************************************************************************
               camera section and passes in function for the camera
             */}          
-               <Modal
-                  visible={this.state.cameraVisable}
-                  transparent
-                  animationType='slide'
-                  onRequestClose={() => {}}
-                  >
-                <View
-                  style={styles.cameraStyle}>
+               
                   <Camera
+                  visible={this.state.cameraVisable}
                   camTog={this.onScantog.bind(this)}
                   BarCodeRead={this.handleBarCodeScanned.bind(this)}
                   />
-                </View>
-              </Modal>
             {/*
             end camera pop up
              **********************************************************************************/}
 
              { /********************************************************************************
-                sign up pop up section
+               log in pop up section
             */
             }
               <LoginForm 
               visible={this.state.loginVisable}
                 Title="Log In"
+                button1="Log In"
                 onChange1={(text) => this.setState({email: text})}
                 onChange2={(text) => this.setState({passowrd: text})} 
                 form1='Email'
                 form2='Password'
+                onCancelButton={this.onLogintog.bind(this)}
                 />
             {
               /*
-              sign up pop up section
+              log in pop up section
               *********************************************************************************/
             }
-              <LoginForm 
-                Title="Sign Up"
-                onChange1={(text) => this.setState({email: text})}
-                onChange2={(text) => this.setState({passowrd: text})} 
-                form1='Email'
-                form2='Password'
-                onCancelButton={this.onLogintog.bind(this)}>
-                <Text></Text>
-                </LoginForm>
+              
 
             { /********************************************************************************
-                sign in pop up section
+                sign up pop up section
             */
             }
-
-
+              <LoginForm 
+              visible={this.state.signUpVisable}
+                Title="Sign Up"
+                button1="Sign Up"
+                onChange1={(text) => this.setState({email: text})}
+                onChange2={(text) => this.setState({passowrd: text})} 
+                onChange3={(text) => this.setState({repeatPassword: text})} 
+                form1='Email:'
+                form2='Password:'
+                form3='Repeat Password:'
+                signUpBool
+                onCancelButton={this.onSignUptog.bind(this)}
+                />
             {
               /*
-              end sign in pop up section
+              end sign up pop up section
               *********************************************************************************/
             }
           </ImageBackground>
@@ -314,15 +322,6 @@ const styles = StyleSheet.create({
   marginLeft: "8%",
 
     },
-  cameraStyle: {
-    
-    marginTop: '40%',
-    width: '90%', 
-    height: '100%',
-    alignSelf: 'center',
-    marginBottom: '10%',
-    
-  },
   nameStyle: {
     alignSelf: 'center',
     paddingTop: Dimensions.get('window').height / 12
@@ -345,10 +344,6 @@ const styles = StyleSheet.create({
 }
 );
 
-const mapStateToProps = (state) => {
-return ({});
-}
-
 //expots and conects home to the rest of the app.
-export default connect(mapStateToProps, {barCodeData,
+export default connect(null, {barCodeData,
                                          walRes})(HomeScreen);

@@ -1,10 +1,24 @@
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Modal } from "react-native";
 import { BarCodeScanner} from "expo";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Camera = ({ camTog, BarCodeRead }) => {
+const Camera = ({ camTog, BarCodeRead, visible }) => {
             return (
+              <Modal
+                  visible={visible}
+                  transparent
+                  animationType='slide'
+                  onRequestClose={() => {}}
+                  >
+                <View
+                  style={{ 
+                  marginTop: '40%',
+                  width: '90%', 
+                  height: '100%',
+                  alignSelf: 'center',
+                  marginBottom: '10%'
+                }}>
               <View
               style={{ flex: 1,
                 borderRadius: 30
@@ -30,6 +44,8 @@ const Camera = ({ camTog, BarCodeRead }) => {
                      </TouchableOpacity>
                 </BarCodeScanner>
               </View>
+              </View>
+              </Modal>
             );
                     }
 ;
