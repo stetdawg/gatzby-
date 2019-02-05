@@ -11,7 +11,12 @@ const LoginForm = ({ onChange1, onChange2, onChange3, form1, form2, form3, butto
                   animationType='slide'
                   onRequestClose={() => {}}
                   >
-<View>
+<View 
+style={{ flex: 1,
+        paddingTop: 20,
+        borderRadius: 30,
+        justifyContent: 'center'
+               }}>
 <Card
 title={Title}
 >
@@ -21,10 +26,12 @@ onChangeText={onChange1}
 />
 <FormLabel>{form2}</FormLabel>
 <FormInput
+secureTextEntry
 onChangeText={onChange2}
 />
 <FormLabel>{form3}</FormLabel>
 <FormInput
+secureTextEntry
 onChangeText={onChange3}
 />
 <Button 
@@ -48,9 +55,16 @@ return (
                   animationType='slide'
                   onRequestClose={() => {}}
                   >
-<View>
+<View
+style={{ flex: 1,
+    paddingTop: 20,
+    borderRadius: 30,
+    justifyContent: 'center'
+           }}
+           >
 <Card
 title={Title}
+
 >
 <FormLabel>{form1}</FormLabel>
 <FormInput
@@ -58,13 +72,14 @@ onChangeText={onChange1}
 />
 <FormLabel>{form2}</FormLabel>
 <FormInput
+secureTextEntry
 onChangeText={onChange2}
 />
 <Button 
-title="summit"
+title="Summit"
 />
 <Button 
-title="cancel"
+title="Cancel"
 onPress={onCancelButton}
 />
 </Card>

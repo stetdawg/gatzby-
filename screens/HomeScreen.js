@@ -254,6 +254,7 @@ class HomeScreen extends React.Component {
                 form2='Password'
                 onCancelButton={this.onLogintog.bind(this)}
                 />
+
             {
               /*
               log in pop up section
