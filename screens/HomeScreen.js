@@ -15,7 +15,8 @@ import { connect } from 'react-redux';
 import Camera from "../components/Camera";
 
 import {barCodeData,
-        walRes
+        walRes, 
+        textData,
         } from "../actions";
 
 class HomeScreen extends React.Component {

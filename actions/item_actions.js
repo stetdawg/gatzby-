@@ -45,6 +45,7 @@ switch (codeType) {
   break;
   case "512":
   codeType = "UPC";
+  break;
   default:
   }
   return {
