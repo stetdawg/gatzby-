@@ -12,11 +12,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
+import axios from "axios";
+import _ from "lodash"; 
 import Camera from "../components/Camera";
-
 import {barCodeData,
-        walRes
+        walResUPC, 
+        textData,
         } from "../actions";
+import * as urls from "../services/urlbuilder"; 
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -25,7 +28,7 @@ class HomeScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     cameraVisable: false,
-    textInput: ''
+    textInput: '887256028299'
   };
   ///////////////////////////////////////////////
   // checks if we have permistion to used the camera from the user
@@ -53,10 +56,13 @@ class HomeScreen extends React.Component {
   }
 
   handleTextInput = async () => {
-    console.log(`${this.state.textInput}`);
-   this.props.barCodeData("UPC", this.state.textInput);
-   await this.props.walRes(this.state.textInput);
-   this.props.navigation.navigate('searchResults');
+    const walinfo = await axios.get(urls.walmartTextUrl(this.state.textInput));
+    console.log(walinfo.data.numItems);
+    if (walinfo.data.numItems === 1) {
+      console.log("hi");
+      this.props.walResUPC(walinfo.data.items[0]);
+      this.props.navigation.navigate('searchResults');
+    }
  }
 
   /////////////////////////////////////////////
@@ -64,10 +70,14 @@ class HomeScreen extends React.Component {
   //this function togles camera, sends bar code info to
   //reducers and sends the user to the results screen.
      handleBarCodeScanned = async ({data, type}) => {
-       console.log(`${data} ${type}`);
       this.setState({cameraVisable: !this.state.cameraVisable });
-      this.props.barCodeData(type, data);
-      await this.props.walRes(data);
+      const walinfo = await axios.get(urls.walmartTextUrl(this.state.textInput));
+    console.log(walinfo.data.numItems);
+    if (walinfo.data.numItems === 1) {
+      console.log("hi");
+      this.props.walResUPC(walinfo.data.items[0]);
+      this.props.navigation.navigate('searchResults');
+    }
       this.props.navigation.navigate('searchResults');
     }
 
@@ -267,4 +277,4 @@ return ({});
 
 //expots and conects home to the rest of the app.
 export default connect(mapStateToProps, {barCodeData,
-                                         walRes})(HomeScreen);
+                                         walResUPC})(HomeScreen);

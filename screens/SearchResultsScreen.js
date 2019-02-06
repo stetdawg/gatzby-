@@ -252,13 +252,12 @@ const mapStateToProps = state => {
     savedItems,
     codeData: state.code.codeData,
     itemInfo: {
-            name: _.head(state.item.walResponseData.items).name,
+            name: state.item.walResponseData.name,
+            MSRP: state.item.walResponseData.msrp,
             codeData: state.code.codeData,
-            codeType: state.code.codeType,
-            MSRP: _.head(state.item.walResponseData.items).msrp,
-            salePrice: _.head(state.item.walResponseData.items).salePrice,
-            shortDescription: _.head(state.item.walResponseData.items).shortDescription,
-            largeImage: _.head(state.item.walResponseData.items).largeImage,
+            salePrice: state.item.walResponseData.salePrice,
+            shortDescription: state.item.walResponseData.shortDescription,
+            largeImage: state.item.walResponseData.largeImage,
           }
     };
 };
