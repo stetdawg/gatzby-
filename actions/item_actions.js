@@ -30,7 +30,7 @@ export const deleteItem = ({ uid }) => {
   };
 
 export const barCodeData = (type, codeData) => {
-  console.log(`data = ${codeData}`);
+  //console.log(`data = ${codeData}`);
   let data = String(codeData); 
   let codeType = String(type);
   if (codeType.includes('EAN_13') || 
@@ -69,27 +69,16 @@ export const savedToResults = (Item) => {
   };
 };
 
-export const walRes = (text) => async dispatch => {
-  //console.log(`BarCodeType = ${text}`);
- ///const walResponsedata = text;
- try {
-const waldata = await axios.get(urls.warlmartAPIUrl(text));
+export const walResUPC = (text) => {
 
- return walmartdata(dispatch, waldata);
-} catch (err) { 
-  //console.log(err);
-} 
+return {
+  type: WALMART,
+  payload: text
+};
 };
 
-export const itemsFetch = () => {
-  const { currentUser } = firebase.auth();
- return (dispatch) => {
- firebase.database().ref(`/users/${currentUser.uid}/items`)
- .on('value', snapshot => {
-   dispatch({ type: ITEM_FETCH_SUCCESS, payload: snapshot.val() });
- });
-  };
-};
+ export const itemsFetch = () => {
+ };
 export const amRes = (text) => async dispatch => {
   //console.log(`BarCodeType = ${text}`);
  ///const walResponsedata = text;
@@ -109,10 +98,10 @@ const AmData = (dispatch, amdata) => {
   });
 };
 
-const walmartdata = (dispatch, waldata) => {
-  console.log(waldata);
-  dispatch({
-    type: WALMART,
-    payload: waldata
-  });
-};
+// const walmartdata = (dispatch, waldata) => {
+//   console.log(waldata);
+//   dispatch({
+//     type: WALMART,
+//     payload: waldata
+//   });
+// };
