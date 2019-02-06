@@ -40,7 +40,7 @@ return { ...state, savedItems: action.payload };
 }
 case WALMART: {  
     //console.log(`${action.payload} in reducer`);
-    return { ...state, walResponseData: action.payload.data };
+    return { ...state, walResponseData: action.payload };
 }
 case AMAZON: {
     return { ...state, amResponseData: action.payload.data };

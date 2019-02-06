@@ -15,9 +15,6 @@ class SavedItemsScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
   // Initialize the component
  componentWillMount() {
-    
-    const { itemsFetch } = this.props;
-    itemsFetch();
     this.createDataSource(this.props);
   } 
 
@@ -25,9 +22,6 @@ componentWillReceiveProps(nextProps) {
   this.createDataSource(nextProps);
 }
 onButtonPress() {
-    console.log(this.props.item.itemInfo.upc);
-    this.props.savedToResults(this.props.item.itemInfo.upc);
-    this.props.navigation.navigate("searchResults");
 }
 
 createDataSource({ items }) {
