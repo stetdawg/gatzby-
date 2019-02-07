@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { ListView } from "react-native";
-import { Button } from "react-native-elements";
 import { connect } from "react-redux";
 import _ from "lodash";
 import { itemsFetch, savedToResults } from "../actions";
@@ -59,7 +58,7 @@ renderRow(item) {
   }
 }
 const mapStateToProps = state => {
-  const items = _.map(state.item.savedItems, (val, uid) => {
+  const items = _.map(state.item.walResponseData, (val, uid) => {
    return { ...val, uid };
   }
 );

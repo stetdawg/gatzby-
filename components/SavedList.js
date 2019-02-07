@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Dimensions, View } from 'react-native';
 import { Button, Card } from 'react-native-elements';
 import { connect } from "react-redux";
-import Swipeout from "react-native-swipeout";
-import Confirm from './confirm';
 import { savedToResults,
          deleteItem } from "../actions";
 
@@ -40,27 +38,18 @@ class SavedList extends Component {
   }
 
     render() {
-      const swipeoutBtns = [
-          {
-           text: "DELETE",
-           backgroundColor: "#ff0000",
-           color: "#000000",
-            onPress: this.deleteCheck.bind(this)
-          }
-      ];
-
-    return (
+          return (
       <View>
       {/* <Swipeout 
       right={swipeoutBtns}
       autoClose={true}
       > */}
           <Card
-          image={{ uri: this.props.item.itemInfo.largeImage }}
+          image={{ uri: this.props.item.largeImage }}
           >
               <Button
               buttonStyle={styles.buttonStyle}
-              title={this.props.item.itemInfo.name}
+              title={this.props.item.name}
               onPress={this.onButtonPress.bind(this)}
               />
           </Card>
