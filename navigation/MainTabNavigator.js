@@ -9,7 +9,9 @@ import SeachResultsScreen from '../screens/SearchResultsScreen';
 import multipleResultesScreen from '../screens/multipleResultesScreen';
 
 const navigationOptions = {
-header: null
+header: null,
+tabBarVisible: false
+
 };
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -17,6 +19,7 @@ const HomeStack = createStackNavigator({
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
+    tabBarVisible: false,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -50,6 +53,7 @@ const SeachResultsStack = createStackNavigator({
 
 SeachResultsStack.navigationOptions = {
   tabBarLabel: 'results',
+    tabBarVisible: false,
   header: null,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon

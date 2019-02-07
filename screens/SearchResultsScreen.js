@@ -17,8 +17,9 @@ import * as urls from "../services/urlbuilder";
 
 class SearchResultsScreen extends Component {
   static navigationOptions = {
-    header: null
-  };
+    header: null,
+    tabBarVisible: false
+    };
         state = {
           isVisible: false,
         };

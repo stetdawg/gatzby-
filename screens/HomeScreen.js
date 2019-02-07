@@ -21,7 +21,8 @@ import * as urls from "../services/urlbuilder";
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    tabBarVisible: false
   };
   state = {
     hasCameraPermission: null,
