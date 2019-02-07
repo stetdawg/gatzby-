@@ -13,11 +13,9 @@ import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import axios from "axios";
-import _ from "lodash"; 
 import Camera from "../components/Camera";
-import {barCodeData,
+import {
         walResUPC, 
-        textData,
         } from "../actions";
 import * as urls from "../services/urlbuilder"; 
 
@@ -63,15 +61,19 @@ class HomeScreen extends React.Component {
       this.props.walResUPC(walinfo.data.items[0]);
       this.props.navigation.navigate('searchResults');
     }
+    else if (walinfo.data.numItems > 1) {
+      this.props.walResUPC(walinfo.data.items);
+      this.props.navigation.navigate('multi');
+    }
  }
 
   /////////////////////////////////////////////
   //after barcode is read will pass to this function
   //this function togles camera, sends bar code info to
   //reducers and sends the user to the results screen.
-     handleBarCodeScanned = async ({data, type}) => {
+     handleBarCodeScanned = async ({data}) => {
       this.setState({cameraVisable: !this.state.cameraVisable });
-      const walinfo = await axios.get(urls.walmartTextUrl(this.state.textInput));
+      const walinfo = await axios.get(urls.walmartTextUrl(data));
     console.log(walinfo.data.numItems);
     if (walinfo.data.numItems === 1) {
       console.log("hi");
@@ -136,7 +138,7 @@ class HomeScreen extends React.Component {
                      <Icon
                      activeOpacity={20}
                      style={{paddingLeft: "8%",
-                     paddingRight:'70%',
+                     paddingRight: '70%',
                     paddingTop: 0}}
                      name="barcode-scan"
                      size={50}
@@ -271,10 +273,10 @@ const styles = StyleSheet.create({
   
 }
 );
-const mapStateToProps = (state) => {
+const mapStateToProps = () => {
 return ({});
-}
+};
 
 //expots and conects home to the rest of the app.
-export default connect(mapStateToProps, {barCodeData,
+export default connect(mapStateToProps, {
                                          walResUPC})(HomeScreen);
