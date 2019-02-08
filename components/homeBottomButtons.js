@@ -44,9 +44,6 @@ const styles = {
     fontSize: 16,
     fontWeight: '600'
   },
-  orientation: {
-    
-  },
   viewStyle: {
     color: '#0489B1',
     fontSize: 16,
