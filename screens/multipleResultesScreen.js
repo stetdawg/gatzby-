@@ -1,34 +1,28 @@
 import React, { Component } from "react";
-import { ListView } from "react-native";
+import { ImageBackground, FlatList, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
-import _ from "lodash";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { itemsFetch, savedToResults } from "../actions";
 //import { PRIMARY_COLOR } from "../constants/style";
 import SavedList from "../components/SavedList";
+import Name from "../components/Name";
 
 class SavedItemsScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
   // Properties automatically referred to by react-navigation navigators
 
-
+  static navigationOptions = {
+    header: null,
+    tabBarVisible: false
+    };
   //////////////////////////////////////////////////////////////////////////////////
   // Initialize the component
  componentWillMount() {
-    this.createDataSource(this.props);
+   alert("We found multiple items that fit your search Criteria please click on the item you wish to see the the prices on!");
   } 
-
-componentWillReceiveProps(nextProps) {
-  this.createDataSource(nextProps);
-}
-onButtonPress() {
-}
-
-createDataSource({ items }) {
-  const ds = new ListView.DataSource({
-    rowHasChanged: (r1, r2) => r1 !== r2
-  });
-  this.dataSource = ds.cloneWithRows(items);
-}
+  onHomeButtonPress() {
+    this.props.navigation.navigate('Home');
+  }
   //////////////////////////////////////////////////////////////////////////////////
   // Handler for the serach button
   // onButtonPress = () => {
@@ -36,32 +30,61 @@ createDataSource({ items }) {
   //     this.props.navigation.navigate("searchResults") // Passing a callback function
   //   });
   // };
-renderRow(item) {
-  return (<SavedList 
-  item={item} 
-  navigation={this.props.navigation} 
-  />);
-}
-
+ 
+ 
   //////////////////////////////////////////////////////////////////////////////////
   // Render method
   render() {
     //console.log(this.props);
     return (
-      <ListView
-       enableEmptySections 
-       dataSource={this.dataSource}
-       renderRow={(item) => <SavedList item={item} navigation={this.props.navigation} />}
+      <ImageBackground
+          style={{width: '100%', 
+          height: '100%'}}
+          source={require("../assets/images/MultiResults.jpg")}
+          resizeMode='cover'
+          >  
+          <Name />
+      <View
+      style={{ backgroundColor: "rgba(52, 52, 52, 0.5)",
+      height:"50%",
+      marginTop: "20%"}}>
+      <FlatList
+       data={this.props.items}
+       renderItem={({item}) => <SavedList 
+                                          item={item} 
+                                          navigate={this.props.navigation}
+                                          />
+                  }
+      keyExtractor={item => item.name}
       />
+      </View>
+      <TouchableOpacity 
+        alignContent='center'
+        onPress={this.onHomeButtonPress}
+        style={{
+          alignSelf: 'center',
+          position: "absolute",
+          bottom: 0
+        }}>
+        
+         <Icon
+           activeOpacity={20}
+           name="home"
+           size={75}
+           color='white'
+           style={{
+            alignSelf: 'center'
+          }}
+                 /> 
+                 
+         </TouchableOpacity>
+      </ImageBackground>
       
     );
   }
 }
 const mapStateToProps = state => {
-  const items = _.map(state.item.walResponseData, (val, uid) => {
-   return { ...val, uid };
-  }
-);
+  const items = state.item.walResponseData;
 return { items };
 };
 export default connect(mapStateToProps, { itemsFetch, savedToResults })(SavedItemsScreen);

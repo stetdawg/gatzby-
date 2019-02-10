@@ -11,9 +11,9 @@ import { View,
 import { Button } from "react-native-elements";
 import { connect } from 'react-redux';
 import _ from "lodash";
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { saveCode, walRes, itemsFetch } from "../actions";
 import * as urls from "../services/urlbuilder";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class SearchResultsScreen extends Component {
   static navigationOptions = {
@@ -23,15 +23,15 @@ class SearchResultsScreen extends Component {
         state = {
           isVisible: false,
         };
-
+        onHomeButtonPress() {
+          this.props.navigation.navigate('Home');
+        };
         async componentWillMount() {
            const { codeData } = this.props;
           //await this.props.itemsFetch();
           console.log(this.props.itemInfo); 
           }          
-          onHomeButtonPress() {
-            this.props.navigation.navigate('Home');
-          }
+          
           onDescripTog() {
             this.setState({isVisible: !this.state.isVisible});
           }
@@ -44,39 +44,6 @@ class SearchResultsScreen extends Component {
             this.setState({ isVisible: false });
             this.props.navigation.navigate('SavedItems');
           }
-      //  onSaveButton() {
-      //    const { itemInfo, saveCode } = this.props;
-      //    //this.checkIfSaved.bind(this);
-      //    const { codeData, codeType } = itemInfo;
-      //    const length = this.props.savedItems.length;
-      //    //console.log(length);
-      //    for (let i = 0; i < length; i++) { 
-      //    // console.log(this.props.savedItems[i].itemInfo);
-      //    if (codeData === this.props.savedItems[i].itemInfo.codeData && 
-      //      codeType === this.props.savedItems[i].itemInfo.codeType) {
-      //       this.setState({ isVisible: true });
-      //       console.log("already saved");
-      //       return { isSaved: true };
-      //      }
-      //  }  
-      //     saveCode(itemInfo);
-      //     this.props.navigation.navigate('SavedItems');
-
-       /* <Button
-        buttonStyle={styles.save.buttonStyle} 
-        raised
-        title="SAVE!!!"
-        onPress={this.onSaveButton.bind(this)}
-        />
-        </View>               
-        </ScrollView>
-       <Confirm
-       onNoPress={this.onNoButton.bind(this)}
-       onYesPress={this.onYesButton.bind(this)}
-       visible={this.state.isVisible}
-       >
-       You curently have {this.props.itemInfo.name} saved. Would you like to save it again?
-       </Confirm>*/
   
     render() {   
      // console.log(this.props.savedItems);  
@@ -121,21 +88,27 @@ class SearchResultsScreen extends Component {
               onPress={this.onDescripTog.bind(this)}
               buttonStyle={{borderRadius:15}}
               />
-            {/* <ScrollView
-            >
-            <View
-            style={{flex: 1,
-            marginTop: "2%",
-            paddingLeft: "2%",
-            }}>
-            
-              <Text
-            style={styles.DescritionTextStyle}>
-              Description: {this.props.itemInfo.shortDescription}
-            </Text>
-            
-           </View>
-            </ScrollView> */}
+              <TouchableOpacity 
+        alignContent='center'
+        onPress={this.onHomeButtonPress}
+        style={{
+          alignSelf: 'center',
+          position: "absolute",
+          bottom: 0
+        }}>
+        
+         <Icon
+           activeOpacity={20}
+           name="home"
+           size={75}
+           color='white'
+           style={{
+            alignSelf: 'center'
+          }}
+                 /> 
+                 
+         </TouchableOpacity>
+
             </View>
             
             <ScrollView
@@ -182,26 +155,7 @@ class SearchResultsScreen extends Component {
             </View> 
             </ScrollView> 
 
-            <TouchableOpacity 
-            alignContent='center'
-            onPress={this.onHomeButtonPress.bind(this)}
-            style={{
-              alignSelf: 'center',
-              position:"absolute",
-              bottom: 0
-            }}>
-            
-             <Icon
-               activeOpacity={20}
-               name="home"
-               size={75}
-               color='white'
-               style={{
-                alignSelf: 'center'
-              }}
-                     /> 
-                     
-             </TouchableOpacity> 
+             
             </View>
             <Modal
         visible={this.state.isVisible}

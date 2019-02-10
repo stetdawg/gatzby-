@@ -39,6 +39,7 @@ const MultiResults = createStackNavigator({
 MultiResults.navigationOptions = {
   tabBarLabel: 'multi',
   header: 'none',
+  tabBarVisible: false,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}

@@ -14,6 +14,7 @@ import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import axios from "axios";
 import Camera from "../components/Camera";
+import Name from "../components/Name";
 import {
         walResUPC, 
         } from "../actions";
@@ -27,7 +28,7 @@ class HomeScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     cameraVisable: false,
-    textInput: '887256028299'
+    textInput: 'marioKart8'
   };
   ///////////////////////////////////////////////
   // checks if we have permistion to used the camera from the user
@@ -104,21 +105,7 @@ class HomeScreen extends React.Component {
           {/************************************************************************************
           the name and sub text of the home screen
           */}
-           <View
-            style={styles.nameStyle}>
-             <Text
-             style={styles.textnameStyle}>
-             GATZBY
-            </Text>
-            <Text
-             style={styles.textsubStyle}>
-             Shop Smarter.
-            </Text>
-            <Text
-             style={styles.textsubStyle}>
-             Save Time.
-            </Text>
-            </View>
+           <Name />
             {/*
             end name and subText
             ****************************************************************************/}
@@ -257,22 +244,7 @@ const styles = StyleSheet.create({
     marginBottom: '10%',
     
   },
-  nameStyle: {
-    alignSelf: 'center',
-    paddingTop: Dimensions.get('window').height / 12
-  },
-  textnameStyle: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: 'white',
-    textShadowColor: 'black'
-  },
-  textsubStyle: {
-    fontSize: 15,
-    textAlign: "center",
-    color: 'white',
-    textShadowColor: 'black'
-  },
+  
   backgroundStyle: {
   width: '100%', height: '100%'}, 
   
