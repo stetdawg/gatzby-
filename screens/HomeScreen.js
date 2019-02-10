@@ -54,6 +54,10 @@ class HomeScreen extends React.Component {
   }
   }
 
+  ////////////////////////////////////////////////////////////
+  // grabs the an array of items info from walmart rest api, and 
+  // checks where to send the user depending on the number of items  
+  // sent back
   handleTextInput = async () => {
     const walinfo = await axios.get(urls.walmartTextUrl(this.state.textInput));
     console.log(walinfo.data.numItems);
