@@ -4,7 +4,7 @@ export const warlmartUPCAPIUrl = (upc) => {
  return `http://api.walmartlabs.com/v1/items?apiKey=${apiKeys.WalmartAPI}&upc=${upc}&format=json`;
 };
 export const walmartTextUrl = (text) => {
-    return `http://api.walmartlabs.com/v1/search?query=${text}&format=json&apiKey=${apiKeys.WalmartAPI}`;
+    return `http://api.walmartlabs.com/v1/search?query=${text}&&format=json&apiKey=${apiKeys.WalmartAPI}`;
 }
 export const walmartUrl = (upc) => {
   return `https://www.walmart.com/search/?query=${upc}&cat_id=0`;

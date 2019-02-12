@@ -1,10 +1,8 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
   ImageBackground,
   View,
-  Dimensions,
   Modal, 
   TouchableOpacity
 } from 'react-native';
@@ -14,8 +12,10 @@ import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import axios from "axios";
 import Camera from "../components/Camera";
+import Name from "../components/Name";
 import {
-        walResUPC, 
+        multiResponce,
+        singleResponce 
         } from "../actions";
 import * as urls from "../services/urlbuilder"; 
 
@@ -27,7 +27,7 @@ class HomeScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     cameraVisable: false,
-    textInput: '887256028299'
+    textInput: 'marioKart8'
   };
   ///////////////////////////////////////////////
   // checks if we have permistion to used the camera from the user
@@ -54,16 +54,19 @@ class HomeScreen extends React.Component {
   }
   }
 
+  ////////////////////////////////////////////////////////////
+  // grabs the an array of items info from walmart rest api, and 
+  // checks where to send the user depending on the number of items  
+  // sent back
   handleTextInput = async () => {
     const walinfo = await axios.get(urls.walmartTextUrl(this.state.textInput));
     console.log(walinfo.data.numItems);
     if (walinfo.data.numItems === 1) {
       console.log("hi");
-      this.props.walResUPC(walinfo.data.items[0]);
+      this.props.singleResponce(walinfo.data.items[0]);
       this.props.navigation.navigate('searchResults');
-    }
-    else if (walinfo.data.numItems > 1) {
-      this.props.walResUPC(walinfo.data.items);
+    } else if (walinfo.data.numItems > 1) {
+      this.props.multiResponce(walinfo.data.items);
       this.props.navigation.navigate('multi');
     }
  }
@@ -75,13 +78,15 @@ class HomeScreen extends React.Component {
      handleBarCodeScanned = async ({data}) => {
       this.setState({cameraVisable: !this.state.cameraVisable });
       const walinfo = await axios.get(urls.walmartTextUrl(data));
-    console.log(walinfo.data.numItems);
-    if (walinfo.data.numItems === 1) {
-      console.log("hi");
-      this.props.walResUPC(walinfo.data.items[0]);
-      this.props.navigation.navigate('searchResults');
-    }
-      this.props.navigation.navigate('searchResults');
+      console.log(walinfo.data.numItems);
+      if (walinfo.data.numItems === 1) {
+        console.log("hi");
+        this.props.singleResponce(walinfo.data.items[0]);
+        this.props.navigation.navigate('searchResults');
+      } else if (walinfo.data.numItems > 1) {
+        this.props.multiResponce(walinfo.data.items);
+        this.props.navigation.navigate('multi');
+      }
     }
 
 
@@ -100,21 +105,7 @@ class HomeScreen extends React.Component {
           {/************************************************************************************
           the name and sub text of the home screen
           */}
-           <View
-            style={styles.nameStyle}>
-             <Text
-             style={styles.textnameStyle}>
-             GATZBY
-            </Text>
-            <Text
-             style={styles.textsubStyle}>
-             Shop Smarter.
-            </Text>
-            <Text
-             style={styles.textsubStyle}>
-             Save Time.
-            </Text>
-            </View>
+           <Name />
             {/*
             end name and subText
             ****************************************************************************/}
@@ -253,22 +244,7 @@ const styles = StyleSheet.create({
     marginBottom: '10%',
     
   },
-  nameStyle: {
-    alignSelf: 'center',
-    paddingTop: Dimensions.get('window').height / 12
-  },
-  textnameStyle: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: 'white',
-    textShadowColor: 'black'
-  },
-  textsubStyle: {
-    fontSize: 15,
-    textAlign: "center",
-    color: 'white',
-    textShadowColor: 'black'
-  },
+  
   backgroundStyle: {
   width: '100%', height: '100%'}, 
   
@@ -280,4 +256,5 @@ return ({});
 
 //expots and conects home to the rest of the app.
 export default connect(mapStateToProps, {
-                                         walResUPC})(HomeScreen);
+                                          multiResponce,
+                                          singleResponce })(HomeScreen);
