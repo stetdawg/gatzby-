@@ -10,10 +10,10 @@ import { View,
 } from "react-native";
 import { Button } from "react-native-elements";
 import { connect } from 'react-redux';
-import _ from "lodash";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { saveCode, walRes, itemsFetch } from "../actions";
 import * as urls from "../services/urlbuilder";
+
 
 class SearchResultsScreen extends Component {
   static navigationOptions = {
@@ -22,72 +22,55 @@ class SearchResultsScreen extends Component {
     };
         state = {
           isVisible: false,
+          sendTo: ""
         };
-
-        async componentWillMount() {
-           const { codeData } = this.props;
-          //await this.props.itemsFetch();
-          console.log(this.props.itemInfo); 
-          }          
-          onHomeButtonPress() {
-            this.props.navigation.navigate('Home');
-          }
+        onHomeButtonPress = () => {
+          this.props.navigation.navigate('Home');
+        }
+        componentWillMount = () => { }          
+          
           onDescripTog() {
             this.setState({isVisible: !this.state.isVisible});
           }
-          onNoButton() {
-            this.setState({ isVisible: false });
+          onStorePress = (text) => {
+            if (this.props.itemInfo.codeData)
+            switch (text) {
+              case "ama":
+              Linking.openURL(urls.amazonUrl(this.props.itemInfo.codeData));
+              break;
+              case "best":
+              Linking.openURL(urls.BestUrl(this.props.itemInfo.codeData));
+              break;
+              case "wal":
+              Linking.openURL(urls.walmartUrl(this.props.itemInfo.codeData));
+              break;
+              case "tar":
+              Linking.openURL(urls.targetUrl(this.props.itemInfo.codeData));
+              break;
+              default:
+              break;
+            }
+            else
+            switch (text) {
+              case "ama":
+              Linking.openURL(urls.amazonUrl(this.props.itemInfo.name));
+              break;
+              case "best":
+              Linking.openURL(urls.BestUrl(this.props.itemInfo.name));
+              break;
+              case "wal":
+              Linking.openURL(urls.walmartUrl(this.props.itemInfo.name));
+              break;
+              case "tar":
+              Linking.openURL(urls.targetUrl(this.props.itemInfo.name));
+              break;
+              default:
+              break;
           }
-          onYesButton() {
-            const { itemInfo, saveCode } = this.props;
-            saveCode(itemInfo);
-            this.setState({ isVisible: false });
-            this.props.navigation.navigate('SavedItems');
-          }
-      //  onSaveButton() {
-      //    const { itemInfo, saveCode } = this.props;
-      //    //this.checkIfSaved.bind(this);
-      //    const { codeData, codeType } = itemInfo;
-      //    const length = this.props.savedItems.length;
-      //    //console.log(length);
-      //    for (let i = 0; i < length; i++) { 
-      //    // console.log(this.props.savedItems[i].itemInfo);
-      //    if (codeData === this.props.savedItems[i].itemInfo.codeData && 
-      //      codeType === this.props.savedItems[i].itemInfo.codeType) {
-      //       this.setState({ isVisible: true });
-      //       console.log("already saved");
-      //       return { isSaved: true };
-      //      }
-      //  }  
-      //     saveCode(itemInfo);
-      //     this.props.navigation.navigate('SavedItems');
-
-       /* <Button
-        buttonStyle={styles.save.buttonStyle} 
-        raised
-        title="SAVE!!!"
-        onPress={this.onSaveButton.bind(this)}
-        />
-        </View>               
-        </ScrollView>
-       <Confirm
-       onNoPress={this.onNoButton.bind(this)}
-       onYesPress={this.onYesButton.bind(this)}
-       visible={this.state.isVisible}
-       >
-       You curently have {this.props.itemInfo.name} saved. Would you like to save it again?
-       </Confirm>*/
-  
+        }
     render() {   
-     // console.log(this.props.savedItems);  
-     //console.log(this.props); 
         return (
           <View>
-             <ImageBackground
-          style={styles.backgroundStyle}
-          source={require("../assets/images/Results.png")}
-          resizeMode='cover'
-          >   
             <View
             style={styles.borderStyle}>
             <View
@@ -119,23 +102,10 @@ class SearchResultsScreen extends Component {
               <Button
               title='Description'
               onPress={this.onDescripTog.bind(this)}
-              buttonStyle={{borderRadius:15}}
+              buttonStyle={{borderRadius: 15}}
               />
-            {/* <ScrollView
-            >
-            <View
-            style={{flex: 1,
-            marginTop: "2%",
-            paddingLeft: "2%",
-            }}>
-            
-              <Text
-            style={styles.DescritionTextStyle}>
-              Description: {this.props.itemInfo.shortDescription}
-            </Text>
-            
-           </View>
-            </ScrollView> */}
+             
+
             </View>
             
             <ScrollView
@@ -150,7 +120,7 @@ class SearchResultsScreen extends Component {
             <Button
             buttonStyle={styles.Walmart.buttonStyle}
             title="Walmart"
-            onPress={() => Linking.openURL(urls.walmartUrl(this.props.itemInfo.codeData))}
+            onPress={() => Linking.openURL(urls.walmartUrl(this.props.itemInfo.name))}
             /> 
             </View>   
             <View
@@ -159,7 +129,7 @@ class SearchResultsScreen extends Component {
             <Button
             buttonStyle={styles.Target.buttonStyle}
             title="Target"
-            onPress={() => Linking.openURL(urls.targetUrl(this.props.itemInfo.codeData))}
+            onPress={() => Linking.openURL(urls.targetUrl(this.props.itemInfo.name))}
             />
             </View>  
             <View
@@ -168,7 +138,7 @@ class SearchResultsScreen extends Component {
             <Button
             buttonStyle={styles.Best.buttonStyle}
             title="Best Buy"
-            onPress={() => Linking.openURL(urls.BestUrl(this.props.itemInfo.codeData))}
+            onPress={() => Linking.openURL(urls.BestUrl(this.props.itemInfo.name))}
             />
             </View>   
             <View
@@ -177,31 +147,31 @@ class SearchResultsScreen extends Component {
             <Button
             buttonStyle={styles.Amazon.buttonStyle}
             title="Amazon"
-            onPress={() => Linking.openURL(urls.amazonUrl(this.props.itemInfo.codeData))}
+            onPress={() => Linking.openURL(urls.amazonUrl(this.props.itemInfo.name))}
             />
             </View> 
             </ScrollView> 
 
-            <TouchableOpacity 
-            alignContent='center'
-            onPress={this.onHomeButtonPress.bind(this)}
-            style={{
-              alignSelf: 'center',
-              position:"absolute",
-              bottom: 0
-            }}>
-            
-             <Icon
-               activeOpacity={20}
-               name="home"
-               size={75}
-               color='white'
-               style={{
-                alignSelf: 'center'
-              }}
-                     /> 
-                     
-             </TouchableOpacity> 
+              <TouchableOpacity 
+        alignContent='center'
+        onPress={this.onHomeButtonPress}
+        style={{
+          alignSelf: 'center',
+          position: "absolute",
+          bottom: 0
+        }}>
+        
+         <Icon
+           activeOpacity={20}
+           name="home"
+           size={75}
+           color='black'
+           style={{
+            alignSelf: 'center'
+          }}
+                 /> 
+                 
+         </TouchableOpacity>
             </View>
             <Modal
         visible={this.state.isVisible}
@@ -220,7 +190,7 @@ class SearchResultsScreen extends Component {
           marginRight: '2%'
         }}>
           <Text 
-          style={styles.DescritionTextStyle}
+          style={styles.MobleDescritionTextStyle}
           >Description: {this.props.itemInfo.shortDescription}</Text>
           
           </View>
@@ -239,7 +209,6 @@ class SearchResultsScreen extends Component {
           />
           </View>
         </Modal>  
-            </ImageBackground>
             </View>
 
         );
@@ -248,17 +217,15 @@ class SearchResultsScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  const savedItems = _.values(state.item.savedItems);
   return {
-    savedItems,
     codeData: state.code.codeData,
     itemInfo: {
-            name: state.item.walResponseData.name,
-            MSRP: state.item.walResponseData.msrp,
-            codeData: state.code.codeData,
-            salePrice: state.item.walResponseData.salePrice,
-            shortDescription: state.item.walResponseData.shortDescription,
-            largeImage: state.item.walResponseData.largeImage,
+            name: state.item.SingleResponseData.name,
+            MSRP: state.item.SingleResponseData.msrp,
+            codeData: state.code.CodeData,
+            salePrice: state.item.SingleResponseData.salePrice,
+            shortDescription: state.item.SingleResponseData.shortDescription,
+            largeImage: state.item.SingleResponseData.largeImage,
           }
     };
 };
@@ -271,41 +238,43 @@ const styles = {
 },
     borderStyle: {
       alignSelf: 'center',
-      marginTop: '15%',
       width: '90%', 
       height: '90%',
-      backgroundColor: "rgba(52, 52, 52, 0.5)",
+      marginTop: "15%",
       borderRadius: 20,
+      backgroundColor: "white",
       flexDirection: 'column'
     },
     ItemNameViewStyle: {
       alignSelf: 'center',
-      marginTop: '1%'
+      marginTop: '3%'
     },
     ItemNameTextStyle: {
       fontSize: 20,
       textAlign: "center",
-      color: 'white',
+      color: "black",
       textShadowColor: 'black'
     },
     ImageStyle: {
-      height: '30%',
-      resizeMode: "cover"
+      height: '60%',
+      resizeMode: "contain"
     },
     DescriptionModalStyle: {
       alignSelf: 'center',
-      marginTop: '65%',
+      marginTop: '75%',
       height: '54%',
       width: "90%",
       backgroundColor: "rgba(52, 52, 52, 1)",
     },
     DescritionTextStyle: {
       fontSize: 15,
-      color: 'white',
+      color: 'black',
       textShadowColor: 'black'
     },
-    storButtonStyle:{
-      
+    MobleDescritionTextStyle: {
+      fontSize: 15,
+      color: 'white',
+      textShadowColor: 'black'
     },
 
     save: {

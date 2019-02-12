@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import searchScreen from '../screens/searchScreen';
 import SeachResultsScreen from '../screens/SearchResultsScreen';
+import multipleResultesScreen from '../screens/multipleResultesScreen';
 
 const navigationOptions = {
 header: null,
@@ -31,13 +32,14 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const searchStack = createStackNavigator({
-  seach: searchScreen,
+const MultiResults = createStackNavigator({
+  multi: multipleResultesScreen,
 });
 
-searchStack.navigationOptions = {
-  tabBarLabel: 'seach',
+MultiResults.navigationOptions = {
+  tabBarLabel: 'multi',
   header: 'none',
+  tabBarVisible: false,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -65,7 +67,7 @@ SeachResultsStack.navigationOptions = {
 export default createBottomTabNavigator(
   {
   HomeStack,
-  searchStack,
+  MultiResults,
   SeachResultsStack,
   },
   navigationOptions);

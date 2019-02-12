@@ -1,12 +1,11 @@
-import * as firebase from 'firebase';
-import _ from "lodash"; 
+import * as firebase from 'firebase'; 
 import axios from "axios";
 import { Linking } from 'react-native';
 import { BAR_CODE_DATA,
-  ITEM_FETCH_SUCCESS,
-  WALMART,
   AMAZON,
-  ITEM_INFO } from './types';
+  ITEM_INFO,
+  MULTI,
+  SOLO } from './types';
 import * as urls from "../services/urlbuilder"; 
 
 
@@ -69,13 +68,19 @@ export const savedToResults = (Item) => {
   };
 };
 
-export const walResUPC = (text) => {
-
+export const multiResponce = (text) => {
 return {
-  type: WALMART,
+  type: MULTI,
   payload: text
 };
 };
+
+export const singleResponce = (text) => {
+  return {
+    type: SOLO,
+    payload: text
+  };
+  };
 
  export const itemsFetch = () => {
  };
