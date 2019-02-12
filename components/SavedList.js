@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Dimensions, View, ImageBackground, Text, TouchableOpacity } from 'react-native';
 
 import { connect } from "react-redux";
-import { savedToResults,
-         deleteItem } from "../actions";
+import { singleResponce
+ } from "../actions";
 
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -14,18 +14,23 @@ class SavedList extends Component {
   // Renders the last slide, which has an additional button
   //static navigationOptions = ({ navigation }) => {};
   onItemPress = () => {
-    console.log( this.props.item.name);
+    console.log("");
+    this.props.singleResponce(this.props.item);
+    this.props.navigation.navigate('searchResults');  
   };
+
   componentWillMount() {}
 
     render() {
           return (
             <TouchableOpacity
-            onPress={this.props.onItemPress}>
+            onPress={this.onItemPress}>
             <View
             style={styles.viewStyle}>
             <View>
-            <Text>{this.props.item.name}</Text>
+            <Text
+            style={styles.textStyle}
+            >{this.props.item.name}</Text>
             </View>
         <ImageBackground
         source={{ uri: this.props.item.largeImage }}
@@ -53,7 +58,7 @@ const styles = {
     width: SCREEN_WIDTH
   },
   textStyle: {
-    fontSize: 30,
+    fontSize: 18,
     textAlign: 'center',
     color: '#FFF'
   },
@@ -72,4 +77,4 @@ const styles = {
   }
 };
 
-export default connect(null, { savedToResults, deleteItem })(SavedList);
+export default connect(null, { singleResponce })(SavedList);

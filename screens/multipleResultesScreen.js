@@ -7,7 +7,7 @@ import { itemsFetch, savedToResults } from "../actions";
 import SavedList from "../components/SavedList";
 import Name from "../components/Name";
 
-class SavedItemsScreen extends Component {
+class multipleResultesScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
   // Properties automatically referred to by react-navigation navigators
 
@@ -18,41 +18,31 @@ class SavedItemsScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
   // Initialize the component
  componentWillMount() {
-   alert("We found multiple items that fit your search Criteria please click on the item you wish to see the the prices on!");
+   alert("We found multiple items that fit your search criteria. Please click on the item you wish to see the the prices on!");
   } 
   onHomeButtonPress() {
     this.props.navigation.navigate('Home');
-  }
-  //////////////////////////////////////////////////////////////////////////////////
-  // Handler for the serach button
-  // onButtonPress = () => {
-  //   this.props.fetchPlaces(this.state.upc () => {
-  //     this.props.navigation.navigate("searchResults") // Passing a callback function
-  //   });
-  // };
- 
+  } 
  
   //////////////////////////////////////////////////////////////////////////////////
   // Render method
   render() {
-    //console.log(this.props);
     return (
-      <ImageBackground
-          style={{width: '100%', 
-          height: '100%'}}
-          source={require("../assets/images/MultiResults.jpg")}
-          resizeMode='cover'
-          >  
+     <View>
           <Name />
       <View
       style={{ backgroundColor: "rgba(52, 52, 52, 0.5)",
-      height:"50%",
-      marginTop: "20%"}}>
+      height: "60%",
+      marginTop: "10%",
+      marginBottom: "10%"}}>
       <FlatList
+      style={{height: "100%",
+              marginTop: "10%",
+              marginBottom: "-10%"}}
        data={this.props.items}
        renderItem={({item}) => <SavedList 
                                           item={item} 
-                                          navigate={this.props.navigation}
+                                          navigation={this.props.navigation}
                                           />
                   }
       keyExtractor={item => item.name}
@@ -63,7 +53,6 @@ class SavedItemsScreen extends Component {
         onPress={this.onHomeButtonPress}
         style={{
           alignSelf: 'center',
-          position: "absolute",
           bottom: 0
         }}>
         
@@ -71,20 +60,18 @@ class SavedItemsScreen extends Component {
            activeOpacity={20}
            name="home"
            size={75}
-           color='white'
+           color='black'
            style={{
             alignSelf: 'center'
           }}
                  /> 
-                 
-         </TouchableOpacity>
-      </ImageBackground>
-      
+      </TouchableOpacity>
+         </View>
     );
   }
 }
 const mapStateToProps = state => {
-  const items = state.item.walResponseData;
+  const items = state.item.multiResponseData;
 return { items };
 };
-export default connect(mapStateToProps, { itemsFetch, savedToResults })(SavedItemsScreen);
+export default connect(mapStateToProps, { itemsFetch, savedToResults })(multipleResultesScreen);

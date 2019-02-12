@@ -1,10 +1,8 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
   ImageBackground,
   View,
-  Dimensions,
   Modal, 
   TouchableOpacity
 } from 'react-native';
@@ -16,7 +14,8 @@ import axios from "axios";
 import Camera from "../components/Camera";
 import Name from "../components/Name";
 import {
-        walResUPC, 
+        multiResponce,
+        singleResponce 
         } from "../actions";
 import * as urls from "../services/urlbuilder"; 
 
@@ -64,11 +63,10 @@ class HomeScreen extends React.Component {
     console.log(walinfo.data.numItems);
     if (walinfo.data.numItems === 1) {
       console.log("hi");
-      this.props.walResUPC(walinfo.data.items[0]);
+      this.props.singleResponce(walinfo.data.items[0]);
       this.props.navigation.navigate('searchResults');
-    }
-    else if (walinfo.data.numItems > 1) {
-      this.props.walResUPC(walinfo.data.items);
+    } else if (walinfo.data.numItems > 1) {
+      this.props.multiResponce(walinfo.data.items);
       this.props.navigation.navigate('multi');
     }
  }
@@ -80,13 +78,15 @@ class HomeScreen extends React.Component {
      handleBarCodeScanned = async ({data}) => {
       this.setState({cameraVisable: !this.state.cameraVisable });
       const walinfo = await axios.get(urls.walmartTextUrl(data));
-    console.log(walinfo.data.numItems);
-    if (walinfo.data.numItems === 1) {
-      console.log("hi");
-      this.props.walResUPC(walinfo.data.items[0]);
-      this.props.navigation.navigate('searchResults');
-    }
-      this.props.navigation.navigate('searchResults');
+      console.log(walinfo.data.numItems);
+      if (walinfo.data.numItems === 1) {
+        console.log("hi");
+        this.props.singleResponce(walinfo.data.items[0]);
+        this.props.navigation.navigate('searchResults');
+      } else if (walinfo.data.numItems > 1) {
+        this.props.multiResponce(walinfo.data.items);
+        this.props.navigation.navigate('multi');
+      }
     }
 
 
@@ -256,4 +256,5 @@ return ({});
 
 //expots and conects home to the rest of the app.
 export default connect(mapStateToProps, {
-                                         walResUPC})(HomeScreen);
+                                          multiResponce,
+                                          singleResponce })(HomeScreen);
