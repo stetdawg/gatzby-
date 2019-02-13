@@ -1,11 +1,10 @@
 import React from 'react';
 import firebase from "firebase";
-=======
 import {
   StyleSheet,
   ImageBackground,
-  View,
-  Modal, 
+  View, 
+  Dimensions,
   TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
