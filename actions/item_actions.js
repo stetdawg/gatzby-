@@ -1,12 +1,11 @@
-import * as firebase from 'firebase';
-import _ from "lodash"; 
+import * as firebase from 'firebase'; 
 import axios from "axios";
 import { Linking } from 'react-native';
 import { BAR_CODE_DATA,
-  ITEM_FETCH_SUCCESS,
-  WALMART,
   AMAZON,
-  ITEM_INFO } from './types';
+  ITEM_INFO,
+  MULTI,
+  SOLO } from './types';
 import * as urls from "../services/urlbuilder"; 
 
 
@@ -30,7 +29,7 @@ export const deleteItem = ({ uid }) => {
   };
 
 export const barCodeData = (type, codeData) => {
-  console.log(`data = ${codeData}`);
+  //console.log(`data = ${codeData}`);
   let data = String(codeData); 
   let codeType = String(type);
   if (codeType.includes('EAN_13') || 
@@ -45,12 +44,21 @@ switch (codeType) {
   break;
   case "512":
   codeType = "UPC";
+  break;
   default:
   }
   return {
     type: BAR_CODE_DATA,
     payload: { data, codeType } 
     };
+};
+
+export const textData = (text) => {
+  console.log(`Query = ${text}`);
+  return {
+    type: BAR_CODE_DATA,
+    payload: {text}
+  };
 };
 
 export const savedToResults = (Item) => {
@@ -60,27 +68,22 @@ export const savedToResults = (Item) => {
   };
 };
 
-export const walRes = (text) => async dispatch => {
-  //console.log(`BarCodeType = ${text}`);
- ///const walResponsedata = text;
- try {
-const waldata = await axios.get(urls.warlmartAPIUrl(text));
-
- return walmartdata(dispatch, waldata);
-} catch (err) { 
-  //console.log(err);
-} 
+export const multiResponce = (text) => {
+return {
+  type: MULTI,
+  payload: text
+};
 };
 
-export const itemsFetch = () => {
-  const { currentUser } = firebase.auth();
- return (dispatch) => {
- firebase.database().ref(`/users/${currentUser.uid}/items`)
- .on('value', snapshot => {
-   dispatch({ type: ITEM_FETCH_SUCCESS, payload: snapshot.val() });
- });
+export const singleResponce = (text) => {
+  return {
+    type: SOLO,
+    payload: text
   };
-};
+  };
+
+ export const itemsFetch = () => {
+ };
 export const amRes = (text) => async dispatch => {
   //console.log(`BarCodeType = ${text}`);
  ///const walResponsedata = text;
@@ -100,10 +103,10 @@ const AmData = (dispatch, amdata) => {
   });
 };
 
-const walmartdata = (dispatch, waldata) => {
-  console.log(waldata);
-  dispatch({
-    type: WALMART,
-    payload: waldata
-  });
-};
+// const walmartdata = (dispatch, waldata) => {
+//   console.log(waldata);
+//   dispatch({
+//     type: WALMART,
+//     payload: waldata
+//   });
+// };

@@ -1,13 +1,14 @@
 import { 
     ITEM_FETCH_SUCCESS,
-    WALMART,
+    MULTI,
     SHOULD_RELOAD,
     AMAZON,
-    ITEM_INFO } from "../actions/types";
+    ITEM_INFO,
+SOLO } from "../actions/types";
 
 const INITIAL_STATE = {
      savedItems: {},
-     walResponseData: {
+     multiResponseData: {
         items: [ 
             {
             name: "No Item found",
@@ -23,12 +24,20 @@ const INITIAL_STATE = {
      itemInfo:  
         {
         name: "No Item found",
-        salePrice: '',
-        codeData: "",
-        codeType: '',
+        itemID: '',
         shortDescription: 'This is a very short description.',
         thumbnailImage: '',
-        }   
+        },
+
+        SingleResponseData:  
+        {
+        name: "No Item found",
+        salePrice: '',
+        itemID: "",
+        CodeData: "",
+        shortDescription: 'This is a very short description.',
+        thumbnailImage: '',
+        } 
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -38,9 +47,12 @@ case ITEM_FETCH_SUCCESS:
  //   console.log(`${action.payload}`);
 return { ...state, savedItems: action.payload };
 }
-case WALMART: {  
+case MULTI: {  
     //console.log(`${action.payload} in reducer`);
-    return { ...state, walResponseData: action.payload.data };
+    return { ...state, multiResponseData: action.payload };
+}
+case SOLO: {  
+    return { ...state, SingleResponseData: action.payload };
 }
 case AMAZON: {
     return { ...state, amResponseData: action.payload.data };

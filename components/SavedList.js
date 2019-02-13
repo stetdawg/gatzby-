@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Dimensions, View } from 'react-native';
-import { Button, Card } from 'react-native-elements';
+import { Dimensions, View, ImageBackground, Text, TouchableOpacity } from 'react-native';
+
 import { connect } from "react-redux";
-import Swipeout from "react-native-swipeout";
-import Confirm from './confirm';
-import { savedToResults,
-         deleteItem } from "../actions";
+import { singleResponce
+ } from "../actions";
 
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -15,64 +13,37 @@ class SavedList extends Component {
   ////////////////////////////////////////////////////////////////////////
   // Renders the last slide, which has an additional button
   //static navigationOptions = ({ navigation }) => {};
-  
-  state = {
-    visible: false
+  onItemPress = () => {
+    console.log("");
+    this.props.singleResponce(this.props.item);
+    this.props.navigation.navigate('searchResults');  
   };
+
   componentWillMount() {}
-  
-  onButtonPress() {
-    console.log(this.props.item.itemInfo);
-    this.props.savedToResults(this.props.item.itemInfo);
-    this.props.navigation.navigate("ItemDetal");
-  }
-  onYesButton() {
-    console.log('delete me :(');
-    this.setState({ visible: false });  
-    this.props.deleteItem(this.props.item);
-  }
-  onNoButton() {
-    this.setState({ visible: false });
-  }
-  
-  deleteCheck() {
-    this.setState({ visible: true });
-  }
 
     render() {
-      const swipeoutBtns = [
-          {
-           text: "DELETE",
-           backgroundColor: "#ff0000",
-           color: "#000000",
-            onPress: this.deleteCheck.bind(this)
-          }
-      ];
-
-    return (
-      <View>
-      {/* <Swipeout 
-      right={swipeoutBtns}
-      autoClose={true}
-      > */}
-          <Card
-          image={{ uri: this.props.item.itemInfo.largeImage }}
-          >
-              <Button
-              buttonStyle={styles.buttonStyle}
-              title={this.props.item.itemInfo.name}
-              onPress={this.onButtonPress.bind(this)}
-              />
-          </Card>
-      {/* </Swipeout> */}
-      {/* <Confirm
-           onNoPress={this.onNoButton.bind(this)}
-           onYesPress={this.onYesButton.bind(this)}
-           visible={this.state.visible}
-      >
-           Are you sure that you want to deleate {this.props.item.itemInfo.name}?
-           </Confirm> */}
+          return (
+            <TouchableOpacity
+            onPress={this.onItemPress}>
+            <View
+            style={styles.viewStyle}>
+            <View>
+            <Text
+            style={styles.textStyle}
+            >{this.props.item.name}</Text>
+            </View>
+        <ImageBackground
+        source={{ uri: this.props.item.largeImage }}
+        style={{width: Dimensions.get('window').width / 2, 
+        height: Dimensions.get('window').height / 4, 
+      flex: 1,
+    marginBottom: '10%'}}
+        resizeMode="cover"
+        >
+          
+        </ImageBackground>
       </View>
+      </TouchableOpacity>
     );
     }
 
@@ -87,13 +58,18 @@ const styles = {
     width: SCREEN_WIDTH
   },
   textStyle: {
-    fontSize: 30,
+    fontSize: 18,
     textAlign: 'center',
     color: '#FFF'
   },
   viewStyle: {
-    paddingTop: 15,
-    borderRadius: 15
+    alignItems: 'center',
+    width: Dimensions.get('window').width / 1.1,
+    alignSelf: 'center',
+    paddingTop: "3%",
+    margin: "3%",
+    borderRadius: 20,
+    backgroundColor: "rgba(52, 52, 52, 0.5)"
   },
   buttonStyle: {
     backgroundColor: '#00074f',
@@ -101,4 +77,4 @@ const styles = {
   }
 };
 
-export default connect(null, { savedToResults, deleteItem })(SavedList);
+export default connect(null, { singleResponce })(SavedList);

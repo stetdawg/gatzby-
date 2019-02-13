@@ -1,23 +1,35 @@
 import React from 'react';
-import { StyleSheet, Text, ImageBackground, View, Dimensions, TouchableOpacity } from 'react-native';
 import firebase from "firebase";
+=======
+import {
+  StyleSheet,
+  ImageBackground,
+  View,
+  Modal, 
+  TouchableOpacity
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
+import axios from "axios";
 import Camera from "../components/Camera";
-
 import LoginForm from "../components/LoginForm";
 import HomeBottomButtons from '../components/HomeBottomButtons';
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
-import {barCodeData,
-        walRes
+import Name from "../components/Name";
+import {
+        multiResponce,
+        singleResponce 
+
         } from "../actions";
+import * as urls from "../services/urlbuilder"; 
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    tabBarVisible: false
   };
   state = {
     hasCameraPermission: null,
@@ -108,6 +120,7 @@ class HomeScreen extends React.Component {
   }
   }
 
+
   onLogintog() {
     if (this.state.loginVisable)
     this.setState({loginVisable: false});
@@ -122,23 +135,40 @@ class HomeScreen extends React.Component {
     this.setState({signUpVisable: true});
   }
 
+
+  ////////////////////////////////////////////////////////////
+  // grabs the an array of items info from walmart rest api, and 
+  // checks where to send the user depending on the number of items  
+  // sent back
   handleTextInput = async () => {
-    console.log(`${this.state.textInput}`);
-   this.props.barCodeData("UPC", this.state.textInput);
-   await this.props.walRes(this.state.textInput);
-   this.props.navigation.navigate('searchResults');
+    const walinfo = await axios.get(urls.walmartTextUrl(this.state.textInput));
+    console.log(walinfo.data.numItems);
+    if (walinfo.data.numItems === 1) {
+      console.log("hi");
+      this.props.singleResponce(walinfo.data.items[0]);
+      this.props.navigation.navigate('searchResults');
+    } else if (walinfo.data.numItems > 1) {
+      this.props.multiResponce(walinfo.data.items);
+      this.props.navigation.navigate('multi');
+    }
  }
 
   /////////////////////////////////////////////
   //after barcode is read will pass to this function
   //this function togles camera, sends bar code info to
   //reducers and sends the user to the results screen.
-     handleBarCodeScanned = async ({data, type}) => {
-       console.log(`${data} ${type}`);
+     handleBarCodeScanned = async ({data}) => {
       this.setState({cameraVisable: !this.state.cameraVisable });
-      this.props.barCodeData(type, data);
-      await this.props.walRes(data);
-      this.props.navigation.navigate('searchResults');
+      const walinfo = await axios.get(urls.walmartTextUrl(data));
+      console.log(walinfo.data.numItems);
+      if (walinfo.data.numItems === 1) {
+        console.log("hi");
+        this.props.singleResponce(walinfo.data.items[0]);
+        this.props.navigation.navigate('searchResults');
+      } else if (walinfo.data.numItems > 1) {
+        this.props.multiResponce(walinfo.data.items);
+        this.props.navigation.navigate('multi');
+      }
     }
 
 
@@ -157,21 +187,7 @@ class HomeScreen extends React.Component {
           {/************************************************************************************
           the name and sub text of the home screen
           */}
-           <View
-            style={styles.nameStyle}>
-             <Text
-             style={styles.textnameStyle}>
-             GATZBY
-            </Text>
-            <Text
-             style={styles.textsubStyle}>
-             Shop Smarter.
-            </Text>
-            <Text
-             style={styles.textsubStyle}>
-             Save Time.
-            </Text>
-            </View>
+           <Name />
             {/*
             end name and subText
             ****************************************************************************/}
@@ -323,6 +339,7 @@ const styles = StyleSheet.create({
   marginLeft: "8%",
 
     },
+
   nameStyle: {
     alignSelf: 'center',
     paddingTop: Dimensions.get('window').height / 12
@@ -339,12 +356,29 @@ const styles = StyleSheet.create({
     color: 'white',
     textShadowColor: 'black'
   },
+
+  cameraStyle: {
+    
+    marginTop: '40%',
+    width: '90%', 
+    height: '100%',
+    alignSelf: 'center',
+    marginBottom: '10%',
+    
+  },
+  
+
   backgroundStyle: {
   width: '100%', height: '100%'}, 
   
 }
 );
 
+const mapStateToProps = () => {
+return ({});
+};
+
 //expots and conects home to the rest of the app.
-export default connect(null, {barCodeData,
-                                         walRes})(HomeScreen);
+export default connect(mapStateToProps, {
+                                          multiResponce,
+                                          singleResponce })(HomeScreen);
