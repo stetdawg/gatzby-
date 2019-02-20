@@ -52,6 +52,8 @@ class HomeScreen extends React.Component {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera'
     firebase.initializeApp({ GOOGLE_FIREBASE_CONFIG });
+    const pres = await axios.get("https://en.wikipedia.org/wiki/List_of_Presidents_of_the_United_States");
+    console.log(pres);
     }
     componentWillReceiveProps() {
     } 
