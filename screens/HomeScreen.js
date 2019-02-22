@@ -45,7 +45,7 @@ class HomeScreen extends React.Component {
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera'
-    firebase.initializeApp({ GOOGLE_FIREBASE_CONFIG });
+    firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
     }
     componentWillReceiveProps() {
       if (this.props.user !=='') {
@@ -69,7 +69,7 @@ class HomeScreen extends React.Component {
     onLoginAttempt() {
       console.log(this.state.email + ' ' + this.state.password);
       const { email, password } = this.state;
-      this.props.loginUser({email, password});
+      this.props.loginUser(email, password);
     }
     onSignupAttempt() {
       this.props.signupUser(this.state.email, this.state.password, this.state.repeatPassword);
