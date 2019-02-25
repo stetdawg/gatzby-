@@ -45,10 +45,10 @@ class HomeScreen extends React.Component {
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera'
-    firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
+    firebase.initializeApp({ GOOGLE_FIREBASE_CONFIG });
     }
     componentWillReceiveProps() {
-      if (this.props.user !=='') {
+      if (this.props.user !== '') {
         console.log(this.props.user);
         this.setState({logInBool: true});
       }
@@ -66,13 +66,38 @@ class HomeScreen extends React.Component {
     //onRepeatPasswordChange(text) {
     //  this.props.repeatPasswordChanged(text);
     //}
+    validateEmail = (email) => {
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    };
+    validatePassword = (password) => {
+      const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"$/;
+        return re.test(password);
+    }
     onLoginAttempt() {
-      console.log(this.state.email + ' ' + this.state.password);
+      //console.log(this.state.email + ' ' + this.state.password);
       const { email, password } = this.state;
-      this.props.loginUser(email, password);
+      if (!this.validateEmail(email)) {
+        alert("This is not a valid email address!");
+      } 
+      if (!this.validatePassword(password)) {
+        alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+      }
+      if (this.validateEmail(email) && this.validatePassword(password)) {
+        this.props.loginUser(email, password);
+      }
     }
     onSignupAttempt() {
+      const { email, password } = this.state;
+      if (!this.validateEmail(email)) {
+        alert("This is not a valid email address!");
+      } 
+      if (!this.validatePassword(password)) {
+        alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+      }
+      if (this.validateEmail(email) && this.validatePassword(password)) {
       this.props.signupUser(this.state.email, this.state.password, this.state.repeatPassword);
+      }
     }
     
     renderButtons() {
@@ -271,11 +296,9 @@ class HomeScreen extends React.Component {
               visible={this.state.loginVisable}
                 Title="Log In"
                 button1="Log In"
-                //onChange1={this.onEmailChange.bind(this)}
-                //onChange1Value={this.props.email}
+                onChange1={this.onEmailChange.bind(this)}
                 onChange1={(text) => this.setState({email: text})}
-                //onChange2={this.onPasswordChange.bind(this)} 
-                //onChange2Value={this.props.password}
+                onChange2={this.onPasswordChange.bind(this)} 
                 onChange2={(text) => this.setState({password: text})} 
                 form1='Email'
                 form2='Password'
@@ -296,14 +319,11 @@ class HomeScreen extends React.Component {
               visible={this.state.signUpVisable}
                 Title="Sign Up"
                 button1="Sign Up"
-                //onChange1={this.onEmailChange.bind(this)}
-                //onChange1Value={this.props.email}
+                onChange1={this.onEmailChange.bind(this)}
                 onChange1={(text) => this.setState({email: text})}
-                //onChange2={this.onPasswordChange.bind(this)} 
-                //onChange2Value={this.props.password}
+                onChange2={this.onPasswordChange.bind(this)} 
                 onChange2={(text) => this.setState({password: text})} 
                 onChange3={(text) => this.setState({repeatPassword: text})}
-                //onChange3Value={this.props.repeatPassword} 
                 form1='Email:'
                 form2='Password:'
                 form3='Repeat Password:'
