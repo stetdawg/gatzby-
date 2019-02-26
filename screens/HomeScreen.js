@@ -29,13 +29,13 @@ class HomeScreen extends React.Component {
     cameraVisable: false,
     loginVisable: false,
     signUpVisable: false,
-    logInBool: false,
+    
     email: "",
     password: "",
     repeatPassword: "",
     textInput: ''
   };
-
+  logInBool=false;
    leftButton = "Log In"
    rightButton= "Sign Up"
    leftIcon = 'person'
@@ -45,16 +45,20 @@ class HomeScreen extends React.Component {
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera'
-    firebase.initializeApp({ GOOGLE_FIREBASE_CONFIG });
+    firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
     }
-    componentWillReceiveProps() {
-      if (this.props.user !== '') {
+    componentDidUpdate(oldprops) {
+      console.log(this.props.user);
+      if ( this.props.user.uid !== "" ) {
         console.log(this.props.user);
-        this.setState({logInBool: true});
+        this.props.logInBool =true;
       }
-      else {
-        this.setState({logInBool: false});
+      else{
+      if (this.props.user.uid !== oldprops.user.uid) {
+        this.props.logInBool = false  ; 
       }
+    }
+      
     } 
     
     onEmailChange(text) {
@@ -71,37 +75,50 @@ class HomeScreen extends React.Component {
         return re.test(email);
     };
     validatePassword = (password) => {
-      const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"$/;
+      const re = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
         return re.test(password);
     }
     onLoginAttempt() {
       //console.log(this.state.email + ' ' + this.state.password);
       const { email, password } = this.state;
-      if (!this.validateEmail(email)) {
-        alert("This is not a valid email address!");
-      } 
-      if (!this.validatePassword(password)) {
-        alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
-      }
-      if (this.validateEmail(email) && this.validatePassword(password)) {
-        this.props.loginUser(email, password);
-      }
+     // console.log(email + ' ' + password);
+      // if (!this.validateEmail(email)) {
+      //   alert("This is not a valid email address!");
+      // } 
+      // if (!this.validatePassword(password)) {
+      //   alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+      // }
+      // if (this.validateEmail(email) && this.validatePassword(password)) {
+         this.props.loginUser(email, password);
+      //   // if (this.state.user !== '') {
+      //   //   this.setState({logInBool: true});
+      //   //   this.setState({loginVisable: false});
+      //   //   this.renderButtons();
+      //   // }
+      // }
     }
     onSignupAttempt() {
-      const { email, password } = this.state;
-      if (!this.validateEmail(email)) {
-        alert("This is not a valid email address!");
-      } 
-      if (!this.validatePassword(password)) {
-        alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
-      }
-      if (this.validateEmail(email) && this.validatePassword(password)) {
-      this.props.signupUser(this.state.email, this.state.password, this.state.repeatPassword);
-      }
+     //console.log(this.state.email + ' ' + this.state.password + ' ' + this.state.repeatPassword);
+      const { email, password, repeatPassword } = this.state;
+      //console.log(email + ' ' + password + ' ' + repeatPassword);
+      // if (!this.validateEmail(email)) {
+      //   alert("This is not a valid email address!");
+      // } 
+      // if (!this.validatePassword(password)) {
+      //   alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+      // }
+      // if (this.validateEmail(email) && this.validatePassword(password)) {
+       this.props.signupUser(email, password, repeatPassword);
+      //   // if (this.state.user !== '') {
+      //   //   this.setState({logInBool: true});
+      //   //   this.setState({loginVisable: false});
+      //   //   this.renderButtons();
+      //   // }
+      // }
     }
     
     renderButtons() {
-      switch (this.state.logInBool) {
+      switch (this.props.logInBool) {
         case true:
           this.leftButton = "Log Out";
           this.rightButton = "Saved List";
@@ -124,18 +141,18 @@ class HomeScreen extends React.Component {
       }
     }
     async handleLeftButtonPush() {
-      if (this.state.logInBool) {
+      if (this.props.logInBool) {
       //console.log("Log In Button Pushed");
-      this.setState({logInBool: false});
+      //this.setState({logInBool: false});
       this.renderButtons();
       } else {
         this.onLogintog(this);          
       }
     }
     handleRightButtonPush() {
-      if (this.state.logInBool) {
+      if (this.props.logInBool) {
         //console.log("Log In Button Pushed");
-        this.setState({logInBool: false});
+       // this.setState({logInBool: false});
         this.renderButtons();
         } else {
           this.onSignUptog(this);          
@@ -402,6 +419,7 @@ const mapStateToProps = state => {
   return {
     email: state.auth.email,
     password: state.auth.password,
+    repeatPassword: state.auth.repeatPassword,
     user: state.auth.user
   };
 };
