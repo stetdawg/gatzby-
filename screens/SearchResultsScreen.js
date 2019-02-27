@@ -24,6 +24,9 @@ class SearchResultsScreen extends Component {
           isVisible: false,
           sendTo: ""
         };
+        onMapButtonPress = () => {
+          this.props.navigation.navigate('Map');
+        } 
         onHomeButtonPress = () => {
           this.props.navigation.navigate('Home');
         }
@@ -103,6 +106,11 @@ class SearchResultsScreen extends Component {
               title='Description'
               onPress={this.onDescripTog.bind(this)}
               buttonStyle={{borderRadius: 15}}
+              />
+              <Button
+              title='Map'
+              onPress={this.onMapButtonPress}
+              buttonStyle={styles.buttonStyle}
               />
              
 
@@ -244,6 +252,13 @@ const styles = {
       borderRadius: 20,
       backgroundColor: "white",
       flexDirection: 'column'
+    },
+    buttonStyle: {
+      backgroundColor: '#0489B1',
+      borderRadius: 10,
+      borderWidth: 0.5,
+      width: 125,
+      height: 45,
     },
     ItemNameViewStyle: {
       alignSelf: 'center',

@@ -68,7 +68,7 @@ return (
         <View>
             <Button 
             buttonStyle={styles.buttonStyle}
-            title="Summit"
+            title="Submit"
             />
         </View>
         <View>
@@ -86,7 +86,7 @@ return (
 const styles = {
     modalStyle: {
     borderRadius: 15,
-    borderWidth: 0.5
+    borderWidth: 0.9
     },
     textStyle: {
     fontSize: 16,

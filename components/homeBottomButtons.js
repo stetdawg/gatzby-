@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "react-native-elements";
 import { View } from "react-native";
 
-const HomeBottomButtons = ({rightButtonPush,
+const homeBottomButtons = ({rightButtonPush,
                             rightButtonName,
                             leftButtonName,
                           leftButtonPush,
@@ -60,4 +60,4 @@ const styles = {
     height: 45,
   }
 };
-export default HomeBottomButtons;
+export default homeBottomButtons;
