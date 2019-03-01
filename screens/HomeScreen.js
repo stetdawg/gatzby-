@@ -18,6 +18,7 @@ import HomeBottomButtons from '../components/HomeBottomButtons';
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
 import Name from "../components/Name";
+//import AltName from "../components/AltName";
 import {
         multiResponce,
         singleResponce 
@@ -363,7 +364,7 @@ const styles = StyleSheet.create({
     height: '100%',
     alignSelf: 'center',
     marginBottom: '10%',
-    
+
   },
   
 
