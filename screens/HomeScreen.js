@@ -17,8 +17,10 @@ import LoginForm from "../components/LoginForm";
 import HomeBottomButtons from '../components/HomeBottomButtons';
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
-import Name from "../components/Name";
-//import AltName from "../components/AltName";
+//import Name from "../components/Name";
+import AltName from "../components/AltName";
+import Card from "../components/CardSection";
+import CardSection from "../components/Card";
 import {
         multiResponce,
         singleResponce 
@@ -176,18 +178,21 @@ class HomeScreen extends React.Component {
    //gui for home screen   
   render() {
     return (
-      <View
-      style={styles.container}
-      >      
+            <View
+            style={styles.container}
+            >      
          <ImageBackground
           style={styles.backgroundStyle}
-          source={require("../assets/images/home2.png")}
+          source={require("../assets/images/whiteBG.png")}
           resizeMode='cover'
           >
           {/************************************************************************************
           the name and sub text of the home screen
           */}
-           <Name />
+         <CardSection> 
+          <AltName />
+          </CardSection> 
+
             {/*
             end name and subText
             ****************************************************************************/}
@@ -196,8 +201,10 @@ class HomeScreen extends React.Component {
             {/* **************************************************************************
             search section of the home screen
             */}
+          
+          <CardSection>
             <View
-                    style={styles.searchContainerStyle}>
+                style={styles.searchContainerStyle}>
             <SearchBar
                      placeholder='Enter UPC' 
                      round
@@ -218,8 +225,10 @@ class HomeScreen extends React.Component {
                      size={50}
                      />  
                      </TouchableOpacity>  
-            </View>  
-            {/*
+                     </View>
+              </CardSection>
+
+                     {/*
             end seach section of home screen 
             *************************************************************************************/}
            
@@ -227,7 +236,7 @@ class HomeScreen extends React.Component {
                 bottom button section
             */
             }
-           
+            <CardSection>
             <HomeBottomButtons 
              leftButtonName={this.leftButton}
              leftButtonPush={this.handleLeftButtonPush.bind(this)}
@@ -236,7 +245,8 @@ class HomeScreen extends React.Component {
              iconRight={this.rightIcon}
              iconLeft={this.leftIcon}
              />
-            
+             </CardSection>
+
            {
               /*
               end bottom button section
@@ -311,7 +321,7 @@ class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    flexDirection: 'column'
   },
   searchContainerStyle: {
     alignSelf: 'center',

@@ -29,15 +29,16 @@ const AltName = () => {
         },
         textnameStyle: {
          fontFamily: 'Avenir-Roman',
-          fontSize: 45,
-          fontWeight: 'bold',
-          color: 'black',
-          textShadowColor: 'black'
+          fontSize: 55,
+         fontWeight: 'bold',
+          color: '#3cb371',
+          textShadowColor: 'black',
+          shadowOpacity: .2 
         },
         textsubStyle: {
           fontFamily: 'Avenir-Roman',
           fontSize: 20,
-          fontWeight: 'bold',
+        //  fontWeight: 'bold',
           textAlign: "center",
           color: 'black',
           textShadowColor: 'black'
