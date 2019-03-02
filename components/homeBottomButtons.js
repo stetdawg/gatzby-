@@ -1,8 +1,9 @@
 import React from "react";
 import { Button } from "react-native-elements";
 import { View } from "react-native";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const HomeBottomButtons = ({rightButtonPush,
+const homeBottomButtons = ({rightButtonPush,
                             rightButtonName,
                             leftButtonName,
                           leftButtonPush,
@@ -10,13 +11,14 @@ const HomeBottomButtons = ({rightButtonPush,
                           iconRight}) => {  
 //console.log(ifLogedIn);
     return (
-      <View 
-      style={{
+      <View style={{
+        //flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-      }}>
+        //alignItems: 'stretch',
+      }}>>
         <View style={styles.ViewStyle}>
-          <Button
+          <Button 
           icon={{name: iconLeft,
                 color: 'white'}}
           buttonStyle={styles.buttonStyle}
@@ -38,11 +40,16 @@ const HomeBottomButtons = ({rightButtonPush,
       
     </View>
     );
+  
+
   };
 const styles = {
   textStyle: {
     fontSize: 16,
     fontWeight: '600'
+  },
+  orientation: {
+    
   },
   viewStyle: {
     color: '#0489B1',
@@ -53,11 +60,17 @@ const styles = {
     paddingBottom: 10
   },
   buttonStyle: {
+    //flex: 1,
+    //alignSelf: 'stretch'
     backgroundColor: '#0489B1',
     borderRadius: 10,
     borderWidth: 0.5,
+    //BorderColor: '#007aff',
+    //marginLeft: 10,
+    //marginRight: 10,
+    //marginBottom: 10
     width: 125,
     height: 45,
   }
 };
-export default HomeBottomButtons;
+export default homeBottomButtons;

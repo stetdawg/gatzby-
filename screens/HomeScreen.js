@@ -1,5 +1,8 @@
 import React from 'react';
+import { StyleSheet, Text, ImageBackground, View, Dimensions, TouchableOpacity } from 'react-native';
+//import ReduxThunk from 'redux-thunk';
 import firebase from "firebase";
+
 import {
   StyleSheet,
   ImageBackground,
@@ -11,37 +14,36 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
-import axios from "axios";
 import Camera from "../components/Camera";
+//import { loginUser, signupUser } from "../actions/auth_actions";
 import LoginForm from "../components/LoginForm";
 import HomeBottomButtons from '../components/HomeBottomButtons';
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
-import Name from "../components/Name";
-import {
-        multiResponce,
-        singleResponce 
-
+import {barCodeData,
+        walRes,
+        loginUser,
+        signupUser,
+        emailChanged,
+        passwordChanged
         } from "../actions";
-import * as urls from "../services/urlbuilder"; 
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
-    header: null,
-    tabBarVisible: false
+    header: null
   };
   state = {
     hasCameraPermission: null,
     cameraVisable: false,
     loginVisable: false,
     signUpVisable: false,
-    logInBool: false,
+    
     email: "",
     password: "",
     repeatPassword: "",
     textInput: ''
   };
-
+  logInBool=false;
    leftButton = "Log In"
    rightButton= "Sign Up"
    leftIcon = 'person'
@@ -51,16 +53,80 @@ class HomeScreen extends React.Component {
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera'
-    firebase.initializeApp({ GOOGLE_FIREBASE_CONFIG });
-    const pres = await axios.get("https://en.wikipedia.org/wiki/List_of_Presidents_of_the_United_States");
-    console.log(pres);
+    firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
     }
-    componentWillReceiveProps() {
+    componentDidUpdate(oldprops) {
+      console.log(this.props.user);
+      if ( this.props.user.uid !== "" ) {
+        console.log(this.props.user);
+        this.props.logInBool =true;
+      }
+      else{
+      if (this.props.user.uid !== oldprops.user.uid) {
+        this.props.logInBool = false  ; 
+      }
+    }
+      
     } 
     
+    onEmailChange(text) {
+      this.props.emailChanged(text);
+    }
+    onPasswordChange(text) {
+      this.props.passwordChanged(text);
+    }
+    //onRepeatPasswordChange(text) {
+    //  this.props.repeatPasswordChanged(text);
+    //}
+    validateEmail = (email) => {
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    };
+    validatePassword = (password) => {
+      const re = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
+        return re.test(password);
+    }
+    onLoginAttempt() {
+      //console.log(this.state.email + ' ' + this.state.password);
+      const { email, password } = this.state;
+     // console.log(email + ' ' + password);
+      // if (!this.validateEmail(email)) {
+      //   alert("This is not a valid email address!");
+      // } 
+      // if (!this.validatePassword(password)) {
+      //   alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+      // }
+      // if (this.validateEmail(email) && this.validatePassword(password)) {
+         this.props.loginUser(email, password);
+      //   // if (this.state.user !== '') {
+      //   //   this.setState({logInBool: true});
+      //   //   this.setState({loginVisable: false});
+      //   //   this.renderButtons();
+      //   // }
+      // }
+    }
+    onSignupAttempt() {
+     //console.log(this.state.email + ' ' + this.state.password + ' ' + this.state.repeatPassword);
+      const { email, password, repeatPassword } = this.state;
+      //console.log(email + ' ' + password + ' ' + repeatPassword);
+      // if (!this.validateEmail(email)) {
+      //   alert("This is not a valid email address!");
+      // } 
+      // if (!this.validatePassword(password)) {
+      //   alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+      // }
+      // if (this.validateEmail(email) && this.validatePassword(password)) {
+       this.props.signupUser(email, password, repeatPassword);
+      //   // if (this.state.user !== '') {
+      //   //   this.setState({logInBool: true});
+      //   //   this.setState({loginVisable: false});
+      //   //   this.renderButtons();
+      //   // }
+      // }
+    }
     
     renderButtons() {
-      switch (this.state.logInBool) {
+      switch (this.props.logInBool) {
         case true:
           this.leftButton = "Log Out";
           this.rightButton = "Saved List";
@@ -82,25 +148,19 @@ class HomeScreen extends React.Component {
           </View>);
       }
     }
-
-    logInfunction() {
-
-    }
-
     async handleLeftButtonPush() {
-      if (this.state.logInBool) {
+      if (this.props.logInBool) {
       //console.log("Log In Button Pushed");
-      this.setState({logInBool: false});
+      //this.setState({logInBool: false});
       this.renderButtons();
       } else {
-        console.log(this.state.loginVisable);
         this.onLogintog(this);          
       }
     }
     handleRightButtonPush() {
-      if (this.state.logInBool) {
+      if (this.props.logInBool) {
         //console.log("Log In Button Pushed");
-        this.setState({logInBool: false});
+       // this.setState({logInBool: false});
         this.renderButtons();
         } else {
           this.onSignUptog(this);          
@@ -121,7 +181,6 @@ class HomeScreen extends React.Component {
   }
   }
 
-
   onLogintog() {
     if (this.state.loginVisable)
     this.setState({loginVisable: false});
@@ -136,40 +195,23 @@ class HomeScreen extends React.Component {
     this.setState({signUpVisable: true});
   }
 
-
-  ////////////////////////////////////////////////////////////
-  // grabs the an array of items info from walmart rest api, and 
-  // checks where to send the user depending on the number of items  
-  // sent back
   handleTextInput = async () => {
-    const walinfo = await axios.get(urls.walmartTextUrl(this.state.textInput));
-    console.log(walinfo.data.numItems);
-    if (walinfo.data.numItems === 1) {
-      console.log("hi");
-      this.props.singleResponce(walinfo.data.items[0]);
-      this.props.navigation.navigate('searchResults');
-    } else if (walinfo.data.numItems > 1) {
-      this.props.multiResponce(walinfo.data.items);
-      this.props.navigation.navigate('multi');
-    }
+    console.log(`${this.state.textInput}`);
+   this.props.barCodeData("UPC", this.state.textInput);
+   await this.props.walRes(this.state.textInput);
+   this.props.navigation.navigate('searchResults');
  }
 
   /////////////////////////////////////////////
   //after barcode is read will pass to this function
   //this function togles camera, sends bar code info to
   //reducers and sends the user to the results screen.
-     handleBarCodeScanned = async ({data}) => {
+     handleBarCodeScanned = async ({data, type}) => {
+       console.log(`${data} ${type}`);
       this.setState({cameraVisable: !this.state.cameraVisable });
-      const walinfo = await axios.get(urls.walmartTextUrl(data));
-      console.log(walinfo.data.numItems);
-      if (walinfo.data.numItems === 1) {
-        console.log("hi");
-        this.props.singleResponce(walinfo.data.items[0]);
-        this.props.navigation.navigate('searchResults');
-      } else if (walinfo.data.numItems > 1) {
-        this.props.multiResponce(walinfo.data.items);
-        this.props.navigation.navigate('multi');
-      }
+      this.props.barCodeData(type, data);
+      await this.props.walRes(data);
+      this.props.navigation.navigate('searchResults');
     }
 
 
@@ -188,7 +230,21 @@ class HomeScreen extends React.Component {
           {/************************************************************************************
           the name and sub text of the home screen
           */}
-           <Name />
+           <View
+            style={styles.nameStyle}>
+             <Text
+             style={styles.textnameStyle}>
+             GATZBY
+            </Text>
+            <Text
+             style={styles.textsubStyle}>
+             Shop Smarter.
+            </Text>
+            <Text
+             style={styles.textsubStyle}>
+             Save Time.
+            </Text>
+            </View>
             {/*
             end name and subText
             ****************************************************************************/}
@@ -265,37 +321,42 @@ class HomeScreen extends React.Component {
               visible={this.state.loginVisable}
                 Title="Log In"
                 button1="Log In"
+                onChange1={this.onEmailChange.bind(this)}
                 onChange1={(text) => this.setState({email: text})}
-                onChange2={(text) => this.setState({passowrd: text})} 
+                onChange2={this.onPasswordChange.bind(this)} 
+                onChange2={(text) => this.setState({password: text})} 
                 form1='Email'
                 form2='Password'
                 onCancelButton={this.onLogintog.bind(this)}
+                onSubmitButton={this.onLoginAttempt.bind(this)}
                 />
-
             {
               /*
               log in pop up section
               *********************************************************************************/
             }
               
-
             { /********************************************************************************
                 sign up pop up section
             */
             }
-              <LoginForm 
+              <LoginForm
               visible={this.state.signUpVisable}
                 Title="Sign Up"
                 button1="Sign Up"
+                onChange1={this.onEmailChange.bind(this)}
                 onChange1={(text) => this.setState({email: text})}
-                onChange2={(text) => this.setState({passowrd: text})} 
-                onChange3={(text) => this.setState({repeatPassword: text})} 
+                onChange2={this.onPasswordChange.bind(this)} 
+                onChange2={(text) => this.setState({password: text})} 
+                onChange3={(text) => this.setState({repeatPassword: text})}
                 form1='Email:'
                 form2='Password:'
                 form3='Repeat Password:'
                 signUpBool
                 onCancelButton={this.onSignUptog.bind(this)}
+                onSubmitButton={this.onSignupAttempt.bind(this)}
                 />
+                
             {
               /*
               end sign up pop up section
@@ -340,7 +401,6 @@ const styles = StyleSheet.create({
   marginLeft: "8%",
 
     },
-
   nameStyle: {
     alignSelf: 'center',
     paddingTop: Dimensions.get('window').height / 12
@@ -357,29 +417,26 @@ const styles = StyleSheet.create({
     color: 'white',
     textShadowColor: 'black'
   },
-
-  cameraStyle: {
-    
-    marginTop: '40%',
-    width: '90%', 
-    height: '100%',
-    alignSelf: 'center',
-    marginBottom: '10%',
-    
-  },
-  
-
   backgroundStyle: {
   width: '100%', height: '100%'}, 
   
 }
 );
 
-const mapStateToProps = () => {
-return ({});
+const mapStateToProps = state => {
+  return {
+    email: state.auth.email,
+    password: state.auth.password,
+    repeatPassword: state.auth.repeatPassword,
+    user: state.auth.user
+  };
 };
-
 //expots and conects home to the rest of the app.
-export default connect(mapStateToProps, {
-                                          multiResponce,
-                                          singleResponce })(HomeScreen);
+
+
+export default connect(mapStateToProps, { emailChanged,
+                                          passwordChanged,
+                                          signupUser,
+                                          loginUser, 
+                                          barCodeData,
+                                          walRes})(HomeScreen);

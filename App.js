@@ -1,8 +1,10 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import firebase from 'firebase';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import { Provider } from "react-redux";
 import store from './store';
+import { GOOGLE_FIREBASE_CONFIG } from "./assets/constants/api_keys";
 import AppNavigator from './navigation/AppNavigator';
 
 export default class App extends React.Component {
@@ -11,6 +13,7 @@ export default class App extends React.Component {
   };
 
   render() {
+    //firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
