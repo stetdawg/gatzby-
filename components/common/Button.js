@@ -14,25 +14,25 @@ const Button = ({ onPress, children }) => {
 
 const styles = {
   textStyle: {
+    fontFamily: 'Avenir-Roman',
     alignSelf: 'center',
-    color: '#3cb371',
-    fontSize: 20,
-    fontWeight: '600',
-    paddingTop: 10,
-    paddingBottom: 10
+    color: 'white',
+    fontSize: 15,
+    fontWeight: 'bold',
+   paddingRight: 8
   },
   buttonStyle: {
-   // justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    padding: "2%",
-    backgroundColor: 'white',
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: 'black',
+    flex: .5,
+    //justifycontent: ''
+    padding: "3.5%",
+    backgroundColor: '#3cb371',
+    borderRadius: 1,
+    borderWidth: .1,
+    borderColor: 'white',
     shadowOpacity: .2,
-    marginBottom: 10,
-    marginLeft: 5,
-    marginRight: 5
+    //marginBottom: 8,
+   // marginLeft: 1,
+   // marginRight: 1
   }
 };
 
