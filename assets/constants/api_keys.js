@@ -6,12 +6,12 @@ export const FACEBOOK_API_KEY = "";
 
 // https://console.firebase.google.com/
 export const GOOGLE_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyC6gie2zf5Jx-UqeicvUPy9K0z4GCu2Xcw",
-    authDomain: "gatzby.firebaseapp.com",
-    databaseURL: "https://gatzby.firebaseio.com",
-    projectId: "gatzby",
-    storageBucket: "gatzby.appspot.com",
-    messagingSenderId: "329908819186"
+  apiKey: "AIzaSyAx2Xzc3BA3XE-jSY8u2ReYi2zIizqU1UE",
+    authDomain: "gatzby1-2124c.firebaseapp.com",
+    databaseURL: "https://gatzby1-2124c.firebaseio.com",
+    projectId: "gatzby1-2124c",
+    storageBucket: "gatzby1-2124c.appspot.com",
+    messagingSenderId: "1088522135484"
 };
 
 //https://developer.walmartlabs.com/apps/
