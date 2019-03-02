@@ -133,6 +133,7 @@ const styles = {
         backgroundColor: 'transparent',
     },
     modalStyle: {
+
         //borderRadius: 15,
         //borderWidth: 0.5,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',

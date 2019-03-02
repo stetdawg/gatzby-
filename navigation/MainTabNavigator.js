@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import searchScreen from '../screens/searchScreen';
 import SeachResultsScreen from '../screens/SearchResultsScreen';
 import multipleResultesScreen from '../screens/multipleResultesScreen';
+import MapScreen from '../screens/MapScreen';
 
 const navigationOptions = {
 header: null,
@@ -64,10 +65,27 @@ SeachResultsStack.navigationOptions = {
   ),
 };
 
+const MapScreenStack = createStackNavigator({
+  Map: MapScreen,
+});
+
+MapScreenStack.navigationOptions = {
+  tabBarLabel: 'results',
+    tabBarVisible: false,
+  header: null,
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'}
+    />
+  ),
+};
+
 export default createBottomTabNavigator(
   {
   HomeStack,
   MultiResults,
   SeachResultsStack,
+  MapScreenStack
   },
   navigationOptions);

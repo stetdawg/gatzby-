@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { ImageBackground, FlatList, View, TouchableOpacity } from "react-native";
+import { ImageBackground, FlatList, View, TouchableOpacity, StyleSheet } from "react-native";
 import { connect } from "react-redux";
+import {MapView} from "react-native-maps";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { itemsFetch, savedToResults } from "../actions";
 //import { PRIMARY_COLOR } from "../constants/style";
@@ -29,7 +30,7 @@ class multipleResultesScreen extends Component {
   render() {
     return (
      <View>
-          <Name />
+       < Name />
       <View
       style={{ backgroundColor: "rgba(52, 52, 52, 0.5)",
       height: "60%",
@@ -75,3 +76,19 @@ const mapStateToProps = state => {
 return { items };
 };
 export default connect(mapStateToProps, { itemsFetch, savedToResults })(multipleResultesScreen);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+},
+  map: {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    position: 'absolute'
+
+}
+});
