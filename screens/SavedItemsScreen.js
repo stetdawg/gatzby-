@@ -10,7 +10,10 @@ import SavedList from "../components/SavedList";
 class SavedItemsScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
   // Properties automatically referred to by react-navigation navigators
-
+  static navigationOptions = {
+    header: null,
+    tabBarVisible: false
+    };
 
   //////////////////////////////////////////////////////////////////////////////////
   // Initialize the component

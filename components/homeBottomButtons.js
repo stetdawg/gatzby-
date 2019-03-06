@@ -16,7 +16,7 @@ const homeBottomButtons = ({rightButtonPush,
         flexDirection: 'row',
         justifyContent: 'center',
         //alignItems: 'stretch',
-      }}>>
+      }}>
         <View style={styles.ViewStyle}>
           <Button 
           icon={{name: iconLeft,

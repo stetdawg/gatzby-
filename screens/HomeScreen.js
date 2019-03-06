@@ -1,15 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, ImageBackground, View, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, ImageBackground, View, Dimensions, TouchableOpacity, Button } from 'react-native';
 //import ReduxThunk from 'redux-thunk';
 import firebase from "firebase";
-
-import {
-  StyleSheet,
-  ImageBackground,
-  View, 
-  Dimensions,
-  TouchableOpacity
-} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
@@ -276,6 +268,19 @@ class HomeScreen extends React.Component {
                      />  
                      </TouchableOpacity>  
             </View>  
+            
+            <View>
+              <TouchableOpacity 
+              onPress={() => navigate(this.props.navigation.navigate("SavedItems")
+              )}>
+                <Icon
+                  activeOpacity={20}
+                  style={{styles.scanButtonStyle}}
+                  name={basket-fill}>
+                </Icon>
+            </TouchableOpacity>
+            </View>
+
             {/*
             end seach section of home screen 
             *************************************************************************************/}
@@ -283,6 +288,7 @@ class HomeScreen extends React.Component {
             { /********************************************************************************
                 bottom button section
             */
+
             }
            
             <HomeBottomButtons 

@@ -8,6 +8,7 @@ import searchScreen from '../screens/searchScreen';
 import SeachResultsScreen from '../screens/SearchResultsScreen';
 import multipleResultesScreen from '../screens/multipleResultesScreen';
 import MapScreen from '../screens/MapScreen';
+import SavedItemsScreen from '../screens/SavedItemsScreen';
 
 const navigationOptions = {
 header: null,
@@ -81,11 +82,29 @@ MapScreenStack.navigationOptions = {
   ),
 };
 
+//Navigator stack for SavedItemsScreen
+const SavedItemsStack = createStackNavigator({
+  SavedItems: SavedItemsScreen
+});
+
+SavedItemsStack.navigationOptions = {
+  tabBarLabel: 'SavedItems',
+    tabBarVisible: false,
+  header: null,
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'}
+    />
+  ),
+};
+
 export default createBottomTabNavigator(
   {
   HomeStack,
   MultiResults,
   SeachResultsStack,
-  MapScreenStack
+  MapScreenStack,
+  SavedItemsScreen
   },
   navigationOptions);
