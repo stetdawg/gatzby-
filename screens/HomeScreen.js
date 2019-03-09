@@ -2,6 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, ImageBackground, View, Dimensions, TouchableOpacity } from 'react-native';
 //import ReduxThunk from 'redux-thunk';
 import firebase from "firebase";
+
+import {
+  StyleSheet,
+  ImageBackground,
+  View, 
+  Dimensions,
+  TouchableOpacity
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
