@@ -17,7 +17,8 @@ import {barCodeData,
         loginUser,
         signupUser,
         emailChanged,
-        passwordChanged
+        passwordChanged,
+        signoutUser
         } from "../actions";
 
 class HomeScreen extends React.Component {
@@ -49,16 +50,16 @@ class HomeScreen extends React.Component {
     }
     componentDidUpdate(oldprops) {
       console.log(this.props.user);
-      if ( this.props.user.uid !== "" ) {
+      if ( this.props.user.uid !== "" && oldprops.user.uid !== this.props.user.uid) {
         console.log(this.props.user);
-        this.props.logInBool =true;
+        this.props.logInBool = true;
+        this.renderButtons(); 
+        this.setState({loginVisable: false});
+        this.setState({signUpVisable: false}); 
       }
-      else{
       if (this.props.user.uid !== oldprops.user.uid) {
-        this.props.logInBool = false  ; 
+        this.props.logInBool = false; 
       }
-    }
-      
     } 
     
     onEmailChange(text) {
@@ -81,43 +82,46 @@ class HomeScreen extends React.Component {
     onLoginAttempt() {
       //console.log(this.state.email + ' ' + this.state.password);
       const { email, password } = this.state;
-     // console.log(email + ' ' + password);
-      // if (!this.validateEmail(email)) {
-      //   alert("This is not a valid email address!");
-      // } 
-      // if (!this.validatePassword(password)) {
-      //   alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
-      // }
-      // if (this.validateEmail(email) && this.validatePassword(password)) {
+      //console.log(email + ' ' + password);
+       if (!this.validateEmail(email)) {
+         alert("This is not a valid email address!");
+       } 
+       if (!this.validatePassword(password)) {
+         alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+       }
+       if (this.validateEmail(email) && this.validatePassword(password)) {
          this.props.loginUser(email, password);
-      //   // if (this.state.user !== '') {
-      //   //   this.setState({logInBool: true});
-      //   //   this.setState({loginVisable: false});
-      //   //   this.renderButtons();
-      //   // }
-      // }
+          // if (this.state.user !== '') {
+          //   this.setState({logInBool: true});
+          //   this.setState({loginVisable: false});
+          //   this.renderButtons();
+          // }
+       }
+    }
+    onLogOutAttempt() {
+      this.props.signoutUser(this.props.uid);
     }
     onSignupAttempt() {
      //console.log(this.state.email + ' ' + this.state.password + ' ' + this.state.repeatPassword);
       const { email, password, repeatPassword } = this.state;
-      //console.log(email + ' ' + password + ' ' + repeatPassword);
-      // if (!this.validateEmail(email)) {
-      //   alert("This is not a valid email address!");
-      // } 
-      // if (!this.validatePassword(password)) {
-      //   alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
-      // }
-      // if (this.validateEmail(email) && this.validatePassword(password)) {
+      console.log(email + ' ' + password + ' ' + repeatPassword);
+       if (!this.validateEmail(email)) {
+         alert("This is not a valid email address!");
+       } 
+       if (!this.validatePassword(password)) {
+         alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+       }
+       if (this.validateEmail(email) && this.validatePassword(password)) {
        this.props.signupUser(email, password, repeatPassword);
-      //   // if (this.state.user !== '') {
-      //   //   this.setState({logInBool: true});
-      //   //   this.setState({loginVisable: false});
-      //   //   this.renderButtons();
-      //   // }
-      // }
+          // if (this.state.user !== '') {
+          //   this.setState({logInBool: true});
+          //   this.setState({loginVisable: false});
+          //   this.renderButtons();
+          // }
+       }
     }
     
-    renderButtons() {
+    renderButtons = () => {
       switch (this.props.logInBool) {
         case true:
           this.leftButton = "Log Out";
@@ -140,22 +144,26 @@ class HomeScreen extends React.Component {
           </View>);
       }
     }
-    async handleLeftButtonPush() {
-      if (this.props.logInBool) {
-      //console.log("Log In Button Pushed");
+    handleLeftButtonPush() {
+      if (!this.props.logInBool) {
+        this.onLogintog(this);
+        console.log("Log in Button Pushed"); 
       //this.setState({logInBool: false});
       this.renderButtons();
       } else {
-        this.onLogintog(this);          
+        this.onLogOuttog(this);
+        console.log("Log Out Button Pushed"); 
+        this.renderButtons();        
       }
     }
     handleRightButtonPush() {
-      if (this.props.logInBool) {
-        //console.log("Log In Button Pushed");
-       // this.setState({logInBool: false});
+      if (!this.props.logInBool) {
+          this.onSignUptog(this); 
+        //this.setState({logInBool: false});
         this.renderButtons();
         } else {
-          this.onSignUptog(this);          
+          console.log("Saved List Button Pushed");
+          this.renderButtons();
         }
     }
     /////////////////////////////////////////////
@@ -178,6 +186,12 @@ class HomeScreen extends React.Component {
     this.setState({loginVisable: false});
     else
     this.setState({loginVisable: true});
+  }
+  onLogOuttog() {
+    if (this.state.logoutVisable)
+    this.setState({logoutVisable: false});
+    else
+    this.setState({logoutVisable: true});
   }
 
   onSignUptog() {
@@ -327,12 +341,25 @@ class HomeScreen extends React.Component {
               log in pop up section
               *********************************************************************************/
             }
+            <LoginForm 
+              visible={this.state.logoutVisable}
+                Title="Log Out"
+                button1="Log Out"
+                //onChange1={this.onEmailChange.bind(this)}
+                //onChange1={(text) => this.setState({email: text})}
+                //onChange2={this.onPasswordChange.bind(this)} 
+                //onChange2={(text) => this.setState({password: text})} 
+                //form1='Email'
+                //form2='Password'
+                onCancelButton={this.onLogOuttog.bind(this)}
+                onSubmitButton={this.onLogOutAttempt.bind(this)}
+                />
               
             { /********************************************************************************
                 sign up pop up section
             */
             }
-              <LoginForm
+            <LoginForm
               visible={this.state.signUpVisable}
                 Title="Sign Up"
                 button1="Sign Up"

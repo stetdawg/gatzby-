@@ -15,25 +15,12 @@ import {
   RESET_SIGNUP_LOGIN_PAGES
 } from './types.js';
 
-
-
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 /////////////////EMAIL/PASSWORD LOGIN METHODS///////////////////
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
-// Called when e-mail address is updated
-const validateEmail = (email) => {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-};
-const validatePassword = (password) => {
-  const re = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
-    return re.test(password);
-}
-
-
 export const emailChanged = text => ({
   type: LOGIN_EMAIL_CHANGED,
   payload: text
@@ -62,13 +49,7 @@ export const resetSignupLoginPages = () => ({
 ////////////////////////////////////////////////////////////////
 // Call appropriate FireBase method to login
 export const loginUser = (email, password) => async dispatch => {
-  if (!this.validateEmail(email)) {
-    loginUserFail(dispatch, 'Not a valid Email');
-  }
-  if (!this.validatePassword(password)) {
-    loginUserFail(dispatch, 'Not a strong enough Password');
-  }
-  if (this.validateEmail(email) && this.validatePassword(password)) {
+  
     try {
       // Dispatch event to trigger loading spinner
       dispatch({ type: AUTH_USER_ATTEMPT });
@@ -81,22 +62,15 @@ export const loginUser = (email, password) => async dispatch => {
       console.error(err);
       loginUserFail(dispatch, 'Authentication Failed');
     }
-  }
+
 };
 
 ////////////////////////////////////////////////////////////////
 // Call appropriate FireBase method to signup user
 export const signupUser = (email, password, passwordRetype) => async dispatch => {
-  if (!this.validateEmail(email)) {
-    loginUserFail(dispatch, 'Not a valid Email');
-  }
-  if (!this.validatePassword(password)) {
-    loginUserFail(dispatch, 'Not a strong enough Password');
-  }
   if (password !== passwordRetype) {
     return loginUserFail(dispatch, 'Passwords do not match');
   }
-  if (this.validateEmail(email) && this.validatePassword(password)) {
   try {
     // Dispatch event to trigger loading spinner
     dispatch({ type: AUTH_USER_ATTEMPT });
@@ -123,7 +97,6 @@ export const signupUser = (email, password, passwordRetype) => async dispatch =>
         // console.log(err.message);
         return loginUserFail(dispatch, err.message);
     }
-  }
   }
 };
 
