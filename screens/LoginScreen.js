@@ -101,7 +101,7 @@ class LoginScreen extends Component {
         <TouchableOpacity>
         <View style={styles.button}>
         <Button 
-            // buttonStyle={styles.buttonStyle}
+            buttonStyle={styles.buttonStyle}
             title="Sign In"
             onPress={this.onLoginAttempt.bind(this)}
         />
@@ -109,20 +109,17 @@ class LoginScreen extends Component {
         </TouchableOpacity>
       </View>
       <View style={styles.normalContainer}>
-            <Text style={styles.normalText}>Do not have account?</Text>
-          </View>
+          
       <TouchableOpacity>
-          <View style={styles.createAccount}>
-            <Text style={styles.createText}>Create new account</Text>
-          </View>
           <View style={styles.button}>
             <Button 
-                //buttonStyle={styles.buttonStyle}
+                buttonStyle={styles.buttonStyle}
                 title="Sign Up"
                 onPress={this.onSignupAttempt.bind(this)}
             />
         </View>
           </TouchableOpacity>
+      </View>
       </View>
     );
   }
@@ -137,9 +134,10 @@ const styles = StyleSheet.create({
     paddingTop: 50
   },
   logo: {
-    width: 300,
-    height: 60,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
+    alignItems: 'center'
   },
   createAccount: {
     height: 30,
@@ -169,9 +167,9 @@ const styles = StyleSheet.create({
     width: 330,
   },
   logoContiner: {
-    height: 170,
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
+    //height: 170,
+    //flexDirection: 'column',
+    //justifyContent: 'flex-end',
   },
   textInput: {
     color: '#989899',
@@ -181,25 +179,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 14,
   },
+  buttonStyle: {
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    top: 200,
+    //bottom: 15,
+    backgroundColor: '#0489B1',
+    //borderRadius: 10,
+    //borderWidth: 0.5,
+    width: 125,
+    height: 45,
+  },
   button: {
-    width: 325,
-    borderColor: '#129793',
-    borderWidth: 1,
-    height: 50,
-    padding: 10,
-    borderRadius: 24,
-    marginTop: 20,
-    backgroundColor: '#129793',
+    
+    // width: 325,
+    // borderColor: '#0489B1',
+    // borderWidth: 1,
+    // height: 50,
+    // padding: 10,
+    // borderRadius: 24,
+    // marginTop: 20,
+    // backgroundColor: '#0489B1',
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#129793',
-    shadowOffset: {
-      width: 0,
-      height: 4
-    },
-    shadowRadius: 5,
-    shadowOpacity: 0.8
+    flex: 1
+    // //justifyContent: 'center',
+    // //alignItems: 'center',
+    // shadowColor: '#0489B1',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 4
+    // },
+    // shadowRadius: 5,
+    // shadowOpacity: 0.8
   },
   buttonText: {
     color: 'white',

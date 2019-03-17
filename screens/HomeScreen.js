@@ -146,21 +146,21 @@ class HomeScreen extends React.Component {
     }
     handleLeftButtonPush() {
       if (!this.props.logInBool) {
-        this.onLogintog(this);
-        this.props.navigation.navigate('LoginScreen');
+        //this.onLogintog(this);
+        this.props.navigation.navigate('login');
         console.log("Log in Button Pushed"); 
       //this.setState({logInBool: false});
       this.renderButtons();
       } else {
-        this.onLogOuttog(this);
+        //this.onLogOuttog(this);
         console.log("Log Out Button Pushed"); 
         this.renderButtons();        
       }
     }
     handleRightButtonPush() {
       if (!this.props.logInBool) {
-          this.onSignUptog(this); 
-          this.props.navigation.navigate('LoginScreen');
+          //this.onSignUptog(this); 
+          this.props.navigation.navigate('login');
         //this.setState({logInBool: false});
         this.renderButtons();
         } else {
