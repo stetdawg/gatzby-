@@ -25,7 +25,9 @@ class LoginScreen extends Component {
         email: "",
         password: "",
         repeatPassword: "",
-        textInput: ''
+        textInput: '',
+        error: '',
+        loading: false
     }
     validateEmail = (email) => {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -35,44 +37,58 @@ class LoginScreen extends Component {
         const re = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
           return re.test(password);
       }
+      onLoginFail() {
+        this.setState({ error: 'Authentication Failed', loading: false });
+      }
+    
+      onLoginSuccess() {
+        this.setState({
+          email: '',
+          password: '',
+          loading: false,
+          error: '',
+          logInBool: true
+        });
+        this.props.navigation.navigate('homescreen');
+      }
       onLoginAttempt() {
         //console.log(this.state.email + ' ' + this.state.password);
         const { email, password } = this.state;
-        //console.log(email + ' ' + password);
-         if (!this.validateEmail(email)) {
-           alert("This is not a valid email address!");
-         } 
-         if (!this.validatePassword(password)) {
-           alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
-         }
-         if (this.validateEmail(email) && this.validatePassword(password)) {
+        // console.log(email + ' ' + password);
+        //  if (!this.validateEmail(email)) {
+        //    alert("This is not a valid email address!");
+        //  } 
+        //  if (!this.validatePassword(password)) {
+        //    alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+        //  }
+        //  if (this.validateEmail(email) && this.validatePassword(password)) {
            this.props.loginUser(email, password);
-            // if (this.state.user !== '') {
-            //   this.setState({logInBool: true});
-            //   this.setState({loginVisable: false});
-            //   this.renderButtons();
-            // }
-         }
+           if (this.state.user !== '') {
+            this.setState({logInBool: true});
+          }
+         //}
       }
       onSignupAttempt() {
         //console.log(this.state.email + ' ' + this.state.password + ' ' + this.state.repeatPassword);
          const { email, password, repeatPassword } = this.state;
-         console.log(email + ' ' + password + ' ' + repeatPassword);
-          if (!this.validateEmail(email)) {
-            alert("This is not a valid email address!");
-          } 
-          if (!this.validatePassword(password)) {
-            alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
-          }
-          if (this.validateEmail(email) && this.validatePassword(password)) {
+        //  console.log(email + ' ' + password + ' ' + repeatPassword);
+        //   if (!this.validateEmail(email)) {
+        //     alert("This is not a valid email address!");
+        //   } 
+        //   if (!this.validatePassword(password)) {
+        //     alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+        //   }
+        //   if (this.validateEmail(email) && this.validatePassword(password)) {
           this.props.signupUser(email, password, repeatPassword);
-             // if (this.state.user !== '') {
-             //   this.setState({logInBool: true});
-             //   this.setState({loginVisable: false});
-             //   this.renderButtons();
-             // }
-          }
-       }
+              if (this.state.user !== '') {
+                onLoginSuccess();
+              }
+              if (this.state.user === '') {
+                onLoginFail();
+              }
+           //}
+        }
+
     render() {
         //if (signUpBool)
     return (

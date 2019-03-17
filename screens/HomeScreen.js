@@ -34,33 +34,42 @@ class HomeScreen extends React.Component {
     email: "",
     password: "",
     repeatPassword: "",
-    textInput: ''
+    textInput: '',
+    logInBool: false
   };
-  logInBool=false;
-   leftButton = "Log In"
-   rightButton= "Sign Up"
-   leftIcon = 'person'
-   rightIcon = 'person-add'
+    //logInBool=false;
+    leftButton = "Log In"
+    rightButton= "Sign Up"
+    leftIcon = 'person'
+    rightIcon = 'person-add'
   ///////////////////////////////////////////////
   // checks if we have permistion to used the camera from the user
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera'
     firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ logInBool: true });
+      } else {
+        this.setState({ logInBool: false });
+      }
+    });
     }
-    componentDidUpdate(oldprops) {
-      console.log(this.props.user);
-      if ( this.props.user.uid !== "" && oldprops.user.uid !== this.props.user.uid) {
-        console.log(this.props.user);
-        this.props.logInBool = true;
-        this.renderButtons(); 
-        this.setState({loginVisable: false});
-        this.setState({signUpVisable: false}); 
-      }
-      if (this.props.user.uid !== oldprops.user.uid) {
-        this.props.logInBool = false; 
-      }
-    } 
+
+    // componentDidUpdate(oldprops) {
+    //   console.log(this.props.user);
+    //   if ( this.props.user.uid !== "" && oldprops.user.uid !== this.props.user.uid) {
+    //     console.log(this.props.user);
+    //     this.props.logInBool = true;
+    //     this.renderButtons(); 
+    //     this.setState({loginVisable: false});
+    //     this.setState({signUpVisable: false}); 
+    //   }
+    //   if (this.props.user.uid !== oldprops.user.uid) {
+    //     this.props.logInBool = false; 
+    //   }
+    // } 
     
     onEmailChange(text) {
       this.props.emailChanged(text);
