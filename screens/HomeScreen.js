@@ -88,7 +88,7 @@ class HomeScreen extends React.Component {
         return re.test(password);
     }
     onLoginAttempt() {
-      //console.log(this.state.email + ' ' + this.state.password);
+      //onLoginAttemptconsole.log(this.state.email + ' ' + this.state.password);
       const { email, password } = this.state;
       //console.log(email + ' ' + password);
        if (!this.validateEmail(email)) {
@@ -155,6 +155,7 @@ class HomeScreen extends React.Component {
     handleLeftButtonPush() {
       if (!this.props.logInBool) {
         this.onLogintog(this);
+        this.props.navigation.navigate('LoginScreen');
         console.log("Log in Button Pushed"); 
       //this.setState({logInBool: false});
       this.renderButtons();
@@ -167,6 +168,7 @@ class HomeScreen extends React.Component {
     handleRightButtonPush() {
       if (!this.props.logInBool) {
           this.onSignUptog(this); 
+          this.props.navigation.navigate('LoginScreen');
         //this.setState({logInBool: false});
         this.renderButtons();
         } else {
