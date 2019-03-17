@@ -5,22 +5,19 @@ import {
   ImageBackground,
   View, 
   Dimensions,
-  TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Button from '../components/Button';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import axios from "axios";
 import Camera from "../components/Camera";
-import LoginForm from "../components/LoginForm";
-import HomeBottomButtons from '../components/HomeBottomButtons';
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
-import { Spinner } from "../components/common/Spinner";
-//import Name from "../components/Name";
 import AltName from "../components/AltName";
-import Card from "../components/CardSection";
-import CardSection from "../components/Card";
+import Card from "../components/Card";
+import CardSectionTwo from "../components/CardSectionTwo";
+
 import {
         multiResponce,
         singleResponce 
@@ -44,11 +41,6 @@ class HomeScreen extends React.Component {
     repeatPassword: "",
     textInput: ''
   };
-
-   leftButton = "Log In"
-   rightButton= "Sign Up"
-   leftIcon = 'person'
-   rightIcon = 'person-add'
   ///////////////////////////////////////////////
   // checks if we have permistion to used the camera from the user
   async componentWillMount() {
@@ -58,55 +50,6 @@ class HomeScreen extends React.Component {
     }
     componentWillReceiveProps() {
     } 
-    
-    
-    renderButtons() {
-      switch (this.state.logInBool) {
-        case true:
-          this.leftButton = "Log Out";
-          this.rightButton = "Saved List";
-          this.leftIcon = 'person-outline';
-          this.rightIcon = 'list';
-          this.forceUpdate();
-          break;
-        case false:
-          this.leftButton = "Log In";
-          this.rightButton = "Sign Up";
-          this.leftIcon = 'person';
-          this.rightIcon = 'person-add';
-          this.forceUpdate();
-          break;
-        default:
-          return (
-            <View>
-            <Spinner size="large" />
-          </View>);
-      }
-    }
-
-    logInfunction() {
-
-    }
-
-    async handleLeftButtonPush() {
-      if (this.state.logInBool) {
-      //console.log("Log In Button Pushed");
-      this.setState({logInBool: false});
-      this.renderButtons();
-      } else {
-        console.log(this.state.loginVisable);
-        this.onLogintog(this);          
-      }
-    }
-    handleRightButtonPush() {
-      if (this.state.logInBool) {
-        //console.log("Log In Button Pushed");
-        this.setState({logInBool: false});
-        this.renderButtons();
-        } else {
-          this.onSignUptog(this);          
-        }
-    }
     /////////////////////////////////////////////
     //first checks to see if app has permistion to use the camera
     // if not will re ask for permission and show camera if granted
@@ -121,23 +64,12 @@ class HomeScreen extends React.Component {
     this.setState({cameraVisable: !this.state.cameraVisable });
   }
   }
-
-
-  onLogintog() {
-    if (this.state.loginVisable)
-    this.setState({loginVisable: false});
-    else
-    this.setState({loginVisable: true});
-  }
-
-  onSignUptog() {
-    if (this.state.signUpVisable)
-    this.setState({signUpVisable: false});
-    else
-    this.setState({signUpVisable: true});
-  }
-
-
+  onMapPress = () => {
+    this.props.navigation.navigate('Map');
+  }  
+  onSavedPress = () => {
+    this.props.navigation.navigate('');
+  }  
   ////////////////////////////////////////////////////////////
   // grabs the an array of items info from walmart rest api, and 
   // checks where to send the user depending on the number of items  
@@ -172,8 +104,6 @@ class HomeScreen extends React.Component {
         this.props.navigation.navigate('multi');
       }
     }
-
-
    ////////////////////////////////////////////////////////
    //gui for home screen   
   render() {
@@ -189,20 +119,10 @@ class HomeScreen extends React.Component {
           {/************************************************************************************
           the name and sub text of the home screen
           */}
-         <CardSection> 
+         <Card> 
           <AltName />
-          </CardSection> 
-
-            {/*
-            end name and subText
-            ****************************************************************************/}
-
-            
-            {/* **************************************************************************
-            search section of the home screen
-            */}
-          
-          <CardSection>
+          </Card> 
+          <Card>
             <View
                 style={styles.searchContainerStyle}>
             <SearchBar
@@ -214,102 +134,57 @@ class HomeScreen extends React.Component {
                      onChangeText={(text) => this.setState({textInput: text})}
                      onSubmitEditing={this.handleTextInput.bind(this)}
                      />
-                      
-                    <TouchableOpacity onPress={this.onScantog.bind(this)}>
-                     <Icon
-                     activeOpacity={20}
-                     style={{paddingLeft: "8%",
-                     paddingRight: '70%',
-                    paddingTop: 0}}
-                     name="barcode-scan"
-                     size={50}
-                     />  
-                     </TouchableOpacity>  
-                     </View>
-              </CardSection>
 
-                     {/*
-            end seach section of home screen 
-            *************************************************************************************/}
-           
-            { /********************************************************************************
-                bottom button section
-            */
-            }
-            <CardSection>
-            <HomeBottomButtons 
-             leftButtonName={this.leftButton}
-             leftButtonPush={this.handleLeftButtonPush.bind(this)}
-             rightButtonName={this.rightButton}
-             rightButtonPush={this.handleRightButtonPush.bind(this)}
-             iconRight={this.rightIcon}
-             iconLeft={this.leftIcon}
-             />
-             </CardSection>
+                <CardSectionTwo   //ICON STYLING UNDER SEARCH BAR
+                >  
+                     <Button //SCAN BUTTON
+                     onPress={this.onScantog.bind(this)}>
+                         <Icon
+                          activeOpacity={20}
+                           style={{paddingLeft: "8%",
+                           paddingRight: '70%',
+                           paddingTop: 0}}
+                           name="barcode-scan"
+                           size={30}
+                           color='black'
+                          />  
+                           scan
+                     </Button> 
+                     <Button //MAP BUTTON 
+                     onPress={this.onMapPress}>
+                         <Icon 
+                         activeOpacity={20}
+                         style={{paddingLeft: "8%",
+                         paddingRight: '70%',
+                         paddingTop: 0}}
+                         color='black'
+                         name="crosshairs"
+                         size={30}
+                         />
+                         map
+                       </Button>
+                       <Button //SAVED ITEMS BUTTON
+                       >
+                           <Icon 
+                            activeOpacity={20}
+                            style={{paddingLeft: "8%",
+                            paddingRight: '70%',
+                            paddingTop: 0}}
+                            color='black'
+                            name="heart"
+                            size={30}
+                       />
+                            saved 
+                       </Button>
+                  </CardSectionTwo>   
 
-           {
-              /*
-              end bottom button section
-              *********************************************************************************/
-            }
-
-            {/************************************************************************************
-              camera section and passes in function for the camera
-            */}          
-               
-                  <Camera
+            </View>
+          </Card>   
+              <Camera
                   visible={this.state.cameraVisable}
                   camTog={this.onScantog.bind(this)}
                   BarCodeRead={this.handleBarCodeScanned.bind(this)}
                   />
-            {/*
-            end camera pop up
-             **********************************************************************************/}
-
-             { /********************************************************************************
-               log in pop up section
-            */
-            }
-              <LoginForm 
-              visible={this.state.loginVisable}
-                Title="Log In"
-                button1="Log In"
-                onChange1={(text) => this.setState({email: text})}
-                onChange2={(text) => this.setState({passowrd: text})} 
-                form1='Email'
-                form2='Password'
-                onCancelButton={this.onLogintog.bind(this)}
-                />
-
-            {
-              /*
-              log in pop up section
-              *********************************************************************************/
-            }
-              
-
-            { /********************************************************************************
-                sign up pop up section
-            */
-            }
-              <LoginForm 
-              visible={this.state.signUpVisable}
-                Title="Sign Up"
-                button1="Sign Up"
-                onChange1={(text) => this.setState({email: text})}
-                onChange2={(text) => this.setState({passowrd: text})} 
-                onChange3={(text) => this.setState({repeatPassword: text})} 
-                form1='Email:'
-                form2='Password:'
-                form3='Repeat Password:'
-                signUpBool
-                onCancelButton={this.onSignUptog.bind(this)}
-                />
-            {
-              /*
-              end sign up pop up section
-              *********************************************************************************/
-            }
           </ImageBackground>
       </View>
           );
@@ -347,9 +222,7 @@ const styles = StyleSheet.create({
   height: "50%",
   width: "15%",
   marginLeft: "8%",
-
     },
-
   nameStyle: {
     alignSelf: 'center',
     paddingTop: Dimensions.get('window').height / 12
@@ -368,7 +241,6 @@ const styles = StyleSheet.create({
   },
 
   cameraStyle: {
-    
     marginTop: '40%',
     width: '90%', 
     height: '100%',
@@ -376,8 +248,6 @@ const styles = StyleSheet.create({
     marginBottom: '10%',
 
   },
-  
-
   backgroundStyle: {
   width: '100%', height: '100%'}, 
   
