@@ -33,7 +33,7 @@ const AltName = () => {
          fontWeight: 'bold',
           color: '#3cb371',
           textShadowColor: 'black',
-          shadowOpacity: .2 
+          shadowOpacity: 0.2 
         },
         textsubStyle: {
           fontFamily: 'Avenir-Roman',
@@ -43,5 +43,6 @@ const AltName = () => {
           color: 'black',
           textShadowColor: 'black'
 
-          },    })
+          },
+        });
  export default AltName;

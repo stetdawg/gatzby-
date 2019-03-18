@@ -6,12 +6,12 @@ import {
   View, 
   Dimensions,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Button from '../components/Button';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import axios from "axios";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Button from '../components/Button';
 import Camera from "../components/Camera";
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import AltName from "../components/AltName";
