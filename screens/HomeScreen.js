@@ -68,7 +68,7 @@ class HomeScreen extends React.Component {
     this.props.navigation.navigate('Map');
   }  
   onSavedPress = () => {
-    this.props.navigation.navigate('');
+    this.props.navigation.navigate('saved');
   }  
   ////////////////////////////////////////////////////////////
   // grabs the an array of items info from walmart rest api, and 
@@ -162,7 +162,7 @@ class HomeScreen extends React.Component {
                          />
                        </Button>
                        <Button //SAVED ITEMS BUTTON
-                       >
+                       onPress={this.onSavedPress}>
                            <Icon 
                             activeOpacity={20}
                             style={{paddingLeft: "8%",
