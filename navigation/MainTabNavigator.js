@@ -100,9 +100,10 @@ MapScreenStack.navigationOptions = {
 
 export default createBottomTabNavigator(
   {
-  HomeStack,
+ HomeStack,
+ SeachResultsStack,
   MultiResults,
-  SeachResultsStack,
+ 
   MapScreenStack,
   LoginStack
   },

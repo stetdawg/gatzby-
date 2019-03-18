@@ -11,13 +11,14 @@ const HomeBottomButtons = ({rightButtonPush,
                           iconRight}) => {  
 //console.log(ifLogedIn);
     return (
-      <View 
+      
+               
+        <View 
       style={{
-        //flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        //alignItems: 'stretch',
-      }}>>
+      }}> 
+              
         <View style={styles.ViewStyle}>
           <Button 
           icon={{name: iconLeft,
@@ -38,8 +39,9 @@ const HomeBottomButtons = ({rightButtonPush,
         onPress={rightButtonPush}
         />
       </View>
-      
-    </View>
+      </View>     
+        
+        
     );
   };
 const styles = {

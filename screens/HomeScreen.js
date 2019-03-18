@@ -247,17 +247,20 @@ class HomeScreen extends React.Component {
 
    ////////////////////////////////////////////////////////
    //gui for home screen   
-  render() {
+   render() {
     return (
       <View
       style={styles.container}
-      >      
+      >
+            
          <ImageBackground
           style={styles.backgroundStyle}
           source={require("../assets/images/home2.png")}
           resizeMode='cover'
           >
-          {/************************************************************************************
+          {
+          
+          /************************************************************************************
           the name and sub text of the home screen
           */}
            <View
@@ -275,6 +278,7 @@ class HomeScreen extends React.Component {
              Save Time.
             </Text>
             </View>
+            
             {/*
             end name and subText
             ****************************************************************************/}
@@ -308,13 +312,13 @@ class HomeScreen extends React.Component {
             </View>  
             {/*
             end seach section of home screen 
-            *************************************************************************************/}
+            *************************************************************************************}
            
             { /********************************************************************************
                 bottom button section
             */
             }
-           
+           <View>
             <HomeBottomButtons 
              leftButtonName={this.leftButton}
              leftButtonPush={this.handleLeftButtonPush.bind(this)}
@@ -323,7 +327,7 @@ class HomeScreen extends React.Component {
              iconRight={this.rightIcon}
              iconLeft={this.leftIcon}
              />
-            
+          </View>
            {
               /*
               end bottom button section
@@ -341,7 +345,7 @@ class HomeScreen extends React.Component {
                   />
             {/*
             end camera pop up
-             **********************************************************************************/}
+            **********************************************************************************/}
 
              { /********************************************************************************
                log in pop up section
@@ -363,8 +367,8 @@ class HomeScreen extends React.Component {
             {
               /*
               log in pop up section
-              *********************************************************************************/
-            }
+              *********************************************************************************
+            */}
             <LoginForm 
               visible={this.state.logoutVisable}
                 Title="Log Out"
@@ -403,12 +407,14 @@ class HomeScreen extends React.Component {
             {
               /*
               end sign up pop up section
-              *********************************************************************************/
-            }
+              *********************************************************************************
+            */}
           </ImageBackground>
+          
       </View>
+          
           );
-  }
+   }
 
 }
 ////////////////////////////////////////
