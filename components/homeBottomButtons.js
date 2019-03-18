@@ -41,8 +41,6 @@ const HomeBottomButtons = ({rightButtonPush,
       
     </View>
     );
-  
-
   };
 const styles = {
   textStyle: {
