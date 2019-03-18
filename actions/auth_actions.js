@@ -213,7 +213,7 @@ export const signoutUser = () => async dispatch => {
     // Attempt to signout user
     await firebase.auth().signOut();
     //await AsyncStorage.removeItem('fb_token'); // Remove if exists
-    await SecureStore.deleteItemAsync('fb_token');
+    //await SecureStore.deleteItemAsync('fb_token');
 
     // Dispatch signout user event
     dispatch({ type: RESET_APP_STATE });
