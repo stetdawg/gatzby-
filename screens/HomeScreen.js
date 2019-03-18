@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
+import axios from "axios";
 import Camera from "../components/Camera";
 //import { loginUser, signupUser } from "../actions/auth_actions";
 import LoginForm from "../components/LoginForm";
@@ -18,9 +19,9 @@ import {barCodeData,
         emailChanged,
         passwordChanged,
         singleResponce,
-        multiResponce,
-        signoutUser
+        multiResponce
         } from "../actions";
+        import * as urls from "../services/urlbuilder";
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
