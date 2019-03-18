@@ -1,13 +1,14 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import searchScreen from '../screens/searchScreen';
 import SeachResultsScreen from '../screens/SearchResultsScreen';
 import multipleResultesScreen from '../screens/multipleResultesScreen';
+import SavedItemsScreen from '../screens/SavedItemsScreen';
 import MapScreen from '../screens/MapScreen';
+
 
 const navigationOptions = {
 header: null,
@@ -81,11 +82,28 @@ MapScreenStack.navigationOptions = {
   ),
 };
 
+const SavedItems = createStackNavigator({
+saved: SavedItemsScreen,
+});
+SavedItems.navigationOptions = {
+  tabBarLabel: 'saved',
+  header: 'none',
+  tabBarVisible: false,
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link'}
+    />
+  ),
+};
+
+
 export default createBottomTabNavigator(
   {
   HomeStack,
   MultiResults,
   SeachResultsStack,
-  MapScreenStack
+  MapScreenStack,
+  SavedItems
   },
   navigationOptions);
