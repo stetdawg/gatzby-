@@ -9,7 +9,6 @@ import multipleResultesScreen from '../screens/multipleResultesScreen';
 import SavedItemsScreen from '../screens/SavedItemsScreen';
 import MapScreen from '../screens/MapScreen';
 
-
 const navigationOptions = {
 header: null,
 tabBarVisible: false
@@ -97,13 +96,12 @@ SavedItems.navigationOptions = {
   ),
 };
 
-
 export default createBottomTabNavigator(
   {
   HomeStack,
   MultiResults,
   SeachResultsStack,
   MapScreenStack,
-  SavedItems
+  SavedItems, 
   },
   navigationOptions);

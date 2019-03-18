@@ -15,7 +15,7 @@ const styles = {
     viewStyle: {
       flex: .3,
       flexDirection: 'row',
-      backgroundColor: 'white',
+      backgroundColor: '#3cb371',
      // justifyContent: 'center',
       alignItems: 'center',
       height: 60,

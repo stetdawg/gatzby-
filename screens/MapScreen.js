@@ -8,7 +8,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 export class MapScreen extends Component {
-
   onHomePress = () => {
     this.props.navigation.navigate('Home');
   }  
@@ -18,8 +17,8 @@ export class MapScreen extends Component {
       <MapView
                  style={styles.map}
                  initialRegion={{
-                     latitude: 37.78825,
-                     longitude: -122.4324,
+                     latitude: 34.1301,
+                     longitude: -117.8884,
                      latitudeDelta: 0.0922,
                      longitudeDelta: 0.0421,
                  }}>
@@ -40,8 +39,8 @@ export class MapScreen extends Component {
                 </Header>
                      <MapView.Marker
                          coordinate={{
-                             latitude: 37.78825,
-                             longitude: -122.4324,
+                             latitude: 34.1301,
+                             longitude: -117.8884,
                          }}>
                              <View style={styles.radius}>
                                  <View style={styles.marker} />

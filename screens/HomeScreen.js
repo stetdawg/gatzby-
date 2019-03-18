@@ -17,7 +17,8 @@ import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import AltName from "../components/AltName";
 import Card from "../components/Card";
 import CardSectionTwo from "../components/CardSectionTwo";
-
+import AuthButtons from "../components/AuthButtons";
+import CardSection from "../components/CardSection";
 import {
         multiResponce,
         singleResponce 
@@ -69,6 +70,9 @@ class HomeScreen extends React.Component {
   }  
   onSavedPress = () => {
     this.props.navigation.navigate('saved');
+  }  
+  onAuthPress = () => {
+    this.props.navigation.navigate('auth');
   }  
   ////////////////////////////////////////////////////////////
   // grabs the an array of items info from walmart rest api, and 
@@ -174,7 +178,12 @@ class HomeScreen extends React.Component {
                        />
                        </Button>
                   </CardSectionTwo>   
-
+                  <CardSection>
+                  <AuthButtons
+                  onPress={this.onAuthPress}>
+                  Login/ Sign-Up 
+                            </AuthButtons>
+                  </CardSection>
             </View>
           </Card>   
               <Camera
