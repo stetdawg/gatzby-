@@ -4,7 +4,6 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import searchScreen from '../screens/searchScreen';
 import SeachResultsScreen from '../screens/SearchResultsScreen';
 import multipleResultesScreen from '../screens/multipleResultesScreen';
 import MapScreen from '../screens/MapScreen';
@@ -88,7 +87,7 @@ const SavedItemsStack = createStackNavigator({
 });
 
 SavedItemsStack.navigationOptions = {
-  tabBarLabel: 'SavedItems',
+  tabBarLabel: 'savedItems',
     tabBarVisible: false,
   header: null,
   tabBarIcon: ({ focused }) => (
@@ -105,6 +104,6 @@ export default createBottomTabNavigator(
   MultiResults,
   SeachResultsStack,
   MapScreenStack,
-  SavedItemsScreen
+  SavedItemsStack
   },
   navigationOptions);

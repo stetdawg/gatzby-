@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, ImageBackground, View, Dimensions, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, Text, ImageBackground, View, Dimensions, TouchableOpacity, alert } from 'react-native';
 //import ReduxThunk from 'redux-thunk';
 import firebase from "firebase";
+import axios from 'axios';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
@@ -20,7 +21,6 @@ import {barCodeData,
         passwordChanged
         } from "../actions";
 import * as urls from "../services/urlbuilder";
-import Axios from 'axios';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -51,16 +51,15 @@ class HomeScreen extends React.Component {
     }
     componentDidUpdate(oldprops) {
       console.log(this.props.user);
-      if ( this.props.user.uid !== "" ) {
+      if (this.props.user.uid !== "") {
         console.log(this.props.user);
-        this.props.logInBool =true;
+        this.props.logInBool = true;
       }
       else{
       if (this.props.user.uid !== oldprops.user.uid) {
-        this.props.logInBool = false  ; 
+        this.props.logInBool = false; 
       }
     }
-      
     } 
     
     onEmailChange(text) {
@@ -160,6 +159,12 @@ class HomeScreen extends React.Component {
           this.onSignUptog(this);          
         }
     }
+
+    savedItemPress() {
+      this.props.navigation.navigate('savedItems');
+      console.log('Saved Item!');
+    }
+
     /////////////////////////////////////////////
     //first checks to see if app has permistion to use the camera
     // if not will re ask for permission and show camera if granted
@@ -220,6 +225,10 @@ class HomeScreen extends React.Component {
         }
       }
 
+      savedItemPress= () => {
+        this.props.navigation.navigate('SavedItems');
+      }
+
 
    ////////////////////////////////////////////////////////
    //gui for home screen   
@@ -259,10 +268,18 @@ class HomeScreen extends React.Component {
             {/* **************************************************************************
             search section of the home screen
             */}
-            <View
-                    style={styles.searchContainerStyle}>
-            <SearchBar
-                     placeholder='Enter UPC' 
+            <View style={styles.searchContainerStyle}>
+              <TouchableOpacity onPress={this.onScantog.bind(this)}>
+                <Icon
+                  activeOpacity={20}
+                  style={{paddingLeft: "8%",
+                  paddingTop: 0}}
+                  name="barcode-scan"
+                  size={50}
+                  />  
+              </TouchableOpacity> 
+                <SearchBar
+                 placeholder='Enter UPC' 
                      round
                      inputStyle={{backgroundColor: "white"}}
                      lightTheme={false}
@@ -270,28 +287,16 @@ class HomeScreen extends React.Component {
                      onChangeText={(text) => this.setState({textInput: text})}
                      onSubmitEditing={this.handleTextInput.bind(this)}
                      />
-                      
-                    <TouchableOpacity onPress={this.onScantog.bind(this)}>
-                     <Icon
-                     activeOpacity={20}
-                     style={{paddingLeft: "8%",
-                     paddingRight: '70%',
-                    paddingTop: 0}}
-                     name="barcode-scan"
-                     size={50}
-                     />  
-                     </TouchableOpacity>  
             </View>  
             
             <View>
-              <TouchableOpacity 
-              onPress={() => navigate(this.props.navigation.navigate("SavedItems")
-              )}>
+              <TouchableOpacity onPress={this.savedItemPress.bind(this)}>
                 <Icon
                   activeOpacity={20}
-                  style={{styles.scanButtonStyle}}
-                  name={basket-fill}>
-                </Icon>
+                  style={styles.savedItemButtonStyle}
+                  name='basket-fill'
+                  size={50}
+                  />
             </TouchableOpacity>
             </View>
 
@@ -376,7 +381,6 @@ class HomeScreen extends React.Component {
                 onCancelButton={this.onSignUptog.bind(this)}
                 onSubmitButton={this.onSignupAttempt.bind(this)}
                 />
-                
             {
               /*
               end sign up pop up section
@@ -397,8 +401,9 @@ const styles = StyleSheet.create({
   },
   searchContainerStyle: {
     alignSelf: 'center',
+    flexDirection: 'row',
     marginTop: '20%',
-    width: '90%', 
+    width: '100%', 
     height: '40%',
     borderRadius: 20,
     backgroundColor: 'transparent',
@@ -406,21 +411,29 @@ const styles = StyleSheet.create({
   },
   containerStyle: {
     borderRadius: 30,
+    alignItems: 'stretch',
     borderWidth: 0,
+    width: '75%',
     borderColor: "transparent",
     backgroundColor: "transparent",
     borderTopColor: "transparent",
     borderBottomColor: "transparent"
-
    },
-  scanButtonStyle: {
-  resizeMode: 'center',
-  marginTop: "1%",
-  height: "50%",
-  width: "15%",
-  marginLeft: "8%",
 
-    },
+  scanButtonStyle: {
+    resizeMode: 'center',
+    marginTop: "1%",
+    height: "50%",
+    width: "15%",
+    marginLeft: "8%",
+    paddingRight: '8%'
+  },
+
+  savedItemButtonStyle: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start'
+  },
+  
   nameStyle: {
     alignSelf: 'center',
     paddingTop: Dimensions.get('window').height / 12

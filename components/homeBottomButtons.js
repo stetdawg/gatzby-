@@ -11,7 +11,8 @@ const homeBottomButtons = ({rightButtonPush,
                           iconRight}) => {  
 //console.log(ifLogedIn);
     return (
-      <View style={{
+      <View 
+      style={{
         //flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ImageBackground, FlatList, View, TouchableOpacity, StyleSheet } from "react-native";
+import { ImageBackground, FlatList, View, TouchableOpacity, StyleSheet, alert } from "react-native";
 import { connect } from "react-redux";
 import {MapView} from "react-native-maps";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -44,8 +44,7 @@ class multipleResultesScreen extends Component {
        renderItem={({item}) => <SavedList 
                                           item={item} 
                                           navigation={this.props.navigation}
-                                          />
-                  }
+                                          />}
       keyExtractor={item => item.name}
       />
       </View>

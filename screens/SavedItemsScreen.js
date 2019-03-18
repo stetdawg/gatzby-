@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { ListView } from "react-native";
-import { Button } from "react-native-elements";
+import { FlatList, View, Text} from "react-native";
 import { connect } from "react-redux";
 import _ from "lodash";
 import { itemsFetch, savedToResults } from "../actions";
@@ -22,26 +21,16 @@ class SavedItemsScreen extends Component {
     //this.setState({ place: "McDonalds" });
     //this.setState({ location: "Azusa, CA" });
     // Upon loading the app, load any static resources...
-    const { itemsFetch } = this.props;
-    itemsFetch();
-    this.createDataSource(this.props);
+    //const { itemsFetch } = this.props;
+   // itemsFetch();
   } 
 
-componentWillReceiveProps(nextProps) {
-  this.createDataSource(nextProps);
-}
 onButtonPress() {
     console.log(this.props.item.itemInfo.upc);
     this.props.savedToResults(this.props.item.itemInfo.upc);
     this.props.navigation.navigate("searchResults");
 }
 
-createDataSource({ items }) {
-  const ds = new ListView.DataSource({
-    rowHasChanged: (r1, r2) => r1 !== r2
-  });
-  this.dataSource = ds.cloneWithRows(items);
-}
   //////////////////////////////////////////////////////////////////////////////////
   // Handler for the serach button
   // onButtonPress = () => {
@@ -50,7 +39,7 @@ createDataSource({ items }) {
   //   });
   // };
 renderRow(item) {
-  return (<SavedList 
+  return (<FlatList
   item={item} 
   navigation={this.props.navigation} 
   />);
@@ -61,12 +50,15 @@ renderRow(item) {
   render() {
     //console.log(this.props);
     return (
-      <ListView
-       enableEmptySections 
-       dataSource={this.dataSource}
-       renderRow={(item) => <SavedList item={item} navigation={this.props.navigation} />}
-      />
-      
+      <View>
+     
+     
+      <View>
+        <Text>
+          Saved Item Class!
+        </Text>
+      </View>
+     </View>
     );
   }
 }
