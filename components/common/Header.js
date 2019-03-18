@@ -1,31 +1,17 @@
 // Import libraries for making a component
 import React from 'react';
-import { Text, View } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Button from '../Button';
+import { View } from 'react-native';
+
 
 // Make a component
 const Header = (props) => {
-  const { textStyle, viewStyle } = styles;
-  return (
-    <View style={viewStyle}>
-   <Button>
-    <Icon
-    activeOpacity={20}
-     style={{paddingLeft: "5%",
-     paddingRight: '0%',
-     paddingTop: 0,
-     //display: 'fixed'
-    }}
-     name="arrow-left"
-     size={30}
-     color='black'
-    /> 
-    </Button> 
-    <Text style={textStyle}>{props.headerText}</Text>
-    </View>
-  );
-};
+    //CONTAINER FOR ITEMS IN A ROW
+    return (
+        <View style={styles.viewStyle}>
+          {props.children}
+        </View>
+      );
+    };
 
 const styles = {
   viewStyle: {
@@ -42,17 +28,6 @@ const styles = {
    // elevation: 2,
     position: 'relative'
   },
-  textStyle: {
-      width: '75%',
-        alignSelf: 'center',
-        textAlign: 'center',
-         fontFamily: 'Avenir-Roman',
-          fontSize: 40,
-          fontWeight: 'bold',
-          color: '#3cb371',
-          textShadowColor: 'black',
-          shadowOpacity: .2 
-  }
 };
 
 // Make the component available to other parts of the app

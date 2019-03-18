@@ -3,8 +3,15 @@ import MapView from "react-native-maps";
 import { View, StyleSheet, } from 'react-native';
 import Header from '../components/common/Header';
 import Footer from '../components/Footer';
+import Button from '../components/Button';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 export class MapScreen extends Component {
+
+  onHomePress = () => {
+    this.props.navigation.navigate('Home');
+  }  
   render() {
       return (
       <View style={styles.container}>    
@@ -16,9 +23,21 @@ export class MapScreen extends Component {
                      latitudeDelta: 0.0922,
                      longitudeDelta: 0.0421,
                  }}>
-                <Header  
-                 headerText=""
-                />
+                <Header>
+                <Button //SAVED ITEMS BUTTON
+                onPress={this.onHomePress}  
+                >
+                        <Icon 
+                            activeOpacity={20}
+                            style={{paddingLeft: "8%",
+                            paddingRight: '70%',
+                            paddingTop: 0}}
+                            color='black'
+                            name="arrow-left"
+                            size={30}
+                       />
+                       </Button>
+                </Header>
                      <MapView.Marker
                          coordinate={{
                              latitude: 37.78825,
