@@ -30,6 +30,12 @@ class LoginScreen extends Component {
         loading: false,
         uID: ''
     }
+    onEmailChange(text) {
+      this.props.emailChanged(text);
+    }
+    onPasswordChange(text) {
+      this.props.passwordChanged(text);
+    }
     validateEmail = (email) => {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return re.test(email);
@@ -44,7 +50,7 @@ class LoginScreen extends Component {
       }
     
       onLoginSuccess() {
-        console.log(this.state.uID);
+        //console.log(this.state.uID);
         this.setState({
           uID: this.state.user,
           email: '',
@@ -53,7 +59,7 @@ class LoginScreen extends Component {
           error: '',
           logInBool: true
         });
-        console.log(this.state.uID);
+        //console.log(this.state.uID);
         this.props.navigation.navigate('Home');
       }
       onLoginAttempt() {
@@ -75,6 +81,9 @@ class LoginScreen extends Component {
           this.onLoginFail();
           }
          //}
+      }
+      onLogOutAttempt() {
+        this.props.signoutUser(this.props.uid);
       }
       onSignupAttempt() {
         //console.log(this.state.email + ' ' + this.state.password + ' ' + this.state.repeatPassword);
@@ -276,7 +285,7 @@ const mapStateToProps = state => {
       email: state.auth.email,
       password: state.auth.password,
       repeatPassword: state.auth.repeatPassword,
-      user: state.auth.user,
+      uid: state.auth.user,
       error: state.auth.error
     };
   };

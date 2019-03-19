@@ -1,6 +1,6 @@
 import { LOGIN_EMAIL_CHANGED, LOGIN_PASSWORD_CHANGED, LOGIN_PASSWORD_RETYPE_CHANGED, AUTH_USER_SUCCESS, AUTH_USER_FAIL} from '../actions/types';
 
-const INITIAL_STATE = { user: '', email: '', password: '', repeatPassword: '', error: ''};
+const INITIAL_STATE = { uid: '', email: '', password: '', repeatPassword: '', error: ''};
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -11,7 +11,8 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_PASSWORD_RETYPE_CHANGED:
             return {...state, repeatPassword: action.payload};
         case AUTH_USER_SUCCESS:
-            return {...state, user: action.payload};
+            //console.log(action.payload.uid);
+            return {...state, uid: action.payload.uid};
         case AUTH_USER_FAIL:
             return {...state, error: action.payload};
         default:

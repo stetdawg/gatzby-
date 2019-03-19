@@ -56,7 +56,7 @@ export const loginUser = (email, password) => async dispatch => {
 
       // Attempt to login user
       const { user } = await firebase.auth().signInWithEmailAndPassword(email, password);
-      console.log(user);
+      //console.log(user);
       authUserSuccess(dispatch, user);
     } catch (err) {
       console.error(err);

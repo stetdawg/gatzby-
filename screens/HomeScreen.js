@@ -6,7 +6,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
-import axios from "axios";
 import Camera from "../components/Camera";
 //import { loginUser, signupUser } from "../actions/auth_actions";
 import LoginForm from "../components/LoginForm";
@@ -14,14 +13,13 @@ import HomeBottomButtons from '../components/HomeBottomButtons';
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
 import {barCodeData,
+        walRes,
         loginUser,
         signupUser,
         emailChanged,
         passwordChanged,
-        singleResponce,
-        multiResponce
+        signoutUser
         } from "../actions";
-        import * as urls from "../services/urlbuilder";
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -30,14 +28,13 @@ class HomeScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     cameraVisable: false,
-    loginVisable: false,
-    signUpVisable: false,
     
     email: "",
     password: "",
     repeatPassword: "",
     textInput: '',
-    logInBool: false
+    logInBool: false,
+    
   };
     //logInBool=false;
     leftButton = "Log In"
@@ -50,46 +47,19 @@ class HomeScreen extends React.Component {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera'
     firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
+    //console.log(this.props.uid);
+      if (this.props.uid) {
+        //console.log(this.props.uid);
         this.setState({ logInBool: true });
       } else {
+        //console.log(this.props.uid);
         this.setState({ logInBool: false });
       }
-    });
-    }
-
-    // componentDidUpdate(oldprops) {
-    //   console.log(this.props.user);
-    //   if ( this.props.user.uid !== "" && oldprops.user.uid !== this.props.user.uid) {
-    //     console.log(this.props.user);
-    //     this.props.logInBool = true;
-    //     this.renderButtons(); 
-    //     this.setState({loginVisable: false});
-    //     this.setState({signUpVisable: false}); 
-    //   }
-    //   if (this.props.user.uid !== oldprops.user.uid) {
-    //     this.props.logInBool = false; 
-    //   }
-    // } 
-    
-    onEmailChange(text) {
-      this.props.emailChanged(text);
-    }
-    onPasswordChange(text) {
-      this.props.passwordChanged(text);
-    }
-    //onRepeatPasswordChange(text) {
-    //  this.props.repeatPasswordChanged(text);
-    //}
-    validateEmail = (email) => {
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
     };
-    validatePassword = (password) => {
-      const re = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
-        return re.test(password);
+    componentWillReceiveProps() {
+      
     }
+    
     onLoginAttempt() {
       //onLoginAttemptconsole.log(this.state.email + ' ' + this.state.password);
       const { email, password } = this.state;
@@ -124,11 +94,6 @@ class HomeScreen extends React.Component {
        }
        if (this.validateEmail(email) && this.validatePassword(password)) {
        this.props.signupUser(email, password, repeatPassword);
-          // if (this.state.user !== '') {
-          //   this.setState({logInBool: true});
-          //   this.setState({loginVisable: false});
-          //   this.renderButtons();
-          // }
        }
     }
     
@@ -157,22 +122,17 @@ class HomeScreen extends React.Component {
     }
     handleLeftButtonPush() {
       if (!this.props.logInBool) {
-        //this.onLogintog(this);
         this.props.navigation.navigate('login');
         console.log("Log in Button Pushed"); 
-      //this.setState({logInBool: false});
       this.renderButtons();
       } else {
-        //this.onLogOuttog(this);
         console.log("Log Out Button Pushed"); 
         this.renderButtons();        
       }
     }
     handleRightButtonPush() {
       if (!this.props.logInBool) {
-          //this.onSignUptog(this); 
           this.props.navigation.navigate('login');
-        //this.setState({logInBool: false});
         this.renderButtons();
         } else {
           console.log("Saved List Button Pushed");
@@ -194,37 +154,11 @@ class HomeScreen extends React.Component {
   }
   }
 
-  onLogintog() {
-    if (this.state.loginVisable)
-    this.setState({loginVisable: false});
-    else
-    this.setState({loginVisable: true});
-  }
-  onLogOuttog() {
-    if (this.state.logoutVisable)
-    this.setState({logoutVisable: false});
-    else
-    this.setState({logoutVisable: true});
-  }
-
-  onSignUptog() {
-    if (this.state.signUpVisable)
-    this.setState({signUpVisable: false});
-    else
-    this.setState({signUpVisable: true});
-  }
-
   handleTextInput = async () => {
-    const walinfo = await axios.get(urls.walmartTextUrl(this.state.textInput));
-    console.log(walinfo.data.numItems);
-    if (walinfo.data.numItems === 1) {
-      console.log("hi");
-      this.props.singleResponce(walinfo.data.items[0]);
-      this.props.navigation.navigate('searchResults');
-    } else if (walinfo.data.numItems > 1) {
-      this.props.multiResponce(walinfo.data.items);
-      this.props.navigation.navigate('multi');
-    }
+    console.log(`${this.state.textInput}`);
+   this.props.barCodeData("UPC", this.state.textInput);
+   await this.props.walRes(this.state.textInput);
+   this.props.navigation.navigate('searchResults');
  }
 
   /////////////////////////////////////////////
@@ -233,35 +167,26 @@ class HomeScreen extends React.Component {
   //reducers and sends the user to the results screen.
      handleBarCodeScanned = async ({data, type}) => {
        console.log(`${data} ${type}`);
-       const walinfo = await axios.get(urls.walmartTextUrl(data));
-       console.log(walinfo.data.numItems);
-       if (walinfo.data.numItems === 1) {
-         console.log("hi");
-         this.props.singleResponce(walinfo.data.items[0]);
-         this.props.navigation.navigate('searchResults');
-       } else if (walinfo.data.numItems > 1) {
-         this.props.multiResponce(walinfo.data.items);
-         this.props.navigation.navigate('multi');
-        }
-      }
+      this.setState({cameraVisable: !this.state.cameraVisable });
+      this.props.barCodeData(type, data);
+      await this.props.walRes(data);
+      this.props.navigation.navigate('searchResults');
+    }
 
 
    ////////////////////////////////////////////////////////
    //gui for home screen   
-   render() {
+  render() {
     return (
       <View
       style={styles.container}
-      >
-            
+      >      
          <ImageBackground
           style={styles.backgroundStyle}
           source={require("../assets/images/home2.png")}
           resizeMode='cover'
           >
-          {
-          
-          /************************************************************************************
+          {/************************************************************************************
           the name and sub text of the home screen
           */}
            <View
@@ -279,7 +204,6 @@ class HomeScreen extends React.Component {
              Save Time.
             </Text>
             </View>
-            
             {/*
             end name and subText
             ****************************************************************************/}
@@ -313,13 +237,13 @@ class HomeScreen extends React.Component {
             </View>  
             {/*
             end seach section of home screen 
-            *************************************************************************************}
+            *************************************************************************************/}
            
             { /********************************************************************************
                 bottom button section
             */
             }
-           <View>
+           
             <HomeBottomButtons 
              leftButtonName={this.leftButton}
              leftButtonPush={this.handleLeftButtonPush.bind(this)}
@@ -328,7 +252,7 @@ class HomeScreen extends React.Component {
              iconRight={this.rightIcon}
              iconLeft={this.leftIcon}
              />
-          </View>
+            
            {
               /*
               end bottom button section
@@ -346,76 +270,11 @@ class HomeScreen extends React.Component {
                   />
             {/*
             end camera pop up
-            **********************************************************************************/}
-
-             { /********************************************************************************
-               log in pop up section
-            */
-            }
-              <LoginForm 
-              visible={this.state.loginVisable}
-                Title="Log In"
-                button1="Log In"
-                onChange1={this.onEmailChange.bind(this)}
-                onChange1={(text) => this.setState({email: text})}
-                onChange2={this.onPasswordChange.bind(this)} 
-                onChange2={(text) => this.setState({password: text})} 
-                form1='Email'
-                form2='Password'
-                onCancelButton={this.onLogintog.bind(this)}
-                onSubmitButton={this.onLoginAttempt.bind(this)}
-                />
-            {
-              /*
-              log in pop up section
-              *********************************************************************************
-            */}
-            <LoginForm 
-              visible={this.state.logoutVisable}
-                Title="Log Out"
-                button1="Log Out"
-                //onChange1={this.onEmailChange.bind(this)}
-                //onChange1={(text) => this.setState({email: text})}
-                //onChange2={this.onPasswordChange.bind(this)} 
-                //onChange2={(text) => this.setState({password: text})} 
-                //form1='Email'
-                //form2='Password'
-                onCancelButton={this.onLogOuttog.bind(this)}
-                onSubmitButton={this.onLogOutAttempt.bind(this)}
-                />
-              
-            { /********************************************************************************
-                sign up pop up section
-            */
-            }
-            <LoginForm
-              visible={this.state.signUpVisable}
-                Title="Sign Up"
-                button1="Sign Up"
-                onChange1={this.onEmailChange.bind(this)}
-                onChange1={(text) => this.setState({email: text})}
-                onChange2={this.onPasswordChange.bind(this)} 
-                onChange2={(text) => this.setState({password: text})} 
-                onChange3={(text) => this.setState({repeatPassword: text})}
-                form1='Email:'
-                form2='Password:'
-                form3='Repeat Password:'
-                signUpBool
-                onCancelButton={this.onSignUptog.bind(this)}
-                onSubmitButton={this.onSignupAttempt.bind(this)}
-                />
-                
-            {
-              /*
-              end sign up pop up section
-              *********************************************************************************
-            */}
+             **********************************************************************************/}
           </ImageBackground>
-          
       </View>
-          
           );
-   }
+  }
 
 }
 ////////////////////////////////////////
@@ -478,7 +337,7 @@ const mapStateToProps = state => {
     email: state.auth.email,
     password: state.auth.password,
     repeatPassword: state.auth.repeatPassword,
-    user: state.auth.user
+    uid: state.auth.user
   };
 };
 //expots and conects home to the rest of the app.
@@ -489,5 +348,4 @@ export default connect(mapStateToProps, { emailChanged,
                                           signupUser,
                                           loginUser, 
                                           barCodeData,
-                                          singleResponce,
-                                        multiResponce})(HomeScreen);
+                                          walRes})(HomeScreen);
