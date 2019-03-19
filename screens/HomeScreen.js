@@ -152,6 +152,7 @@ class HomeScreen extends React.Component {
                            size={30}
                            color='black'
                           />  
+                          scan
                      </Button> 
                      <Button //MAP BUTTON 
                      onPress={this.onMapPress}>
@@ -164,6 +165,7 @@ class HomeScreen extends React.Component {
                          name="crosshairs"
                          size={30}
                          />
+                         map
                        </Button>
                        <Button //SAVED ITEMS BUTTON
                        onPress={this.onSavedPress}>
@@ -176,7 +178,9 @@ class HomeScreen extends React.Component {
                             name="heart"
                             size={30}
                        />
+                       saved
                        </Button>
+                     
                   </CardSectionTwo>   
                   <CardSection>
                   <AuthButtons
