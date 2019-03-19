@@ -18,7 +18,7 @@ const styles = {
   color: 'grey',
    fontSize: 16,
    alignSelf: 'center',
-   marginRight: '12%'
+ //  marginRight: '12%'
   },
   buttonStyle: {
     

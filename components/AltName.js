@@ -29,8 +29,8 @@ const AltName = () => {
         },
         textnameStyle: {
          fontFamily: 'Avenir-Roman',
-          fontSize: 55,
-         fontWeight: 'bold',
+          fontSize: 60,
+        // fontWeight: 'bold',
           color: '#3cb371',
           textShadowColor: 'black',
           shadowOpacity: 0.2 
