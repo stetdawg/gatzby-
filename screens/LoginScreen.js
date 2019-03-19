@@ -27,7 +27,8 @@ class LoginScreen extends Component {
         repeatPassword: "",
         textInput: '',
         error: '',
-        loading: false
+        loading: false,
+        uID: ''
     }
     validateEmail = (email) => {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -39,17 +40,22 @@ class LoginScreen extends Component {
       }
       onLoginFail() {
         this.setState({ error: 'Authentication Failed', loading: false });
+        console.log(this.state.error);
       }
     
       onLoginSuccess() {
+        console.log(this.state.uID);
         this.setState({
+          uID: this.state.user,
           email: '',
           password: '',
           loading: false,
           error: '',
           logInBool: true
         });
-        this.props.navigation.navigate('homescreen');
+        console.log(this.state.uID);
+
+        this.props.navigation.navigate('Home');
       }
       onLoginAttempt() {
         //console.log(this.state.email + ' ' + this.state.password);
@@ -64,13 +70,16 @@ class LoginScreen extends Component {
         //  if (this.validateEmail(email) && this.validatePassword(password)) {
            this.props.loginUser(email, password);
            if (this.state.user !== '') {
-            this.setState({logInBool: true});
+            this.onLoginSuccess(); 
+          }
+          if (this.state.user === '') {
+            this.onLoginFail();
           }
          //}
       }
       onSignupAttempt() {
         //console.log(this.state.email + ' ' + this.state.password + ' ' + this.state.repeatPassword);
-         const { email, password, repeatPassword } = this.state;
+         const { email, password } = this.state;
         //  console.log(email + ' ' + password + ' ' + repeatPassword);
         //   if (!this.validateEmail(email)) {
         //     alert("This is not a valid email address!");
@@ -79,12 +88,12 @@ class LoginScreen extends Component {
         //     alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
         //   }
         //   if (this.validateEmail(email) && this.validatePassword(password)) {
-          this.props.signupUser(email, password, repeatPassword);
+          this.props.signupUser(email, password);
               if (this.state.user !== '') {
-                onLoginSuccess();
+                this.onLoginSuccess(); 
               }
               if (this.state.user === '') {
-                onLoginFail();
+                this.onLoginFail();
               }
            //}
         }
@@ -100,7 +109,6 @@ class LoginScreen extends Component {
         </View>
       <View style={styles.container}>
        <Card title='Sign In'>
-       <View style={{height: 30}} />
         <View style={styles.emailContainer}>
           <FormInput 
             style={styles.textInput} placeholder='Email'
@@ -114,27 +122,30 @@ class LoginScreen extends Component {
             onChangeText={(text) => this.setState({password: text})} />
         </View>
         </Card>
-        <TouchableOpacity>
-        <View style={styles.button}>
-        <Button 
-            buttonStyle={styles.buttonStyle}
-            title="Sign In"
-            onPress={this.onLoginAttempt.bind(this)}
-        />
-        </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.normalContainer}>
-          
-      <TouchableOpacity>
+        <View 
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
           <View style={styles.button}>
-            <Button 
-                buttonStyle={styles.buttonStyle}
-                title="Sign Up"
-                onPress={this.onSignupAttempt.bind(this)}
-            />
+            <TouchableOpacity>
+              <Button 
+                  buttonStyle={styles.buttonStyle}
+                  title="Sign In"
+                  onPress={this.onLoginAttempt.bind(this)}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.button}>
+            <TouchableOpacity>
+                <Button 
+                    buttonStyle={styles.buttonStyle}
+                    title="Sign Up"
+                    onPress={this.onSignupAttempt.bind(this)}
+                />
+            </TouchableOpacity>
+          </View>
         </View>
-          </TouchableOpacity>
       </View>
       </View>
     );

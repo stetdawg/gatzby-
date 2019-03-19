@@ -67,10 +67,10 @@ export const loginUser = (email, password) => async dispatch => {
 
 ////////////////////////////////////////////////////////////////
 // Call appropriate FireBase method to signup user
-export const signupUser = (email, password, passwordRetype) => async dispatch => {
-  if (password !== passwordRetype) {
-    return loginUserFail(dispatch, 'Passwords do not match');
-  }
+export const signupUser = (email, password) => async dispatch => {
+  // if (password !== passwordRetype) {
+  //   return loginUserFail(dispatch, 'Passwords do not match');
+  // }
   try {
     // Dispatch event to trigger loading spinner
     dispatch({ type: AUTH_USER_ATTEMPT });
