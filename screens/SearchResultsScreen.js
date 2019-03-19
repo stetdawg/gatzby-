@@ -225,6 +225,7 @@ class SearchResultsScreen extends Component {
 }
 
 const mapStateToProps = state => {
+  //console.log(state.item.SingleResponseData);
   return {
     codeData: state.code.codeData,
     itemInfo: {

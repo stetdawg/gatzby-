@@ -52,6 +52,7 @@ case MULTI: {
     return { ...state, multiResponseData: action.payload };
 }
 case SOLO: {  
+    //console.log(action.payload);
     return { ...state, SingleResponseData: action.payload };
 }
 case AMAZON: {

@@ -1,13 +1,13 @@
 import * as firebase from 'firebase'; 
 import axios from "axios";
 import { Linking } from 'react-native';
+import _ from "lodash";
 import { BAR_CODE_DATA,
   AMAZON,
   ITEM_INFO,
   MULTI,
   SOLO } from './types';
 import * as urls from "../services/urlbuilder"; 
-
 
 export const saveCode = (itemInfo) => {
 const { currentUser } = firebase.auth();
@@ -62,6 +62,7 @@ export const textData = (text) => {
 };
 
 export const savedToResults = (Item) => {
+  console.log(Item);
   return {
     type: ITEM_INFO,
     payload: Item
@@ -75,11 +76,37 @@ return {
 };
 };
 
-export const singleResponce = (text) => {
-  return {
-    type: SOLO,
-    payload: text
-  };
+export const singleResponce = (text) => async dispatch => {
+ let temp = await firebase.database().ref(`/Items/${text.upc}/text`)
+ .once('value');
+ temp = JSON.parse(JSON.stringify(temp));
+  //console.log(temp.history);
+  //console.log(temp);
+  let priceDate = new Date();
+  const price = text.salePrice;
+  priceDate = priceDate.toDateString();
+ // console.log(priceDate);
+  if (temp === null){
+    text.history = [{priceDate: priceDate, price: price}];
+    firebase.database().ref(`/Items/${text.upc}/`)
+.set({ text });
+return singData(dispatch, text);
+  }
+  const latestPrice = _.toArray(temp.history);
+  let lastDate = latestPrice[latestPrice.length-1].priceDate;
+  lastDate = new Date(lastDate);
+  console.log(lastDate);
+  const delta = new Date() - lastDate;
+  console.log(delta);
+  if (delta > 86400000)
+  {
+    latestPrice[latestPrice.length] = { priceDate: priceDate, price: price};
+    console.log(latestPrice);
+    temp.history = latestPrice;
+  }
+  firebase.database().ref(`/Items/${temp.upc}/`)
+.set({ text: temp });
+return singData(dispatch, temp);  
   };
 
  export const itemsFetch = () => {
@@ -103,6 +130,13 @@ const AmData = (dispatch, amdata) => {
   });
 };
 
+const singData = (dispatch, data) => {
+  //console.log(amdata);
+  dispatch({
+    type: SOLO,
+    payload: data
+  });
+};
 // const walmartdata = (dispatch, waldata) => {
 //   console.log(waldata);
 //   dispatch({
