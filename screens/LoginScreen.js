@@ -50,7 +50,6 @@ class LoginScreen extends Component {
       }
     
       onLoginSuccess() {
-        //console.log(this.state.uID);
         this.setState({
           uID: this.state.user,
           email: '',
@@ -59,44 +58,25 @@ class LoginScreen extends Component {
           error: '',
           logInBool: true
         });
-        //console.log(this.state.uID);
         this.props.navigation.navigate('Home');
       }
       onLoginAttempt() {
-        //console.log(this.state.email + ' ' + this.state.password);
-        const { email, password } = this.state;
-        // console.log(email + ' ' + password);
-        //  if (!this.validateEmail(email)) {
-        //    alert("This is not a valid email address!");
-        //  } 
-        //  if (!this.validatePassword(password)) {
-        //    alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
-        //  }
-        //  if (this.validateEmail(email) && this.validatePassword(password)) {
-          this.props.loginUser(email, password);
+        const { email, password } = this.props;
+
+        this.props.loginUser(email, password);
           if (this.state.user !== '') {
           this.onLoginSuccess(); 
           }
           if (this.state.user === '') {
           this.onLoginFail();
           }
-         //}
       }
       onLogOutAttempt() {
         this.props.signoutUser(this.props.uid);
       }
       onSignupAttempt() {
-        //console.log(this.state.email + ' ' + this.state.password + ' ' + this.state.repeatPassword);
-         const { email, password } = this.state;
-        //  console.log(email + ' ' + password + ' ' + repeatPassword);
-        //   if (!this.validateEmail(email)) {
-        //     alert("This is not a valid email address!");
-        //   } 
-        //   if (!this.validatePassword(password)) {
-        //     alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
-        //   }
-        //   if (this.validateEmail(email) && this.validatePassword(password)) {
-          this.props.signupUser(email, password);
+         const { email, password } = this.props;
+         this.props.signupUser(email, password);
               if (this.state.user !== '') {
                 this.onLoginSuccess(); 
               }
@@ -105,7 +85,31 @@ class LoginScreen extends Component {
               }
            //}
         }
-
+    renderError() {
+      if (this.props.error) {
+        return (
+          <View style={{ backgroundColor: 'white'}}>
+            <Text style={styles.errorTextStyle}>
+              {this.props.error}
+            </Text>
+          </View>
+        );
+      }
+    }
+    renderButton() {
+      if (this.props.loading){
+        return <Spinner size='large' />;
+      }
+      return (
+        <TouchableOpacity>
+        <Button 
+            buttonStyle={styles.buttonStyle}
+            title="Sign In"
+            onPress={this.onLoginAttempt.bind(this)}
+        />
+      </TouchableOpacity>
+      );
+    }
     render() {
         //if (signUpBool)
     return (
@@ -119,39 +123,32 @@ class LoginScreen extends Component {
        <Card title='Sign In'>
         <View style={styles.emailContainer}>
           <FormInput 
-            style={styles.textInput} placeholder='Email'
-            onChangeText={(text) => this.setState({email: text})} />
+            style={styles.textInput}
+            label='Email' 
+            placeholder='Email@gmail.com'
+            onChangeText={this.onEmailChange.bind(this)}
+            value={this.props.email} />
         </View>
         <View style={styles.passwordContainer}>
           <FormInput 
-            style={styles.textInput} 
+            style={styles.textInput}
+            label="Password" 
             placeholder='Password'
             secureTextEntry 
-            onChangeText={(text) => this.setState({password: text})} />
+            onChangeText={this.onPasswordChange.bind(this)} />
+            value={this.props.password}
         </View>
         </Card>
+
+        {this.renderError()}
+
         <View 
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
           }}>
           <View style={styles.button}>
-            <TouchableOpacity>
-              <Button 
-                  buttonStyle={styles.buttonStyle}
-                  title="Sign In"
-                  onPress={this.onLoginAttempt.bind(this)}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.button}>
-            <TouchableOpacity>
-                <Button 
-                    buttonStyle={styles.buttonStyle}
-                    title="Sign Up"
-                    onPress={this.onSignupAttempt.bind(this)}
-                />
-            </TouchableOpacity>
+            {this.renderButton()}
           </View>
         </View>
       </View>
@@ -276,18 +273,19 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
     backgroundColor: '#F5F6F7'
     
+  },
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: 'red'
   }
   
 });
 
-const mapStateToProps = state => {
-    return {
-      email: state.auth.email,
-      password: state.auth.password,
-      repeatPassword: state.auth.repeatPassword,
-      uid: state.auth.user,
-      error: state.auth.error
-    };
+const mapStateToProps = ({ auth }) => {
+    const { email, password, error, loading } = auth;
+
+    return { email, password, error, loading };
   };
 export default connect(mapStateToProps, {emailChanged,
                                         passwordChanged,
