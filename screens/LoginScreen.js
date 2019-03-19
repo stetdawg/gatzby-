@@ -11,6 +11,7 @@ import logo from '../assets//images/icon.png';
 import { connect } from 'react-redux';
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
+import { Input } from "../components/common/Input";
 import { Button, Card, FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
 import {loginUser,
         signupUser,
@@ -97,7 +98,7 @@ class LoginScreen extends Component {
       }
     }
     renderButton() {
-      if (this.props.loading){
+      if (this.props.loading) {
         return <Spinner size='large' />;
       }
       return (
@@ -126,8 +127,10 @@ class LoginScreen extends Component {
             style={styles.textInput}
             label='Email' 
             placeholder='Email@gmail.com'
+            //onChangeText={(text) => this.setState({email: text})}
             onChangeText={this.onEmailChange.bind(this)}
-            value={this.props.email} />
+            value={this.props.email} 
+            />
         </View>
         <View style={styles.passwordContainer}>
           <FormInput 
@@ -135,19 +138,20 @@ class LoginScreen extends Component {
             label="Password" 
             placeholder='Password'
             secureTextEntry 
-            onChangeText={this.onPasswordChange.bind(this)} />
-            value={this.props.password}
+            //onChangeText={(text) => this.setState({password: text})}
+            onChangeText={this.onPasswordChange.bind(this)}
+            value={this.props.password} 
+            />
         </View>
         </Card>
-
-        {this.renderError()}
-
+        <View>
+            {this.renderError()}
+        </View>
         <View 
           style={{
-            flexDirection: 'row',
             justifyContent: 'center',
           }}>
-          <View style={styles.button}>
+          <View>
             {this.renderButton()}
           </View>
         </View>
@@ -205,6 +209,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     color: '#989899',
+    height: 20,
+    width: 100,
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -287,7 +293,13 @@ const mapStateToProps = ({ auth }) => {
 
     return { email, password, error, loading };
   };
-export default connect(mapStateToProps, {emailChanged,
-                                        passwordChanged,
-                                        signupUser,
-                                        loginUser})(LoginScreen);
+  const mapDispatchToProps = (dispatch) => {
+    return {
+        emailChanged: (emailAddress) => dispatch(emailChanged(emailAddress)),
+        passwordChanged: (password) => dispatch(passwordChanged(password)),
+        loginUser: (email, password) => dispatch(loginUser(email, password))
+    };
+};
+
+export default connect(mapStateToProps, 
+                    mapDispatchToProps)(LoginScreen);

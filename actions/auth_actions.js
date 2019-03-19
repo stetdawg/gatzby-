@@ -21,14 +21,14 @@ import {
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
-export const emailChanged = text => ({
+export const emailChanged = (text) => ({
   type: LOGIN_EMAIL_CHANGED,
   payload: text
 });
 
 ////////////////////////////////////////////////////////////////
 // Called when password is updated
-export const passwordChanged = text => ({
+export const passwordChanged = (text) => ({
   type: LOGIN_PASSWORD_CHANGED,
   payload: text
 });
@@ -48,14 +48,15 @@ export const resetSignupLoginPages = () => ({
 
 ////////////////////////////////////////////////////////////////
 // Call appropriate FireBase method to login
-export const loginUser = ({ email, password}) => {
+export const loginUser = ( email, password ) => {
   return (dispatch) => {
     dispatch({type: AUTH_USER_ATTEMPT});
 
-
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then(user => authUserSuccess(dispatch, user))
-    .catch(() => {
+    .catch((error) => {
+      console.log(error);
+
       firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(user => authUserSuccess(dispatch, user))
       .catch(() => loginUserFail(dispatch));
@@ -74,10 +75,9 @@ const authUserSuccess = (dispatch, user) => {
 
 ////////////////////////////////////////////////////////////////
 // Helper method for failed email/password login
-const loginUserFail = (dispatch, error = '') => {
+const loginUserFail = (dispatch) => {
   dispatch({
     type: AUTH_USER_FAIL,
-    payload: error
   });
 };
 
