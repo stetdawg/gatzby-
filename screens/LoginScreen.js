@@ -39,8 +39,8 @@ class LoginScreen extends Component {
           return re.test(password);
       }
       onLoginFail() {
-        this.setState({ error: 'Authentication Failed', loading: false });
-        console.log(this.state.error);
+        //this.setState({ error: 'Authentication Failed', loading: false });
+          alert(this.state.error);
       }
     
       onLoginSuccess() {
@@ -54,7 +54,6 @@ class LoginScreen extends Component {
           logInBool: true
         });
         console.log(this.state.uID);
-
         this.props.navigation.navigate('Home');
       }
       onLoginAttempt() {
@@ -68,12 +67,12 @@ class LoginScreen extends Component {
         //    alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
         //  }
         //  if (this.validateEmail(email) && this.validatePassword(password)) {
-           this.props.loginUser(email, password);
-           if (this.state.user !== '') {
-            this.onLoginSuccess(); 
+          this.props.loginUser(email, password);
+          if (this.state.user !== '') {
+          this.onLoginSuccess(); 
           }
           if (this.state.user === '') {
-            this.onLoginFail();
+          this.onLoginFail();
           }
          //}
       }
@@ -271,12 +270,14 @@ const styles = StyleSheet.create({
   }
   
 });
+
 const mapStateToProps = state => {
     return {
       email: state.auth.email,
       password: state.auth.password,
       repeatPassword: state.auth.repeatPassword,
-      user: state.auth.user
+      user: state.auth.user,
+      error: state.auth.error
     };
   };
 export default connect(mapStateToProps, {emailChanged,
