@@ -7,6 +7,7 @@ import { BAR_CODE_DATA,
   ITEM_INFO,
   MULTI,
   SOLO } from './types';
+  
 import * as urls from "../services/urlbuilder"; 
 
 export const saveCode = (itemInfo) => {
@@ -82,6 +83,7 @@ export const singleResponce = (text) => async dispatch => {
  temp = JSON.parse(JSON.stringify(temp));
   //console.log(temp.history);
   //console.log(temp);
+
   let priceDate = new Date();
   const price = text.salePrice;
   priceDate = priceDate.toDateString();
