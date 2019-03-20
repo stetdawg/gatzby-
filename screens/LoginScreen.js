@@ -11,8 +11,7 @@ import logo from '../assets//images/icon.png';
 import { connect } from 'react-redux';
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
-import { Input } from "../components/common/Input";
-import { Button, Card, FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
+import { Button, Card, FormInput, FormValidationMessage } from "react-native-elements";
 import {loginUser,
         signupUser,
         emailChanged,
@@ -47,18 +46,18 @@ class LoginScreen extends Component {
       }
       onLoginFail() {
         //this.setState({ error: 'Authentication Failed', loading: false });
-          alert(this.state.error);
+        alert(this.state.error);
       }
     
       onLoginSuccess() {
-        this.setState({
-          uID: this.state.user,
-          email: '',
-          password: '',
-          loading: false,
-          error: '',
-          logInBool: true
-        });
+        // this.setState({
+        //   uID: this.state.user,
+        //   email: '',
+        //   password: '',
+        //   loading: false,
+        //   error: '',
+        //   logInBool: true
+        // });
         this.props.navigation.navigate('Home');
       }
       onLoginAttempt() {
@@ -120,7 +119,7 @@ class LoginScreen extends Component {
          style={styles.logo} 
           source={logo} />
         </View>
-      <View style={styles.container}>
+      <View>
        <Card title='Sign In'>
         <View style={styles.emailContainer}>
           <FormInput 
@@ -162,50 +161,25 @@ class LoginScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flex: 1,
-    paddingTop: 50
-  },
+  // container: {
+  //   flexDirection: 'column',
+  //   justifyContent: 'flex-start',
+  //   alignItems: 'center',
+  //   flex: 1,
+  //   paddingTop: 50
+  // },
   logo: {
-    width: 200,
-    height: 200,
+    width: 190,
+    height: 190,
     resizeMode: 'contain',
     alignItems: 'center'
-  },
-  createAccount: {
-    height: 30,
-  },
-  normalContainer: {
-    height: 20,
-  },
-  normalText: {
-    color: '#5B5A5A',
-    fontSize: 12,
-    alignItems: 'center',
-    textAlign: 'center',
-    width: 330,
-  },
-  createText: {
-    color: '#FF7260',
-    fontSize: 12,
-    alignItems: 'center',
-    textAlign: 'center',
-    width: 330,
-  },
-  forgotText: {
-    color: '#5B5A5A',
-    fontSize: 12,
-    alignItems: 'flex-end',
-    textAlign: 'right',
-    width: 330,
   },
   logoContiner: {
     //height: 170,
     //flexDirection: 'column',
-    //justifyContent: 'flex-end',
+    //flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   textInput: {
     color: '#989899',
@@ -218,37 +192,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   buttonStyle: {
-    alignSelf: 'flex-end',
-    position: 'absolute',
-    top: 200,
-    //bottom: 15,
+    //alignSelf: 'flex-end',
+    //position: 'absolute',
+    top: 50,
+    //bottom: 10,
+    padding: 10,
+    alignSelf: 'center',
     backgroundColor: '#0489B1',
-    //borderRadius: 10,
-    //borderWidth: 0.5,
+    borderRadius: 10,
+    borderWidth: 0.5,
     width: 125,
     height: 45,
-  },
-  button: {
-    
-    // width: 325,
-    // borderColor: '#0489B1',
-    // borderWidth: 1,
-    // height: 50,
-    // padding: 10,
-    // borderRadius: 24,
-    // marginTop: 20,
-    // backgroundColor: '#0489B1',
-    flexDirection: 'column',
-    flex: 1
-    // //justifyContent: 'center',
-    // //alignItems: 'center',
-    // shadowColor: '#0489B1',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 4
-    // },
-    // shadowRadius: 5,
-    // shadowOpacity: 0.8
   },
   buttonText: {
     color: 'white',
