@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import Camera from "../components/Camera";
 //import { loginUser, signupUser } from "../actions/auth_actions";
 import LoginForm from "../components/LoginForm";
@@ -13,13 +14,15 @@ import HomeBottomButtons from '../components/HomeBottomButtons';
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
 import {barCodeData,
-        walRes,
+        singleResponce,
+        multiResponce,
         loginUser,
         signupUser,
         emailChanged,
         passwordChanged,
         signoutUser
         } from "../actions";
+import * as urls from "../services/urlbuilder";
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -155,10 +158,16 @@ class HomeScreen extends React.Component {
   }
 
   handleTextInput = async () => {
-    console.log(`${this.state.textInput}`);
-   this.props.barCodeData("UPC", this.state.textInput);
-   await this.props.walRes(this.state.textInput);
-   this.props.navigation.navigate('searchResults');
+    const walinfo = await axios.get(urls.walmartTextUrl(this.state.textInput));
+    console.log(walinfo.data.numItems);
+    if (walinfo.data.numItems === 1) {
+      console.log("hi");
+      this.props.singleResponce(walinfo.data.items[0]);
+      this.props.navigation.navigate('searchResults');
+    } else if (walinfo.data.numItems > 1) {
+      this.props.multiResponce(walinfo.data.items);
+      this.props.navigation.navigate('multi');
+    }
  }
 
   /////////////////////////////////////////////
@@ -167,12 +176,17 @@ class HomeScreen extends React.Component {
   //reducers and sends the user to the results screen.
      handleBarCodeScanned = async ({data, type}) => {
        console.log(`${data} ${type}`);
-      this.setState({cameraVisable: !this.state.cameraVisable });
-      this.props.barCodeData(type, data);
-      await this.props.walRes(data);
-      this.props.navigation.navigate('searchResults');
-    }
-
+       const walinfo = await axios.get(urls.walmartTextUrl(data));
+       console.log(walinfo.data.numItems);
+       if (walinfo.data.numItems === 1) {
+         console.log("hi");
+         this.props.singleResponce(walinfo.data.items[0]);
+         this.props.navigation.navigate('searchResults');
+       } else if (walinfo.data.numItems > 1) {
+         this.props.multiResponce(walinfo.data.items);
+         this.props.navigation.navigate('multi');
+        }
+      }
 
    ////////////////////////////////////////////////////////
    //gui for home screen   
@@ -348,4 +362,5 @@ export default connect(mapStateToProps, { emailChanged,
                                           signupUser,
                                           loginUser, 
                                           barCodeData,
-                                          walRes})(HomeScreen);
+                                          singleResponce,
+                                          multiResponce})(HomeScreen);
