@@ -2,14 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, ImageBackground, View, Dimensions, TouchableOpacity } from 'react-native';
 //import ReduxThunk from 'redux-thunk';
 import firebase from "firebase";
-
-import {
-  StyleSheet,
-  ImageBackground,
-  View, 
-  Dimensions,
-  TouchableOpacity
-} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Permissions} from 'expo';
 import { SearchBar } from 'react-native-elements';
@@ -25,7 +17,8 @@ import {barCodeData,
         loginUser,
         signupUser,
         emailChanged,
-        passwordChanged
+        passwordChanged,
+        signoutUser
         } from "../actions";
 
 class HomeScreen extends React.Component {
@@ -35,97 +28,76 @@ class HomeScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     cameraVisable: false,
-    loginVisable: false,
-    signUpVisable: false,
     
     email: "",
     password: "",
     repeatPassword: "",
-    textInput: ''
+    textInput: '',
+    logInBool: false,
+    
   };
-  logInBool=false;
-   leftButton = "Log In"
-   rightButton= "Sign Up"
-   leftIcon = 'person'
-   rightIcon = 'person-add'
+    //logInBool=false;
+    leftButton = "Log In"
+    rightButton= "Sign Up"
+    leftIcon = 'person'
+    rightIcon = 'person-add'
   ///////////////////////////////////////////////
   // checks if we have permistion to used the camera from the user
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera'
     firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
-    }
-    componentDidUpdate(oldprops) {
-      console.log(this.props.user);
-      if ( this.props.user.uid !== "" ) {
-        console.log(this.props.user);
-        this.props.logInBool =true;
+    //console.log(this.props.uid);
+      if (this.props.uid) {
+        //console.log(this.props.uid);
+        this.setState({ logInBool: true });
+      } else {
+        //console.log(this.props.uid);
+        this.setState({ logInBool: false });
       }
-      else{
-      if (this.props.user.uid !== oldprops.user.uid) {
-        this.props.logInBool = false  ; 
-      }
-    }
-      
-    } 
-    
-    onEmailChange(text) {
-      this.props.emailChanged(text);
-    }
-    onPasswordChange(text) {
-      this.props.passwordChanged(text);
-    }
-    //onRepeatPasswordChange(text) {
-    //  this.props.repeatPasswordChanged(text);
-    //}
-    validateEmail = (email) => {
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
     };
-    validatePassword = (password) => {
-      const re = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
-        return re.test(password);
+    componentWillReceiveProps() {
+      
     }
+    
     onLoginAttempt() {
-      //console.log(this.state.email + ' ' + this.state.password);
+      //onLoginAttemptconsole.log(this.state.email + ' ' + this.state.password);
       const { email, password } = this.state;
-     // console.log(email + ' ' + password);
-      // if (!this.validateEmail(email)) {
-      //   alert("This is not a valid email address!");
-      // } 
-      // if (!this.validatePassword(password)) {
-      //   alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
-      // }
-      // if (this.validateEmail(email) && this.validatePassword(password)) {
+      //console.log(email + ' ' + password);
+       if (!this.validateEmail(email)) {
+         alert("This is not a valid email address!");
+       } 
+       if (!this.validatePassword(password)) {
+         alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+       }
+       if (this.validateEmail(email) && this.validatePassword(password)) {
          this.props.loginUser(email, password);
-      //   // if (this.state.user !== '') {
-      //   //   this.setState({logInBool: true});
-      //   //   this.setState({loginVisable: false});
-      //   //   this.renderButtons();
-      //   // }
-      // }
+          // if (this.state.user !== '') {
+          //   this.setState({logInBool: true});
+          //   this.setState({loginVisable: false});
+          //   this.renderButtons();
+          // }
+       }
+    }
+    onLogOutAttempt() {
+      this.props.signoutUser(this.props.uid);
     }
     onSignupAttempt() {
      //console.log(this.state.email + ' ' + this.state.password + ' ' + this.state.repeatPassword);
       const { email, password, repeatPassword } = this.state;
-      //console.log(email + ' ' + password + ' ' + repeatPassword);
-      // if (!this.validateEmail(email)) {
-      //   alert("This is not a valid email address!");
-      // } 
-      // if (!this.validatePassword(password)) {
-      //   alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
-      // }
-      // if (this.validateEmail(email) && this.validatePassword(password)) {
+      console.log(email + ' ' + password + ' ' + repeatPassword);
+       if (!this.validateEmail(email)) {
+         alert("This is not a valid email address!");
+       } 
+       if (!this.validatePassword(password)) {
+         alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+       }
+       if (this.validateEmail(email) && this.validatePassword(password)) {
        this.props.signupUser(email, password, repeatPassword);
-      //   // if (this.state.user !== '') {
-      //   //   this.setState({logInBool: true});
-      //   //   this.setState({loginVisable: false});
-      //   //   this.renderButtons();
-      //   // }
-      // }
+       }
     }
     
-    renderButtons() {
+    renderButtons = () => {
       switch (this.props.logInBool) {
         case true:
           this.leftButton = "Log Out";
@@ -148,22 +120,23 @@ class HomeScreen extends React.Component {
           </View>);
       }
     }
-    async handleLeftButtonPush() {
-      if (this.props.logInBool) {
-      //console.log("Log In Button Pushed");
-      //this.setState({logInBool: false});
+    handleLeftButtonPush() {
+      if (!this.props.logInBool) {
+        this.props.navigation.navigate('login');
+        console.log("Log in Button Pushed"); 
       this.renderButtons();
       } else {
-        this.onLogintog(this);          
+        console.log("Log Out Button Pushed"); 
+        this.renderButtons();        
       }
     }
     handleRightButtonPush() {
-      if (this.props.logInBool) {
-        //console.log("Log In Button Pushed");
-       // this.setState({logInBool: false});
+      if (!this.props.logInBool) {
+          this.props.navigation.navigate('login');
         this.renderButtons();
         } else {
-          this.onSignUptog(this);          
+          console.log("Saved List Button Pushed");
+          this.renderButtons();
         }
     }
     /////////////////////////////////////////////
@@ -179,20 +152,6 @@ class HomeScreen extends React.Component {
     if (this.state.hasCameraPermission)
     this.setState({cameraVisable: !this.state.cameraVisable });
   }
-  }
-
-  onLogintog() {
-    if (this.state.loginVisable)
-    this.setState({loginVisable: false});
-    else
-    this.setState({loginVisable: true});
-  }
-
-  onSignUptog() {
-    if (this.state.signUpVisable)
-    this.setState({signUpVisable: false});
-    else
-    this.setState({signUpVisable: true});
   }
 
   handleTextInput = async () => {
@@ -312,56 +271,6 @@ class HomeScreen extends React.Component {
             {/*
             end camera pop up
              **********************************************************************************/}
-
-             { /********************************************************************************
-               log in pop up section
-            */
-            }
-              <LoginForm 
-              visible={this.state.loginVisable}
-                Title="Log In"
-                button1="Log In"
-                onChange1={this.onEmailChange.bind(this)}
-                onChange1={(text) => this.setState({email: text})}
-                onChange2={this.onPasswordChange.bind(this)} 
-                onChange2={(text) => this.setState({password: text})} 
-                form1='Email'
-                form2='Password'
-                onCancelButton={this.onLogintog.bind(this)}
-                onSubmitButton={this.onLoginAttempt.bind(this)}
-                />
-            {
-              /*
-              log in pop up section
-              *********************************************************************************/
-            }
-              
-            { /********************************************************************************
-                sign up pop up section
-            */
-            }
-              <LoginForm
-              visible={this.state.signUpVisable}
-                Title="Sign Up"
-                button1="Sign Up"
-                onChange1={this.onEmailChange.bind(this)}
-                onChange1={(text) => this.setState({email: text})}
-                onChange2={this.onPasswordChange.bind(this)} 
-                onChange2={(text) => this.setState({password: text})} 
-                onChange3={(text) => this.setState({repeatPassword: text})}
-                form1='Email:'
-                form2='Password:'
-                form3='Repeat Password:'
-                signUpBool
-                onCancelButton={this.onSignUptog.bind(this)}
-                onSubmitButton={this.onSignupAttempt.bind(this)}
-                />
-                
-            {
-              /*
-              end sign up pop up section
-              *********************************************************************************/
-            }
           </ImageBackground>
       </View>
           );
@@ -428,7 +337,7 @@ const mapStateToProps = state => {
     email: state.auth.email,
     password: state.auth.password,
     repeatPassword: state.auth.repeatPassword,
-    user: state.auth.user
+    uid: state.auth.user
   };
 };
 //expots and conects home to the rest of the app.

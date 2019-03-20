@@ -8,6 +8,7 @@ import searchScreen from '../screens/searchScreen';
 import SeachResultsScreen from '../screens/SearchResultsScreen';
 import multipleResultesScreen from '../screens/multipleResultesScreen';
 import MapScreen from '../screens/MapScreen';
+import LoginScreen from '../screens/LoginScreen';
 
 const navigationOptions = {
 header: null,
@@ -65,6 +66,22 @@ SeachResultsStack.navigationOptions = {
   ),
 };
 
+const LoginStack = createStackNavigator({
+  login: LoginScreen,
+});
+
+LoginStack.navigationOptions = {
+  tabBarLabel: 'login',
+    tabBarVisible: false,
+  header: null,
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'}
+    />
+  ),
+};
+
 const MapScreenStack = createStackNavigator({
   Map: MapScreen,
 });
@@ -83,9 +100,11 @@ MapScreenStack.navigationOptions = {
 
 export default createBottomTabNavigator(
   {
-  HomeStack,
+ HomeStack,
+ SeachResultsStack,
   MultiResults,
-  SeachResultsStack,
-  MapScreenStack
+ 
+  MapScreenStack,
+  LoginStack
   },
   navigationOptions);

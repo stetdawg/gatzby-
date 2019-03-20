@@ -3,7 +3,7 @@ import { Button } from "react-native-elements";
 import { View } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const homeBottomButtons = ({rightButtonPush,
+const HomeBottomButtons = ({rightButtonPush,
                             rightButtonName,
                             leftButtonName,
                           leftButtonPush,
@@ -11,12 +11,14 @@ const homeBottomButtons = ({rightButtonPush,
                           iconRight}) => {  
 //console.log(ifLogedIn);
     return (
-      <View style={{
-        //flex: 1,
+      
+               
+        <View 
+      style={{
         flexDirection: 'row',
         justifyContent: 'center',
-        //alignItems: 'stretch',
-      }}>>
+      }}> 
+              
         <View style={styles.ViewStyle}>
           <Button 
           icon={{name: iconLeft,
@@ -37,11 +39,10 @@ const homeBottomButtons = ({rightButtonPush,
         onPress={rightButtonPush}
         />
       </View>
-      
-    </View>
+      </View>     
+        
+        
     );
-  
-
   };
 const styles = {
   textStyle: {
@@ -73,4 +74,4 @@ const styles = {
     height: 45,
   }
 };
-export default homeBottomButtons;
+export default HomeBottomButtons;

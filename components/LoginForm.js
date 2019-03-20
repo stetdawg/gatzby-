@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, View } from 'react-native';
 import { Button, Card, FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
-import customStyles from '../assets/constants/modal.css.js';
+
 
 const LoginForm = ({ onChange1, onChange1Value, onChange2, onChange2Value, onChange3, onChange3Value, form1, form2, form3, button1, Title, visible = false, onCancelButton, onSubmitButton, signUpBool = false}, props) => {    
 if (signUpBool)

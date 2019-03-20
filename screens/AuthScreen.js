@@ -120,9 +120,9 @@ class AuthScreen extends Component {
             //icon={{ name: 'vpn-key' }}
             onPress={this.onStandardSignupButtonPress}
           />
-
+          <View>
           <Text style={{ textAlign: 'center', marginTop: 10 }}>- OR -</Text>
-
+          </View>
           {/* <SocialIcon
             type="facebook"
             title="Sign Up With Facebook"
@@ -132,7 +132,9 @@ class AuthScreen extends Component {
           /> */}
 
           <View style={styles.detailWrapperStyle}>
+            <View>
             <Text style={{ textAlign: 'center' }}>Already have an account?&nbsp;</Text>
+            </View>
             <TouchableWithoutFeedback onPress={this.onSignupLoginToggle}>
               <View>
                 <Text style={{ color: 'blue', textDecorationLine: 'underline' }}>Log In</Text>
@@ -149,9 +151,9 @@ class AuthScreen extends Component {
           //icon={{ name: 'vpn-key' }}
           onPress={this.onStandardLoginButtonPress}
         />
-
+        <View>
         <Text style={{ textAlign: 'center', marginTop: 10 }}>- OR -</Text>
-
+        </View>
         {/* <SocialIcon
           type="facebook"
           title="Log In With Facebook"
@@ -161,7 +163,9 @@ class AuthScreen extends Component {
         /> */}
 
         <View style={styles.detailWrapperStyle}>
+          <View>
           <Text style={{ textAlign: 'center' }}>Don't have an account?&nbsp;</Text>
+          </View>
           <TouchableWithoutFeedback onPress={this.onSignupLoginToggle}>
             <View>
               <Text style={{ color: 'blue', textDecorationLine: 'underline' }}>Sign Up</Text>
