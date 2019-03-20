@@ -45,31 +45,25 @@ class LoginScreen extends Component {
           return re.test(password);
       }
       onLoginFail() {
-        //this.setState({ error: 'Authentication Failed', loading: false });
         alert(this.state.error);
       }
     
       onLoginSuccess() {
-        // this.setState({
-        //   uID: this.state.user,
-        //   email: '',
-        //   password: '',
-        //   loading: false,
-        //   error: '',
-        //   logInBool: true
-        // });
         this.props.navigation.navigate('Home');
       }
       onLoginAttempt() {
         const { email, password } = this.props;
 
         this.props.loginUser(email, password);
-          if (this.state.user !== '') {
-          this.onLoginSuccess(); 
-          }
-          if (this.state.user === '') {
-          this.onLoginFail();
-          }
+        console.log(this.state.user);
+
+          if (this.props.user !== '') {
+            console.log(this.props.user);
+            this.onLoginSuccess(); 
+            }
+            if (this.props.user === '') {
+            this.onLoginFail();
+            }
       }
       onLogOutAttempt() {
         this.props.signoutUser(this.props.uid);
@@ -77,10 +71,11 @@ class LoginScreen extends Component {
       onSignupAttempt() {
          const { email, password } = this.props;
          this.props.signupUser(email, password);
-              if (this.state.user !== '') {
+         console.log(this.props.user);
+              if (this.props.user !== '') {
                 this.onLoginSuccess(); 
               }
-              if (this.state.user === '') {
+              if (this.props.user === '') {
                 this.onLoginFail();
               }
            //}
@@ -249,11 +244,16 @@ const mapStateToProps = ({ auth }) => {
   };
   const mapDispatchToProps = (dispatch) => {
     return {
-        emailChanged: (emailAddress) => dispatch(emailChanged(emailAddress)),
-        passwordChanged: (password) => dispatch(passwordChanged(password)),
-        loginUser: (email, password) => dispatch(loginUser(email, password))
-    };
-};
+      emailChanged: (emailAddress) => dispatch(emailChanged(emailAddress)),
+      passwordChanged: (password) => dispatch(passwordChanged(password)),
+          loginUser: (email, password) => dispatch(loginUser(email, password))
+      };
+  };
 
 export default connect(mapStateToProps, 
                     mapDispatchToProps)(LoginScreen);
+
+// export default connect(mapStateToProps, {emailChanged,
+//                       passwordChanged,
+//                       signupUser,
+//                       loginUser,})(LoginScreen);

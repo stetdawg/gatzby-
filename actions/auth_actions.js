@@ -48,7 +48,7 @@ export const resetSignupLoginPages = () => ({
 
 ////////////////////////////////////////////////////////////////
 // Call appropriate FireBase method to login
-export const loginUser = ( email, password ) => {
+export const loginUser = (email, password) => {
   return (dispatch) => {
     dispatch({type: AUTH_USER_ATTEMPT});
 
