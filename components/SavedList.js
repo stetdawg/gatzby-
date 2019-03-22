@@ -36,12 +36,10 @@ class SavedList extends Component {
         source={{ uri: this.props.item.largeImage }}
         style={{width: Dimensions.get('window').width / 2, 
         height: Dimensions.get('window').height / 4, 
-      flex: 1,
-    marginBottom: '10%'}}
+        flex: 1,
+        marginBottom: '10%'}}
         resizeMode="cover"
-        >
-          
-        </ImageBackground>
+        />
       </View>
       </TouchableOpacity>
     );
