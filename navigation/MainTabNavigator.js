@@ -8,6 +8,8 @@ import SeachResultsScreen from '../screens/SearchResultsScreen';
 import multipleResultesScreen from '../screens/multipleResultesScreen';
 import SavedItemsScreen from '../screens/SavedItemsScreen';
 import MapScreen from '../screens/MapScreen';
+import LoginScreen from '../screens/LoginScreen';
+
 
 const navigationOptions = {
 header: null,
@@ -96,6 +98,21 @@ SavedItems.navigationOptions = {
   ),
 };
 
+const LoginStack = createStackNavigator({
+  login: LoginScreen,
+  });
+  SavedItems.navigationOptions = {
+    tabBarLabel: 'login',
+    header: 'none',
+    tabBarVisible: false,
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link'}
+      />
+    ),
+  };
+
 export default createBottomTabNavigator(
   {
   HomeStack,
@@ -103,5 +120,6 @@ export default createBottomTabNavigator(
   SeachResultsStack,
   MapScreenStack,
   SavedItems, 
+  LoginStack,
   },
   navigationOptions);

@@ -71,8 +71,8 @@ class HomeScreen extends React.Component {
   onSavedPress = () => {
     this.props.navigation.navigate('saved');
   }  
-  onAuthPress = () => {
-    this.props.navigation.navigate('auth');
+  onLoginPress = () => {
+    this.props.navigation.navigate('login');
   }  
   ////////////////////////////////////////////////////////////
   // grabs the an array of items info from walmart rest api, and 
@@ -184,7 +184,7 @@ class HomeScreen extends React.Component {
                   </CardSectionTwo>   
                   <CardSection>
                   <AuthButtons
-                  onPress={this.onAuthPress}>
+                  onPress={this.onLoginPress}>
                   Login/ Sign-Up 
                             </AuthButtons>
                   </CardSection>
