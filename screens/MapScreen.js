@@ -1,49 +1,58 @@
 import React, { Component } from "react";
-import {
+import {     
     AppRegistry,
     View,
     Text,
     StyleSheet,
-    Button
-} from "react-native";
+    Button 
+} from 'react-native';
 import MapView from "react-native-maps";
-import { Constants, Location, Permissions } from 'expo';
 
 export default class MapScreen extends Component {
+    constructor() {
+        super();
+        this.state = {
+            ready: false,
+            where: {lat: null, lng: null},
+            error: null
+        };
+    }
+    componentDidMount() {
+        let geoOptions = {
+            enableHighAccuracy: true,
+        };
+        navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoFailure, geoOptions);
+    }
+    geoSuccess = (position) => {
+        //console.log(position.coords.latitude);
+        
+        this.setState({
+            ready: true,
+            where: {lat: position.coords.latitude, lng: position.coords.longitude }
+        });
+    }
     
-    state = {
-        local: null 
-}
-    componentWillMount = async () => {
-        let { status } = await Permissions.askAsync(Permissions.LOCATION);
-        console.log(status);
-        if (status !== 'granted') {
-          this.setState({
-            errorMessage: 'Permission to access location was denied',
-          });
-        }
-        else {
-            console.log("high");
-            const temploc = await Location.getCurrentPositionAsync();
-            console.log(JSON.stringify(this.local));
-            this.setState({local: temploc});         
-        }  
-    };
-
+    geoFailure = (err) => {
+        this.setState({error: err.message});
+    }
+    
+    
     render() {
-        console.log(JSON.stringify(this.state.local));
         return (
-
             <View style={styles.container}>
                 <MapView
                     style={styles.map}
-                    initialRegion={
-                        this.state.local
-                    }>
+                    initialRegion={{
+                        latitude: this.state.where.lat,
+                        longitude: this.state.where.lng,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}>
                         <MapView.Marker
-                            coordinate={
-                                this.state.local
-                            }>
+                            coordinate={{
+                                latitude: Number(this.state.where.lat),
+                                longitude: Number(this.state.where.lng),
+                            }}>
                                 <View style={styles.radius}>
                                     <View style={styles.marker} />
                                 </View>
@@ -79,9 +88,12 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#F5FCFF'
+        justifyContent: 'center'
+    },
+    big: {
+        fontSize: 48
     },
     map: {
         left: 0,
