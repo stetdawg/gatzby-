@@ -21,7 +21,7 @@ import {
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
-export const emailChanged = (text) => ({
+export const emailChanged = text => ({
   type: LOGIN_EMAIL_CHANGED,
   payload: text
 });
@@ -48,29 +48,21 @@ export const resetSignupLoginPages = () => ({
 
 ////////////////////////////////////////////////////////////////
 // Call appropriate FireBase method to login
-export const loginUser = ( email, password ) => {
-  return (dispatch) => {
-    dispatch({type: AUTH_USER_ATTEMPT});
+export const loginUser = (email, password) => async dispatch => {
+  
+    try {
+      // Dispatch event to trigger loading spinner
+      dispatch({ type: AUTH_USER_ATTEMPT });
 
-  firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(user => authUserSuccess(dispatch, user))
-    .catch((error) => {
-      console.log(error);
+      // Attempt to login user
+      const { user } = await firebase.auth().signInWithEmailAndPassword(email, password);
+      console.log(user);
+      authUserSuccess(dispatch, user);
+    } catch (err) {
+      console.error(err);
+      loginUserFail(dispatch, 'Authentication Failed');
+    }
 
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(user => authUserSuccess(dispatch, user))
-      .catch(() => loginUserFail(dispatch));
-    });
-  };
-};
-
-////////////////////////////////////////////////////////////////
-// Helper method for successful email/password login
-const authUserSuccess = (dispatch, user) => {
-  dispatch({
-    type: AUTH_USER_SUCCESS,
-    payload: user
-  });
 };
 
 ////////////////////////////////////////////////////////////////
@@ -99,10 +91,10 @@ const loginUserFail = (dispatch) => {
 
 ////////////////////////////////////////////////////////////////
 // Call appropriate FireBase method to signup user
-export const signupUser = (email, password) => async dispatch => {
-  // if (password !== passwordRetype) {
-  //   return loginUserFail(dispatch, 'Passwords do not match');
-  // }
+export const signupUser = (email, password, passwordRetype) => async dispatch => {
+  if (password !== passwordRetype) {
+    return loginUserFail(dispatch, 'Passwords do not match');
+  }
   try {
     // Dispatch event to trigger loading spinner
     dispatch({ type: AUTH_USER_ATTEMPT });

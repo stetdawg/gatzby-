@@ -11,7 +11,7 @@ import logo from '../assets//images/icon.png';
 import { connect } from 'react-redux';
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
-import { Button, Card, FormInput, FormValidationMessage } from "react-native-elements";
+import { Button, Card, FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
 import {loginUser,
         signupUser,
         emailChanged,
@@ -27,6 +27,7 @@ class LoginScreen extends Component {
         repeatPassword: "",
         textInput: '',
         error: '',
+
         loading: false,
         uID: ''
     }
@@ -45,71 +46,57 @@ class LoginScreen extends Component {
           return re.test(password);
       }
       onLoginFail() {
-        //this.setState({ error: 'Authentication Failed', loading: false });
-        alert(this.state.error);
+        this.setState({ error: 'Authentication Failed', loading: false });
       }
     
       onLoginSuccess() {
-        // this.setState({
-        //   uID: this.state.user,
-        //   email: '',
-        //   password: '',
-        //   loading: false,
-        //   error: '',
-        //   logInBool: true
-        // });
-        this.props.navigation.navigate('Home');
+        this.setState({
+          email: '',
+          password: '',
+          loading: false,
+          error: '',
+          logInBool: true
+        });
+        this.props.navigation.navigate('homescreen');
       }
       onLoginAttempt() {
-        const { email, password } = this.props;
-
-        this.props.loginUser(email, password);
-          if (this.state.user !== '') {
-          this.onLoginSuccess(); 
+        //console.log(this.state.email + ' ' + this.state.password);
+        const { email, password } = this.state;
+        // console.log(email + ' ' + password);
+        //  if (!this.validateEmail(email)) {
+        //    alert("This is not a valid email address!");
+        //  } 
+        //  if (!this.validatePassword(password)) {
+        //    alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+        //  }
+        //  if (this.validateEmail(email) && this.validatePassword(password)) {
+           this.props.loginUser(email, password);
+           if (this.state.user !== '') {
+            this.setState({logInBool: true});
           }
-          if (this.state.user === '') {
-          this.onLoginFail();
-          }
-      }
-      onLogOutAttempt() {
-        this.props.signoutUser(this.props.uid);
+         //}
       }
       onSignupAttempt() {
-         const { email, password } = this.props;
-         this.props.signupUser(email, password);
+        //console.log(this.state.email + ' ' + this.state.password + ' ' + this.state.repeatPassword);
+         const { email, password, repeatPassword } = this.state;
+        //  console.log(email + ' ' + password + ' ' + repeatPassword);
+        //   if (!this.validateEmail(email)) {
+        //     alert("This is not a valid email address!");
+        //   } 
+        //   if (!this.validatePassword(password)) {
+        //     alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
+        //   }
+        //   if (this.validateEmail(email) && this.validatePassword(password)) {
+          this.props.signupUser(email, password, repeatPassword);
               if (this.state.user !== '') {
-                this.onLoginSuccess(); 
+                onLoginSuccess();
               }
               if (this.state.user === '') {
-                this.onLoginFail();
+                onLoginFail();
               }
            //}
         }
-    renderError() {
-      if (this.props.error) {
-        return (
-          <View style={{ backgroundColor: 'white'}}>
-            <Text style={styles.errorTextStyle}>
-              {this.props.error}
-            </Text>
-          </View>
-        );
-      }
-    }
-    renderButton() {
-      if (this.props.loading) {
-        return <Spinner size='large' />;
-      }
-      return (
-        <TouchableOpacity>
-        <Button 
-            buttonStyle={styles.buttonStyle}
-            title="Sign In"
-            onPress={this.onLoginAttempt.bind(this)}
-        />
-      </TouchableOpacity>
-      );
-    }
+
     render() {
         //if (signUpBool)
     return (
@@ -119,41 +106,43 @@ class LoginScreen extends Component {
          style={styles.logo} 
           source={logo} />
         </View>
-      <View>
+      <View style={styles.container}>
        <Card title='Sign In'>
+       <View style={{height: 30}} />
         <View style={styles.emailContainer}>
           <FormInput 
-            style={styles.textInput}
-            label='Email' 
-            placeholder='Email@gmail.com'
-            //onChangeText={(text) => this.setState({email: text})}
-            onChangeText={this.onEmailChange.bind(this)}
-            value={this.props.email} 
-            />
+            style={styles.textInput} placeholder='Email'
+            onChangeText={(text) => this.setState({email: text})} />
         </View>
         <View style={styles.passwordContainer}>
           <FormInput 
-            style={styles.textInput}
-            label="Password" 
+            style={styles.textInput} 
             placeholder='Password'
             secureTextEntry 
-            //onChangeText={(text) => this.setState({password: text})}
-            onChangeText={this.onPasswordChange.bind(this)}
-            value={this.props.password} 
-            />
+            onChangeText={(text) => this.setState({password: text})} />
         </View>
         </Card>
-        <View>
-            {this.renderError()}
+        <TouchableOpacity>
+        <View style={styles.button}>
+        <Button 
+            buttonStyle={styles.buttonStyle}
+            title="Sign In"
+            onPress={this.onLoginAttempt.bind(this)}
+        />
         </View>
-        <View 
-          style={{
-            justifyContent: 'center',
-          }}>
-          <View>
-            {this.renderButton()}
-          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.normalContainer}>
+          
+      <TouchableOpacity>
+          <View style={styles.button}>
+            <Button 
+                buttonStyle={styles.buttonStyle}
+                title="Sign Up"
+                onPress={this.onSignupAttempt.bind(this)}
+            />
         </View>
+          </TouchableOpacity>
       </View>
       </View>
     );
@@ -161,30 +150,53 @@ class LoginScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flexDirection: 'column',
-  //   justifyContent: 'flex-start',
-  //   alignItems: 'center',
-  //   flex: 1,
-  //   paddingTop: 50
-  // },
+  container: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flex: 1,
+    paddingTop: 50
+  },
   logo: {
-    width: 190,
-    height: 190,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
     alignItems: 'center'
+  },
+  createAccount: {
+    height: 30,
+  },
+  normalContainer: {
+    height: 20,
+  },
+  normalText: {
+    color: '#5B5A5A',
+    fontSize: 12,
+    alignItems: 'center',
+    textAlign: 'center',
+    width: 330,
+  },
+  createText: {
+    color: '#FF7260',
+    fontSize: 12,
+    alignItems: 'center',
+    textAlign: 'center',
+    width: 330,
+  },
+  forgotText: {
+    color: '#5B5A5A',
+    fontSize: 12,
+    alignItems: 'flex-end',
+    textAlign: 'right',
+    width: 330,
   },
   logoContiner: {
     //height: 170,
     //flexDirection: 'column',
-    //flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    //justifyContent: 'flex-end',
   },
   textInput: {
     color: '#989899',
-    height: 20,
-    width: 100,
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -192,17 +204,37 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   buttonStyle: {
-    //alignSelf: 'flex-end',
-    //position: 'absolute',
-    top: 50,
-    //bottom: 10,
-    padding: 10,
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    top: 200,
+    //bottom: 15,
     backgroundColor: '#0489B1',
-    borderRadius: 10,
-    borderWidth: 0.5,
+    //borderRadius: 10,
+    //borderWidth: 0.5,
     width: 125,
     height: 45,
+  },
+  button: {
+    
+    // width: 325,
+    // borderColor: '#0489B1',
+    // borderWidth: 1,
+    // height: 50,
+    // padding: 10,
+    // borderRadius: 24,
+    // marginTop: 20,
+    // backgroundColor: '#0489B1',
+    flexDirection: 'column',
+    flex: 1
+    // //justifyContent: 'center',
+    // //alignItems: 'center',
+    // shadowColor: '#0489B1',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 4
+    // },
+    // shadowRadius: 5,
+    // shadowOpacity: 0.8
   },
   buttonText: {
     color: 'white',
@@ -233,27 +265,18 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
     backgroundColor: '#F5F6F7'
     
-  },
-  errorTextStyle: {
-    fontSize: 20,
-    alignSelf: 'center',
-    color: 'red'
   }
   
 });
-
-const mapStateToProps = ({ auth }) => {
-    const { email, password, error, loading } = auth;
-
-    return { email, password, error, loading };
-  };
-  const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = state => {
     return {
-        emailChanged: (emailAddress) => dispatch(emailChanged(emailAddress)),
-        passwordChanged: (password) => dispatch(passwordChanged(password)),
-        loginUser: (email, password) => dispatch(loginUser(email, password))
+      email: state.auth.email,
+      password: state.auth.password,
+      repeatPassword: state.auth.repeatPassword,
+      user: state.auth.user
     };
-};
-
-export default connect(mapStateToProps, 
-                    mapDispatchToProps)(LoginScreen);
+  };
+export default connect(mapStateToProps, {emailChanged,
+                                        passwordChanged,
+                                        signupUser,
+                                        loginUser})(LoginScreen);

@@ -1,6 +1,8 @@
+
 import { LOGIN_EMAIL_CHANGED, LOGIN_PASSWORD_CHANGED, AUTH_USER_ATTEMPT, AUTH_USER_SUCCESS, AUTH_USER_FAIL} from '../actions/types';
 
 const INITIAL_STATE = { user: null, email: '', password: '', repeatPassword: '', error: '', loading: false};
+
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
