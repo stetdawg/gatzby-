@@ -17,15 +17,13 @@ const styles = {
   textStyle: {
   color: '#20b2aa',
    fontSize: 12,
-   marginRight: '15%',
+   //marginRight: '15%',
   },
   buttonStyle: {
-    marginTop: "1%",
+  marginTop: "1%",
   marginBottom: "1%",
   marginRight: "2%",
   marginLeft: "2%",
-  width: "12%",
-//  alignSelf: 'center'
       },
 };
 
