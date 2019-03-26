@@ -13,7 +13,7 @@ const styles = {
   containerStyle: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    //justifyContent: 'center'
   },
 };
 

@@ -123,13 +123,10 @@ class HomeScreen extends React.Component {
           {/************************************************************************************
           the name and sub text of the home screen
           */}
-         <Card> 
           <AltName />
-          </Card> 
-          <Card>
-            <View
+          <View
                 style={styles.searchContainerStyle}>
-            <SearchBar
+                <SearchBar
                      placeholder='Enter UPC' 
                      round
                      inputStyle={{backgroundColor: "white"}}
@@ -183,13 +180,13 @@ class HomeScreen extends React.Component {
                      
                   </CardSectionTwo>   
                   <CardSection>
+
                   <AuthButtons
                   onPress={this.onLoginPress}>
                   Login/ Sign-Up 
                             </AuthButtons>
-                  </CardSection>
+                            </CardSection>
             </View>
-          </Card>   
               <Camera
                   visible={this.state.cameraVisable}
                   camTog={this.onScantog.bind(this)}

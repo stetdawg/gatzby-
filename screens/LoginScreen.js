@@ -5,13 +5,17 @@ import {
   StyleSheet, 
   Image, 
   TextInput,
-  TouchableOpacity
 } from 'react-native';
+import Header from '../components/common/Header';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import logo from '../assets//images/icon.png';
+import { Card } from '../components/AuthComponents/Card';
+import { CardSection } from '../components/AuthComponents/CardSection';
 import { connect } from 'react-redux';
 import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
-import { Button, Card, FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
+import { FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
+import { Button } from '../components/AuthComponents/Button';
 import {loginUser,
         signupUser,
         emailChanged,
@@ -20,15 +24,19 @@ import {loginUser,
     } from "../actions";
 //const LoginScreen = ({ onChange1, onChange2, onChange3, form1, form2, form3, button1, Title, onCancelButton, onSubmitButton, signUpBool = false}, props) => {
 
-class LoginScreen extends Component {
-    state = {
+  class LoginScreen extends React.Component {
+    static navigationOptions = {
+      header: null,
+      tabBarVisible: false
+    };
+  state = {
         email: "",
         password: "",
         repeatPassword: "",
         textInput: '',
         error: '',
         loading: false
-    }
+    };
     validateEmail = (email) => {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return re.test(email);
@@ -88,20 +96,22 @@ class LoginScreen extends Component {
               }
            //}
         }
-
+        onHomePress = () => {
+          this.props.navigation.navigate('Home');
+        }  
     render() {
         //if (signUpBool)
     return (
-      <View>
-        <View style={styles.logoContiner}>
-         <Image 
+  <View
+  style={styles.container}>
+  <CardSection>
+      <Image 
          style={styles.logo} 
-          source={logo} />
-        </View>
-      <View style={styles.container}>
-       <Card title='Sign In'>
-       <View style={{height: 30}} />
-        <View style={styles.emailContainer}>
+          source={logo} /> 
+     </CardSection>
+     <CardSection>
+
+     <View style={styles.emailContainer}>
           <FormInput 
             style={styles.textInput} placeholder='Email'
             onChangeText={(text) => this.setState({email: text})} />
@@ -113,54 +123,31 @@ class LoginScreen extends Component {
             secureTextEntry 
             onChangeText={(text) => this.setState({password: text})} />
         </View>
-        </Card>
-        <TouchableOpacity>
-        <View style={styles.button}>
-        <Button 
-            buttonStyle={styles.buttonStyle}
-            title="Sign In"
-            onPress={this.onLoginAttempt.bind(this)}
-        />
-        </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.normalContainer}>
-          
-      <TouchableOpacity>
-          <View style={styles.button}>
-            <Button 
-                buttonStyle={styles.buttonStyle}
-                title="Sign Up"
-                onPress={this.onSignupAttempt.bind(this)}
-            />
-        </View>
-          </TouchableOpacity>
-      </View>
-      </View>
-    );
+        <Button style={styles.buttonStyle}>
+        Login
+        </Button>
+        </CardSection>
+</View>
+);
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1, 
     flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flex: 1,
-    paddingTop: 50
+    backgroundColor: '#3cb371'
   },
   logo: {
-    width: 200,
-    height: 200,
-    resizeMode: 'contain',
+    
+    flex: 1,
+    resizeMode: 'stretch',
     alignItems: 'center'
   },
   createAccount: {
-    height: 30,
+   flex: 1,
   },
-  normalContainer: {
-    height: 20,
-  },
+
   normalText: {
     color: '#5B5A5A',
     fontSize: 12,
@@ -178,84 +165,49 @@ const styles = StyleSheet.create({
   forgotText: {
     color: '#5B5A5A',
     fontSize: 12,
-    alignItems: 'flex-end',
     textAlign: 'right',
     width: 330,
   },
-  logoContiner: {
-    //height: 170,
-    //flexDirection: 'column',
-    //justifyContent: 'flex-end',
-  },
   textInput: {
     color: '#989899',
-    flex: 1,
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 14,
   },
   buttonStyle: {
-    alignSelf: 'flex-end',
-    position: 'absolute',
-    top: 200,
-    //bottom: 15,
+    flex: .2, 
+   height: '10%',
+    marginTop: '10%',
     backgroundColor: '#0489B1',
-    //borderRadius: 10,
-    //borderWidth: 0.5,
-    width: 125,
-    height: 45,
-  },
-  button: {
-    
-    // width: 325,
-    // borderColor: '#0489B1',
-    // borderWidth: 1,
-    // height: 50,
-    // padding: 10,
-    // borderRadius: 24,
-    // marginTop: 20,
-    // backgroundColor: '#0489B1',
-    flexDirection: 'column',
-    flex: 1
-    // //justifyContent: 'center',
-    // //alignItems: 'center',
-    // shadowColor: '#0489B1',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 4
-    // },
-    // shadowRadius: 5,
-    // shadowOpacity: 0.8
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 12
   },
   emailContainer: {
-    width: 325,
+    flex: .2, 
+   // alignSelf: 'center',
     borderColor: '#CFD0D1',
     borderWidth: 1,
-    height: 50,
-    padding: 10,
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    borderBottomWidth: 0,
-    backgroundColor: '#F5F6F7'
-  },
-  passwordContainer: {
-    width: 325,
-    borderColor: '#CFD0D1',
-    borderWidth: 1,
-    height: 50,
-    padding: 10,
+    height: '10%',
+    width: '80%',
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
-    backgroundColor: '#F5F6F7'
+    backgroundColor: '#F5F6F7',
+   marginTop: '10%',
+    marginBottom: '1%'
+  },
+  passwordContainer: {
+    flex: .2, 
+//alignSelf: 'center',
+    borderColor: '#CFD0D1',
+    borderWidth: 1,
+    height: '10%',
+    width: '80%',
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+    backgroundColor: '#F5F6F7',
+    marginBottom: '8%'
     
   }
   

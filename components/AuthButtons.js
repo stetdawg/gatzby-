@@ -21,9 +21,8 @@ const styles = {
  //  marginRight: '12%'
   },
   buttonStyle: {
-    
-marginTop: "100%",
-  marginBottom: "1%",
+ marginTop: "60%",
+    marginBottom: "1%",
   width: "50%",
 //  alignSelf: 'center'
       },
