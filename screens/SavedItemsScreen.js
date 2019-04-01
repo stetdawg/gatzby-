@@ -77,6 +77,17 @@ renderRow(item) {
                        back to home (:
                        </Button>
         </Card>
+        <FlatList
+      style={{height: "100%",
+              marginTop: "10%",
+              marginBottom: "-10%"}}
+       data={this.props.items}
+       renderItem={({item}) => <SavedList 
+                                          item={item} 
+                                          navigation={this.props.navigation}
+                                          />}
+      keyExtractor={item => item.name}
+      />
      </View>
     );
   }
