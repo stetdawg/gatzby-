@@ -7,22 +7,22 @@ const AltNameTwo = () => {
         style={styles.nameStyle}>
          <Text
          style={styles.textnameStyle}>
-         GATZBY
+         Search Results
         </Text>
         </View>
     );
     };
     const styles = StyleSheet.create({
         nameStyle: {
-            alignSelf: 'center',
-            paddingTop: Dimensions.get('window').height / 12
+           alignSelf: 'center',
+            paddingTop: Dimensions.get('window').height / 20
         },
           textnameStyle: {
             fontFamily: 'Avenir-Roman',
-            fontSize: 60,
+            fontSize: 30,
             color: 'black',
             textShadowColor: 'white',
-          shadowOpacity: 0.2 
+        //  shadowOpacity: 0.5 
           },  
          })
  export default AltNameTwo;

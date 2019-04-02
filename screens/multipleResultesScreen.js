@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { ImageBackground, FlatList, View, TouchableOpacity } from "react-native";
+import { StyleSheet, ImageBackground, FlatList, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { itemsFetch, savedToResults } from "../actions";
 //import { PRIMARY_COLOR } from "../constants/style";
 import SavedList from "../components/SavedList";
-import Name from "../components/Name";
+import AltNameTwo from "../components/AltNameTwo";
 
 class multipleResultesScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@ class multipleResultesScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
   // Initialize the component
  componentWillMount() {
-   alert("We found multiple items that fit your search criteria. Please click on the item you wish to see the the prices on!");
+   //alert("We found multiple items that fit your search criteria. Please click on the item you wish to see the the prices on!");
   } 
   onHomeButtonPress() {
     this.props.navigation.navigate('Home');
@@ -28,17 +28,30 @@ class multipleResultesScreen extends Component {
   // Render method
   render() {
     return (
-     <View>
-          <Name />
       <View
-      style={{ backgroundColor: "rgba(52, 52, 52, 0.5)",
-      height: "60%",
-      marginTop: "10%",
-      marginBottom: "10%"}}>
+          style={styles.container}
+            >      
+         <ImageBackground
+          style={styles.backgroundStyle}
+          source={require("../assets/images/SilverBackground.png")}
+          resizeMode='cover'
+          >
+          <AltNameTwo />
+      <View
+      style={{ backgroundColor: 'white',
+      alignSelf: 'center',
+      height: "80%",
+      width: '100%',
+    //  marginLeft: '10%',
+      //marginTop: "10%",
+      marginBottom: '10%'
+    }}>
       <FlatList
-      style={{height: "100%",
+      style={
+        { 
+        height: "80%",
               marginTop: "10%",
-              marginBottom: "-10%"}}
+              }}
        data={this.props.items}
        renderItem={({item}) => <SavedList 
                                           item={item} 
@@ -52,24 +65,34 @@ class multipleResultesScreen extends Component {
         alignContent='center'
         onPress={this.onHomeButtonPress}
         style={{
-          alignSelf: 'center',
-          bottom: 0
+         
         }}>
-        
          <Icon
            activeOpacity={20}
            name="home"
-           size={75}
+           size={50}
            color='black'
            style={{
             alignSelf: 'center'
           }}
                  /> 
       </TouchableOpacity>
-         </View>
+      </ImageBackground>
+         </ View>
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: .9,
+    flexDirection: 'column',
+    backgroundColor: '#3cb371',
+    alignItems: 'center'
+  },
+  backgroundStyle: {
+    width: '100%', height: '100%'}, 
+  }
+);
 const mapStateToProps = state => {
   const items = state.item.multiResponseData;
 return { items };

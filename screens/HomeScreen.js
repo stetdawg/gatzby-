@@ -207,8 +207,8 @@ const styles = StyleSheet.create({
     width: '90%', 
     height: '40%',
     borderRadius: 20,
-    backgroundColor: 'transparent',
-    
+    borderColor: 'black',
+    backgroundColor: 'transparent',    
   },
   containerStyle: {
     borderRadius: 30,
