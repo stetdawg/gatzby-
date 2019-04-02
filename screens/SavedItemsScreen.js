@@ -28,7 +28,7 @@ class SavedItemsScreen extends Component {
     //this.setState({ location: "Azusa, CA" });
     // Upon loading the app, load any static resources...
     //const { itemsFetch } = this.props;
-   // itemsFetch();
+   itemsFetch();
   } 
 
 onButtonPress() {
@@ -81,7 +81,7 @@ renderRow(item) {
       style={{height: "100%",
               marginTop: "10%",
               marginBottom: "-10%"}}
-       data={this.props.items}
+       data={[{key: 'a'}, {key: 'b'}]}
        renderItem={({item}) => <SavedList 
                                           item={item} 
                                           navigation={this.props.navigation}
