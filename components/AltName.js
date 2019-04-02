@@ -31,9 +31,10 @@ const AltName = () => {
          fontFamily: 'Avenir-Roman',
           fontSize: 60,
         // fontWeight: 'bold',
-          color: '#3cb371',
+          color: '#3B1886',
           textShadowColor: 'black',
-          shadowOpacity: 0.2 
+          shadowOpacity: 0.2,
+          opacity: .85
         },
         textsubStyle: {
           fontFamily: 'Avenir-Roman',
