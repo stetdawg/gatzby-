@@ -9,6 +9,7 @@ import {
 import Header from '../components/common/Header';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import logo from '../assets//images/icon.png';
+import AuthButtons from '../components/AuthComponents/AuthButtons';
 import { Card } from '../components/AuthComponents/Card';
 import { CardSection } from '../components/AuthComponents/CardSection';
 import { connect } from 'react-redux';
@@ -102,15 +103,13 @@ import {loginUser,
     render() {
         //if (signUpBool)
     return (
-  <View
-  style={styles.container}>
-  <CardSection>
-      <Image 
+      <View
+      style={styles.container}>
+  <Image 
          style={styles.logo} 
-          source={logo} /> 
-     </CardSection>
-     <CardSection>
-
+          source={logo}   
+          /> 
+          <View />
      <View style={styles.emailContainer}>
           <FormInput 
             style={styles.textInput} placeholder='Email'
@@ -123,11 +122,16 @@ import {loginUser,
             secureTextEntry 
             onChangeText={(text) => this.setState({password: text})} />
         </View>
-        <Button style={styles.buttonStyle}>
+        <Button
+        styles={styles.buttonStyle}>
         Login
         </Button>
-        </CardSection>
-</View>
+        <View>
+        <AuthButtons>
+       Create Account?
+        </ AuthButtons>
+        </ View>
+        </ View>
 );
   }
 }
@@ -136,78 +140,83 @@ const styles = StyleSheet.create({
   container: {
     flex: 1, 
     flexDirection: 'column',
-    backgroundColor: '#3cb371'
+    alignItems: 'center',
+    backgroundColor: 'white'
   },
   logo: {
-    
-    flex: 1,
+    flex: .7,
     resizeMode: 'stretch',
-    alignItems: 'center'
-  },
-  createAccount: {
-   flex: 1,
-  },
-
-  normalText: {
-    color: '#5B5A5A',
-    fontSize: 12,
     alignItems: 'center',
+    marginBottom: '30%'
+  },
+  normalText: {
+    fontFamily: 'Avenir-Roman',
+  //  fontWeight: 'bold',
+    color: '#3B1886',
+    fontSize: 14,
     textAlign: 'center',
-    width: 330,
+   // width: 330,
   },
   createText: {
+    fontFamily: 'Avenir-Roman',
     color: '#FF7260',
-    fontSize: 12,
+    fontSize: 14,
     alignItems: 'center',
     textAlign: 'center',
     width: 330,
   },
   forgotText: {
+    fontFamily: 'Avenir-Roman',
     color: '#5B5A5A',
-    fontSize: 12,
+    fontSize: 14,
     textAlign: 'right',
     width: 330,
   },
   textInput: {
+    fontFamily: 'Avenir-Roman',
     color: '#989899',
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 14,
   },
   buttonStyle: {
-    flex: .2, 
+    flex: 1, 
+    //adding: '10%',
+    width: '100%',
    height: '10%',
-    marginTop: '10%',
-    backgroundColor: '#0489B1',
+   marginTop: '10%',
+   backgroundColor: '#0489B1',
   },
   emailContainer: {
-    flex: .2, 
-   // alignSelf: 'center',
+    flex: .08, 
+    opacity: 2, 
+    // alignSelf: 'center',
     borderColor: '#CFD0D1',
-    borderWidth: 1,
+    borderWidth: 3,
     height: '10%',
     width: '80%',
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
-    backgroundColor: '#F5F6F7',
-   marginTop: '10%',
-    marginBottom: '1%'
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+   backgroundColor: '#F5F6F7',
+  // marginTop: '15%',
+    marginBottom: '3%'
   },
   passwordContainer: {
-    flex: .2, 
+    flex: .08, 
 //alignSelf: 'center',
+    opacity: 2, 
     borderColor: '#CFD0D1',
-    borderWidth: 1,
+    borderWidth: 3,
     height: '10%',
     width: '80%',
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
     backgroundColor: '#F5F6F7',
-    marginBottom: '8%'
+    marginBottom: '3%'
     
   }
   
