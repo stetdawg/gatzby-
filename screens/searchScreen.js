@@ -17,8 +17,8 @@ class searchScreen extends Component {
               <View
               style={{ flex: 1,
               paddingTop: "10%"}}>
-             <SearchBar
-                     placeholder='Type Here...' />
+              <SearchBar
+                    placeholder='Type Here...' />
 
               </View>
             );

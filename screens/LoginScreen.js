@@ -12,6 +12,7 @@ import {  Card, FormLabel, FormInput, FormValidationMessage } from "react-native
 import AuthButtons from '../components/AuthComponents/AuthButtons';
 import logo from '../assets//images/icon.png';
 import { Spinner } from "../components/common/Spinner";
+import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Button } from '../components/AuthComponents/Button';
 import {loginUser,
         signupUser,
@@ -53,7 +54,7 @@ class LoginScreen extends Component {
         error: '',
         logInBool: true
       });
-      this.props.navigation.navigate('Home');
+      this.props.navigation.navigate('homescreen');
     }
     onLoginAttempt() {
       const { email, password } = this.props;
