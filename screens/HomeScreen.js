@@ -34,6 +34,7 @@ class HomeScreen extends React.Component {
     repeatPassword: "",
     textInput: '',
     logInBool: false,
+    uID: ''
     
   };
     //logInBool=false;

@@ -4,12 +4,10 @@ import {
   Text, 
   StyleSheet, 
   Image, 
-  TextInput,
   TouchableOpacity
 } from 'react-native';
 import logo from '../assets//images/icon.png';
 import { connect } from 'react-redux';
-import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
 import { Button, Card, FormInput, FormValidationMessage } from "react-native-elements";
 import {loginUser,
@@ -18,18 +16,19 @@ import {loginUser,
         passwordChanged,
         signoutUser
     } from "../actions";
-//const LoginScreen = ({ onChange1, onChange2, onChange3, form1, form2, form3, button1, Title, onCancelButton, onSubmitButton, signUpBool = false}, props) => {
+//const LoginScreen = (props) => {
 
 class LoginScreen extends Component {
-    state = {
-        email: "",
-        password: "",
-        repeatPassword: "",
-        textInput: '',
-        error: '',
-        loading: false,
-        uID: ''
-    }
+      state = {
+          email: "",
+          password: "",
+          repeatPassword: "",
+          textInput: '',
+          error: '',
+          loading: false,
+          user: ''
+      }
+
     onEmailChange(text) {
       this.props.emailChanged(text);
     }
@@ -45,10 +44,12 @@ class LoginScreen extends Component {
           return re.test(password);
       }
       onLoginFail() {
+        this.props.navigation.navigate('loginScreen');
         alert(this.state.error);
       }
     
       onLoginSuccess() {
+        this.setState({uID: this.state.user});
         this.props.navigation.navigate('Home');
       }
       onLoginAttempt() {
@@ -106,7 +107,7 @@ class LoginScreen extends Component {
       );
     }
     render() {
-        //if (signUpBool)
+    if (!this.props.uID)
     return (
       <View>
         <View style={styles.logoContiner}>
