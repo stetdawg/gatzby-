@@ -27,8 +27,8 @@ class SavedItemsScreen extends Component {
     //this.setState({ place: "McDonalds" });
     //this.setState({ location: "Azusa, CA" });
     // Upon loading the app, load any static resources...
-    //const { itemsFetch } = this.props;
-   // itemsFetch();
+    const { itemsFetch } = this.props;
+    itemsFetch();
   } 
 
 onButtonPress() {

@@ -25,6 +25,10 @@ import {loginUser,
 //const LoginScreen = ({ onChange1, onChange2, onChange3, form1, form2, form3, button1, Title, onCancelButton, onSubmitButton, signUpBool = false}, props) => {
 
 class LoginScreen extends Component {
+  static navigationOptions = {
+    header: null,
+    tabBarVisible: false
+  };
     state = {
         email: "",
         password: "",
@@ -88,7 +92,7 @@ class LoginScreen extends Component {
           }
          //}
       }
-      onSignupAttempt() {
+      onSignupAttempt= () => {
         //console.log(this.state.email + ' ' + this.state.password + ' ' + this.state.repeatPassword);
          const { email, password, repeatPassword } = this.state;
         //  console.log(email + ' ' + password + ' ' + repeatPassword);
@@ -99,13 +103,7 @@ class LoginScreen extends Component {
         //     alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
         //   }
         //   if (this.validateEmail(email) && this.validatePassword(password)) {
-          this.props.signupUser(email, password, repeatPassword);
-              if (this.state.user !== '') {
-                this.onLoginSuccess();
-              }
-              if (this.state.user === '') {
-                this.onLoginFail();
-              }
+          this.props.signupUser(email, password);
            //}
         }
 
@@ -138,7 +136,8 @@ class LoginScreen extends Component {
         Sign In
         </Button>
         <View>
-        <AuthButtons>
+        <AuthButtons
+        onPress={this.props.onSignupAttempt}>
        Create Account?
         </ AuthButtons>
         </ View>
