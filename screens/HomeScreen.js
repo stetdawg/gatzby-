@@ -40,7 +40,8 @@ class HomeScreen extends React.Component {
     email: "",
     password: "",
     repeatPassword: "",
-    textInput: ''
+    textInput: "",
+    uID: ""
   };
   ///////////////////////////////////////////////
   // checks if we have permistion to used the camera from the user

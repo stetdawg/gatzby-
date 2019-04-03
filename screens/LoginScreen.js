@@ -7,22 +7,18 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native';
+import { connect } from 'react-redux';
+import {  Card, FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
 import AuthButtons from '../components/AuthComponents/AuthButtons';
 import logo from '../assets//images/icon.png';
-import { connect } from 'react-redux';
-import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import { Spinner } from "../components/common/Spinner";
-import {  Card, FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
 import { Button } from '../components/AuthComponents/Button';
-import { firebase } from 'firebase';
-
 import {loginUser,
         signupUser,
         emailChanged,
         passwordChanged,
         signoutUser
     } from "../actions";
-//const LoginScreen = ({ onChange1, onChange2, onChange3, form1, form2, form3, button1, Title, onCancelButton, onSubmitButton, signUpBool = false}, props) => {
 
 class LoginScreen extends Component {
   static navigationOptions = {
@@ -44,104 +40,120 @@ class LoginScreen extends Component {
     onPasswordChange(text) {
       this.props.passwordChanged(text);
     }
-    validateEmail = (email) => {
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return re.test(email);
-      };
-      validatePassword = (password) => {
-        const re = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
-          return re.test(password);
+    onLoginFail() {
+      //this.props.navigation.navigate('loginScreen');
+      alert(this.state.error);
+      this.setState({ error: 'Authentication Failed', loading: false });
+    }
+    onLoginSuccess() {
+      this.setState({
+        email: '',
+        password: '',
+        loading: false,
+        error: '',
+        logInBool: true
+      });
+      this.props.navigation.navigate('Home');
+    }
+    onLoginAttempt() {
+      const { email, password } = this.props;
+      this.props.loginUser(email, password);
+        console.log(this.state.user);
+          if (this.props.user !== '') {
+            console.log(this.props.user);
+            this.onLoginSuccess(); 
+            }
+            if (this.props.user === '') {
+            this.onLoginFail();
+            }
       }
-      onLoginFail() {
-        this.setState({ error: 'Authentication Failed', loading: false });
+      onLogOutAttempt() {
+        this.props.signoutUser(this.props.uid);
       }
-      onLoginSuccess() {
-        this.setState({
-          email: '',
-          password: '',
-          loading: false,
-          error: '',
-          logInBool: true
-        });
-        this.props.navigation.navigate('homescreen');
-      }
-      onLoginAttempt() {
-        //console.log(this.state.email + ' ' + this.state.password);
-        const { email, password } = this.state;
-        // console.log(email + ' ' + password);
-        //  if (!this.validateEmail(email)) {
-        //    alert("This is not a valid email address!");
-        //  } 
-        //  if (!this.validatePassword(password)) {
-        //    alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
-        //  }
-        //  if (this.validateEmail(email) && this.validatePassword(password)) {
-          this.setState({ error: '', loading: true });
-
-          firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(this.onLoginSuccess.bind(this))
-            .catch(() => {
-              firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then(this.onLoginSuccess.bind(this))
-                .catch(this.onLoginFail.bind(this));
-            });
-
-           this.props.loginUser(email, password);
-           if (this.state.user !== '') {
-            this.setState({logInBool: true});
-          }
-         //}
-      }
-      onSignupAttempt= () => {
-        //console.log(this.state.email + ' ' + this.state.password + ' ' + this.state.repeatPassword);
-         const { email, password, repeatPassword } = this.state;
-        //  console.log(email + ' ' + password + ' ' + repeatPassword);
-        //   if (!this.validateEmail(email)) {
-        //     alert("This is not a valid email address!");
-        //   } 
-        //   if (!this.validatePassword(password)) {
-        //     alert("Password must contain one lower case letter, one uppercase letter, one number, one special character, and be 8 characters long");
-        //   }
-        //   if (this.validateEmail(email) && this.validatePassword(password)) {
-          this.props.signupUser(email, password);
+      onSignupAttempt() {
+        const { email, password } = this.props;
+        this.props.signupUser(email, password);
+        console.log(this.props.user);
+              if (this.props.user !== '') {
+                this.onLoginSuccess(); 
+              }
+              if (this.props.user === '') {
+                this.onLoginFail();
+              }
            //}
         }
+    renderError() {
+      if (this.props.error) {
+        return (
+          <View style={{ backgroundColor: 'white'}}>
+            <Text style={styles.errorTextStyle}>
+              {this.props.error}
+            </Text>
+          </View>
+        );
+      }
+    }
+    renderButton() {
+      if (this.props.loading) {
+        return <Spinner size='large' />;
+      }
+      return (
+        <TouchableOpacity>
+        <Button 
+          styles={styles.buttonStyle}
+          title="Sign In"
+          onPress={this.onLoginAttempt.bind(this)}
+        >
+        Sign In
+        </Button>
+      </TouchableOpacity>
+      );
+    }
 
     render() {
-        //if (signUpBool)
-    return (
+    if (!this.props.uID)
+      return (
       <View
       style={styles.container}>
-  <Image 
-         style={styles.logo} 
+        <Image 
+          style={styles.logo} 
           source={logo}   
           /> 
           <View />
-     <View style={styles.emailContainer}>
+      <View style={styles.emailContainer}>
           <FormInput 
-            style={styles.textInput} placeholder='Email'
-            onChangeText={(text) => this.setState({email: text})} />
+            style={styles.textInput} 
+            label='Email'
+            placeholder='Email@gmail.com'
+            //onChangeText={(text) => this.setState({email: text})} 
+            onChangeText={this.onEmailChange.bind(this)}
+            value={this.props.email} 
+            />
         </View>
         <View style={styles.passwordContainer}>
           <FormInput 
             style={styles.textInput} 
+            label="Password" 
             placeholder='Password'
             secureTextEntry 
-            onChangeText={(text) => this.setState({password: text})} />
+            onChangeText={this.onPasswordChange.bind(this)}
+            value={this.props.password}
+            //onChangeText={(text) => this.setState({password: text})} 
+            />
         </View>
-        <Button
-        styles={styles.buttonStyle}
-        onPress={this.onLoginAttempt.bind(this)}
-        >
-        Sign In
-        </Button>
         <View>
+            {this.renderError()}
+        </View>
+        <View>
+          {this.renderButton()}
+        </View>
+        {/* <View>
         <AuthButtons
         onPress={this.props.onSignupAttempt}>
-       Create Account?
+        Create Account?
         </ AuthButtons>
-        </ View>
-        </ View>
+        </ View> */}
+      </ View>
     );
   }
 }
@@ -154,7 +166,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   logo: {
-    flex: .6,
+    flex: .4,
     alignItems: 'center',
     marginBottom: '30%'
   },
@@ -230,15 +242,23 @@ const styles = StyleSheet.create({
   }
   
 });
-const mapStateToProps = state => {
-    return {
-      email: state.auth.email,
-      password: state.auth.password,
-      repeatPassword: state.auth.repeatPassword,
-      user: state.auth.user
+const mapStateToProps = ({ auth }) => {
+  const { email, password, error, loading } = auth;
+
+  return { email, password, error, loading };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    emailChanged: (emailAddress) => dispatch(emailChanged(emailAddress)),
+    passwordChanged: (password) => dispatch(passwordChanged(password)),
+    loginUser: (email, password) => dispatch(loginUser(email, password))
     };
-  };
-export default connect(mapStateToProps, {emailChanged,
-                                        passwordChanged,
-                                        signupUser,
-                                        loginUser})(LoginScreen);
+};
+
+export default connect(mapStateToProps, 
+                  mapDispatchToProps)(LoginScreen);
+
+// export default connect(mapStateToProps, {emailChanged,
+//                       passwordChanged,
+//                       signupUser,
+//                       loginUser,})(LoginScreen);
