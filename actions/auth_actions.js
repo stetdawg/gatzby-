@@ -28,7 +28,7 @@ export const emailChanged = text => ({
 
 ////////////////////////////////////////////////////////////////
 // Called when password is updated
-export const passwordChanged = (text) => ({
+export const passwordChanged = text => ({
   type: LOGIN_PASSWORD_CHANGED,
   payload: text
 });
@@ -66,30 +66,6 @@ export const loginUser = (email, password) => async dispatch => {
 };
 
 ////////////////////////////////////////////////////////////////
-// Helper method for failed email/password login
-const loginUserFail = (dispatch) => {
-  dispatch({
-    type: AUTH_USER_FAIL,
-  });
-};
-
-// export const loginUser = (email, password) => async dispatch => {
-//     try {
-//       // Dispatch event to trigger loading spinner
-//       dispatch({ type: AUTH_USER_ATTEMPT });
-
-//       // Attempt to login user
-//       const { user } = await firebase.auth().signInWithEmailAndPassword(email, password);
-//       //console.log(user);
-//       authUserSuccess(dispatch, user);
-//     } catch (err) {
-//       console.error(err);
-//       loginUserFail(dispatch, 'Authentication Failed');
-//     }
-
-// };
-
-////////////////////////////////////////////////////////////////
 // Call appropriate FireBase method to signup user
 export const signupUser = (email, password, passwordRetype) => async dispatch => {
   if (password !== passwordRetype) {
@@ -123,6 +99,25 @@ export const signupUser = (email, password, passwordRetype) => async dispatch =>
     }
   }
 };
+
+////////////////////////////////////////////////////////////////
+// Helper method for successful email/password login
+const authUserSuccess = (dispatch, user) => {
+  dispatch({
+    type: AUTH_USER_SUCCESS,
+    payload: user
+  });
+};
+
+////////////////////////////////////////////////////////////////
+// Helper method for failed email/password login
+const loginUserFail = (dispatch, error = '') => {
+  dispatch({
+    type: AUTH_USER_FAIL,
+    payload: error
+  });
+};
+
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ///////////////////FACEBOOK LOGIN METHODS///////////////////////
@@ -218,7 +213,7 @@ export const signoutUser = () => async dispatch => {
     // Attempt to signout user
     await firebase.auth().signOut();
     //await AsyncStorage.removeItem('fb_token'); // Remove if exists
-    //await SecureStore.deleteItemAsync('fb_token');
+    await SecureStore.deleteItemAsync('fb_token');
 
     // Dispatch signout user event
     dispatch({ type: RESET_APP_STATE });

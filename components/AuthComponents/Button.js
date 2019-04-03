@@ -16,21 +16,24 @@ const Button = ({ onPress, children }) => {
 const styles = {
   textStyle: {
     alignSelf: 'center',
-    color: '#007aff',
+    color: 'white',
+    fontFamily: 'Avenir-Roman',
     fontSize: 16,
-    fontWeight: '600',
+   // fontWeight: '600',
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+   paddingRight: '35%',
+    paddingLeft: '35%'
   },
   buttonStyle: {
-    flex: 1,
-    alignSelf: 'stretch',
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#007aff',
-    marginLeft: 5,
-    marginRight: 5
+  //  width: '100%',
+    backgroundColor: '#3cb371',
+    borderRadius: 30,
+    borderWidth: .5,
+    borderColor: 'yellow',
+    marginLeft: '2%',
+    marginRight: '2%',
+    marginBottom: '2%'
   }
 };
 

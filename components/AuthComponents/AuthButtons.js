@@ -15,18 +15,18 @@ const AuthButtons = ({ onPress, children }) => {
 
 const styles = {
   textStyle: {
-  color: 'grey',
-   fontSize: 16,
-   alignSelf: 'center',
- //  marginRight: '12%'
+    fontFamily: 'Avenir-Roman',
+    //fontWeight: 'bold',
+    color: '#3B1886',
+    opacity: .8,
+    fontSize: 14,
+    textAlign: 'center',
   },
   buttonStyle: {
-    
-//marginTop: "100%",
-  marginBottom: "1%",
-  width: "50%",
+ marginTop: "3%",
+    marginBottom: "1%",
 //  alignSelf: 'center'
       },
 };
-
 export default AuthButtons;
+
