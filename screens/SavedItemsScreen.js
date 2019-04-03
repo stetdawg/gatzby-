@@ -22,14 +22,14 @@ class SavedItemsScreen extends Component {
 
   //////////////////////////////////////////////////////////////////////////////////
   // Initialize the component
- componentWillMount() {
+ /* componentWillMount() {
     // ***DTG - JUST FOR TESTING SO I DON"T HAVE TO KEEP TYPING THIS IN
     //this.setState({ place: "McDonalds" });
     //this.setState({ location: "Azusa, CA" });
     // Upon loading the app, load any static resources...
-    //const { itemsFetch } = this.props;
+   const { itemsFetch } = this.props;
    itemsFetch();
-  } 
+  }  */
 
 onButtonPress() {
     console.log(this.props.item.itemInfo.upc);

@@ -112,6 +112,8 @@ return singData(dispatch, temp);
   };
 
  export const itemsFetch = () => {
+  const { currentUser } = firebase.auth();
+  return firebase.database().ref(`/users/${currentUser.uid}/items`);
  };
 export const amRes = (text) => async dispatch => {
   //console.log(`BarCodeType = ${text}`);
