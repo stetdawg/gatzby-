@@ -11,7 +11,7 @@ export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
-  componentWillMount(){
+  componentWillMount() {
     firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
   }
 

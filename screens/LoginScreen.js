@@ -53,7 +53,6 @@ class LoginScreen extends Component {
         error: '',
         logInBool: true
       });
-      this.props.navigation.navigate('homescreen');
     }
     onLoginAttempt() {
       const { email, password } = this.props;
@@ -62,7 +61,8 @@ class LoginScreen extends Component {
           if (this.props.user !== '') {
             console.log(this.props.user);
             this.onLoginSuccess(); 
-            }
+            this.props.navigation.navigate('Home');  
+          }
             if (this.props.user === '') {
             this.onLoginFail();
             }
@@ -117,7 +117,8 @@ class LoginScreen extends Component {
       style={styles.container}>
         <Image 
           style={styles.logo} 
-          source={logo}   
+          source={logo}
+          resizeMode="contain"   
           /> 
           <View />
       <View style={styles.emailContainer}>
@@ -166,9 +167,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   logo: {
-    flex: .4,
+    flex: .5,
     alignItems: 'center',
-    marginBottom: '30%'
+    top:"5%",
+    marginBottom: '20%'
   },
   normalText: {
     fontFamily: 'Avenir-Roman',
