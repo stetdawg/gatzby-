@@ -1,5 +1,4 @@
 import React from 'react';
-import firebase from "firebase";
 import {
   StyleSheet,
   ImageBackground,
@@ -13,7 +12,6 @@ import axios from "axios";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '../components/Button';
 import Camera from "../components/Camera";
-import { GOOGLE_FIREBASE_CONFIG } from "../assets/constants/api_keys";
 import AltName from "../components/AltName";
 import Card from "../components/Card";
 import CardSectionTwo from "../components/CardSectionTwo";
@@ -48,7 +46,6 @@ class HomeScreen extends React.Component {
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA); // ask for permistion to use camera
     this.setState({ hasCameraPermission: status === 'granted' }); // determase wether we can use camera'
-    firebase.initializeApp({ GOOGLE_FIREBASE_CONFIG });
     }
     componentWillReceiveProps() {
     } 

@@ -11,9 +11,11 @@ export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
+  componentWillMount(){
+    firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
+  }
 
   render() {
-    //firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
