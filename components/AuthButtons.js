@@ -22,7 +22,7 @@ const styles = {
   },
   buttonStyle: {
     
-marginTop: "100%",
+//marginTop: "100%",
   marginBottom: "1%",
   width: "50%",
 //  alignSelf: 'center'
