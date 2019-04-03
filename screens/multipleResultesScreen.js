@@ -19,7 +19,7 @@ class multipleResultesScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
   // Initialize the component
  componentWillMount() {
-   alert("We found multiple items that fit your search criteria. Please click on the item you wish to see the the prices on!");
+   //alert("We found multiple items that fit your search criteria. Please click on the item you wish to see the the prices on!");
   } 
   onHomeButtonPress() {
     this.props.navigation.navigate('Home');
