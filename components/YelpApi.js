@@ -13,8 +13,12 @@ const getStores = userLocation => {
   return api
     .get('/businesses/search', {
       params: {
-        limit: 10,
-        categories: 'computers',
+        limit: 20,
+        term: 'walmart, target, bestbuy',
+        //radius: 20000,
+        //sort_by: 'best_match',
+        //categories: 'electronics',
+        //open_now: true,
         ...userLocation
       }
     })
