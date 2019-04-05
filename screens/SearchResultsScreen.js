@@ -8,6 +8,7 @@ import { View,
   TouchableOpacity,
   Modal
 } from "react-native";
+import firebase from 'firebase';
 import { Button } from "react-native-elements";
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -22,6 +23,7 @@ class SearchResultsScreen extends Component {
     };
         state = {
           isVisible: false,
+          isLiked: false, //TODO: do something with this
           sendTo: ""
         };
         onMapButtonPress = () => {
@@ -30,6 +32,23 @@ class SearchResultsScreen extends Component {
         onHomeButtonPress = () => {
           this.props.navigation.navigate('Home');
         }
+        onsavedbuttonPress = () => {
+          //alert('Item favorited.');
+          try { 
+            this.setState({isLiked: !this.state.isLiked});
+            //this.setState({items: this.props.itemInfo});
+            const { currentUser } = firebase.auth();
+                //console.log({ itemInfo });
+              firebase.database().ref(`/users/${currentUser.uid}/items`)
+                .push(this.props.itemInfo);
+            } catch (e) {
+              if (e instanceof EvalError) {
+                console.log(e.name + e.message);
+              } else if (e instanceof RangeError) {
+                console.log(e.name + e.message);
+            }    
+        }
+      }
         componentWillMount = () => { }          
           
           onDescripTog() {
@@ -86,6 +105,7 @@ class SearchResultsScreen extends Component {
             <Image
             source={{ uri: this.props.itemInfo.largeImage }} 
             style={styles.ImageStyle} />
+            <ScrollView>
             <View
             style={styles.DescriptionViewStyle}>
             <View
@@ -112,10 +132,21 @@ class SearchResultsScreen extends Component {
               onPress={this.onMapButtonPress}
               buttonStyle={styles.buttonStyle}
               />
-             
+                 
 
             </View>
-            
+            <TouchableOpacity //SAVED ITEMS BUTTON
+                       onPress={this.onsavedbuttonPress}>
+                           <Icon 
+                            activeOpacity={20}
+                            style={{paddingLeft: "8%",
+                            paddingRight: '70%',
+                            paddingTop: 0}}
+                            color='black'
+                            name="heart"
+                            size={30}
+                       />
+                       </TouchableOpacity>  
             <ScrollView
             horizontal
             style={{
@@ -159,6 +190,7 @@ class SearchResultsScreen extends Component {
             />
             </View> 
             </ScrollView> 
+            </ScrollView>
 
               <TouchableOpacity 
         alignContent='center'

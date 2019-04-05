@@ -111,12 +111,13 @@ return singData(dispatch, text);
 return singData(dispatch, temp);  
   };
 
- export const itemsFetch = () =>async dispatch => {
+ export const itemsFetch = () => async dispatch => {
   const { currentUser } = firebase.auth();
   //console.log(uid);
    const items = firebase.database().ref(`/users/${currentUser.uid}/items/`)
    .get();
  };
+
 export const amRes = (text) => async dispatch => {
  try {
 const amdata = await axios.get(urls.amazonUrl(text));

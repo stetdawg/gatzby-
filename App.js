@@ -13,6 +13,7 @@ export default class App extends React.Component {
   };
   componentWillMount() {
     firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
+    //firebase.auth().signInWithEmailAndPassword('stet@stet.com', 'stetson');
   }
 
   render() {
