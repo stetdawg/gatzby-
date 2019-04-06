@@ -24,7 +24,7 @@ const styles = {
     marginTop: "1%",
   marginBottom: "1%",
   width: "12%",
-  alignSelf: 'center'
+  //alignSelf: 'center'
       },
 };
 

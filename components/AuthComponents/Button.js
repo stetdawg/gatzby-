@@ -19,21 +19,24 @@ const styles = {
     color: 'white',
     fontFamily: 'Avenir-Roman',
     fontSize: 16,
-   // fontWeight: '600',
+    fontWeight: 'bold',
     paddingTop: 10,
     paddingBottom: 10,
    paddingRight: '35%',
-    paddingLeft: '35%'
+    paddingLeft: '35%',
+    textShadowColor: 'black',
+    shadowOpacity: 0.3,
   },
   buttonStyle: {
   //  width: '100%',
-    backgroundColor: '#3cb371',
+    backgroundColor: '#acee8a',
     borderRadius: 30,
     borderWidth: .5,
-    borderColor: 'yellow',
+    borderColor: '#cce850',
     marginLeft: '2%',
     marginRight: '2%',
-    marginBottom: '2%'
+    marginBottom: '2%',
+    shadowOpacity: 0.2,
   }
 };
 

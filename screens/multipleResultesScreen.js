@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { FlatList, View, TouchableOpacity, StyleSheet, alert } from "react-native";
+import { FlatList, View, TouchableOpacity, StyleSheet, alert, Text } from "react-native";
+import Footer from '../components/Footer';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Button from '../components/Button';
 import { connect } from "react-redux";
 //import {MapView} from "react-native-maps";
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { itemsFetch, savedToResults } from "../actions";
 //import { PRIMARY_COLOR } from "../constants/style";
 import SavedList from "../components/SavedList";
-import Name from "../components/Name";
+import Header from "../components/common/Header";
 
 class multipleResultesScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
@@ -21,25 +23,35 @@ class multipleResultesScreen extends Component {
  componentWillMount() {
   // alert("We found multiple items that fit your search criteria. Please click on the item you wish to see the the prices on!");
   } 
-  onHomeButtonPress() {
+  onHomePress = () => {
     this.props.navigation.navigate('Home');
-  } 
+  }  
  
   //////////////////////////////////////////////////////////////////////////////////
   // Render method
   render() {
     return (
-     <View>
-       < Name />
-      <View
-      style={{ backgroundColor: "rgba(52, 52, 52, 0.5)",
-      height: "60%",
-      marginTop: "10%",
-      marginBottom: "10%"}}>
+     <View
+     style={styles.container}>
+    <Header
+    style={styles.headerStyle
+    }> 
+    <Text
+    style={styles.textStyle}>
+    Search Results
+    </ Text>
+    <Icon
+    activeOpacity={20}
+     style={{
+       marginLeft: '5%'
+     }}
+     name="magnify"
+     size={40}
+     color='white'
+    />  
+    </ Header>
       <FlatList
-      style={{height: "100%",
-              marginTop: "10%",
-              marginBottom: "-10%"}}
+      style={styles.listContainer}
        data={this.props.items}
        renderItem={({item}) => <SavedList 
                                           item={item} 
@@ -47,26 +59,21 @@ class multipleResultesScreen extends Component {
                                           />}
       keyExtractor={item => item.name}
       />
+      <Footer>
+      <Button //SCAN BUTTON
+                     onPress={this.onHomePress}>
+                         <Icon
+                          activeOpacity={20}
+                           style={{
+                          alignSelf: 'flex-start'
+                           }}
+                           name="arrow-left"
+                           size={40}
+                           color='white'
+                          />  
+                     </Button> 
+      </ Footer>
       </View>
-      <TouchableOpacity 
-        alignContent='center'
-        onPress={this.onHomeButtonPress}
-        style={{
-          alignSelf: 'center',
-          bottom: 0
-        }}>
-        
-         <Icon
-           activeOpacity={20}
-           name="home"
-           size={75}
-           color='black'
-           style={{
-            alignSelf: 'center'
-          }}
-                 /> 
-      </TouchableOpacity>
-         </View>
     );
   }
 }
@@ -78,9 +85,24 @@ export default connect(mapStateToProps, { itemsFetch, savedToResults })(multiple
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+  backgroundColor: 'white',
+    height: '100%',
+      width: '100%',
+},
+listContainer: {
+flex: .8,
+backgroundColor: 'white',
+borderColor: 'white',
+borderWidth: .2,
+borderRadius: 8
+},
+textStyle: {
+  fontSize: 30,
+  fontFamily: 'Avenir-Roman',
+  textAlign: 'center',
+  fontWeight: 'bold',
+  color: 'white',
+  textShadowColor: 'black'
 },
   map: {
     left: 0,
@@ -88,6 +110,5 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     position: 'absolute'
-
 }
 });
