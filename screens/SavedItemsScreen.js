@@ -30,13 +30,11 @@ class SavedItemsScreen extends Component {
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/items/`);
   dbRef.on('value', snapshot => { 
     const dbSnapshot = snapshot.val();
-    const itemKeys = Object.keys(dbSnapshot);
-    const arr = itemKeys.map(k => { return dbSnapshot[k]; });
-    const itemKeys1 = Object.keys(arr);
-    const arr1 = itemKeys1.map(v => { return arr[v]; });
-    const itemValues = Object.values(arr1);
-    const objKeys = Object.keys(itemValues).map( );
-    this.setState({itemList: objKeys});
+    const keyPair = Object.entries(dbSnapshot).map(item => ({...item[1], key: item[0]}));
+    const arr = _.values(keyPair);
+    const itemValu = Object.values(arr);
+    this.setState({itemList: itemValu});
+    console.log(this.state.itemList);
     });
   }
 
@@ -48,7 +46,7 @@ onButtonPress() {
     this.props.savedToResults(this.props.item.itemInfo.upc);
     this.props.navigation.navigate("searchResults");
 }
-
+//_keyExtractor = (this.state.itemList, item) => item.id;
 
   //////////////////////////////////////////////////////////////////////////////////
   // Handler for the serach button
@@ -68,15 +66,27 @@ onButtonPress() {
         style={styles.container}>
       <FlatList
       data={_.values(this.state.itemList)}
-      renderItem={({item}) => 
-      <View>
-        <Text>
-          {item}
-        </Text>
-        </View>
-        }
+      //keyExtractor = ({data, item})
+          renderItem={({item}) => 
+            <View 
+              style={styles.itemContainer}>
+              <Text>
+                {item.name}
+              </Text>
+                    <Text>
+                      {item.MSRP}
+                    </Text>
+                    <Text>
+                      {item.salePrice}
+                    </Text>
+              <Text>
+                {item.shortDescription}
+              </Text>
+            
+            </View>
+            }
         keyExtractor={(item) => item.key}      
-        />
+      />
             <Card>
       <Button //SAVED ITEMS BUTTON
                 onPress={this.onHomePress}  
@@ -103,9 +113,19 @@ onButtonPress() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
- }}
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  itemContainer: {
+    borderColor: 'darkgrey',
+    borderBottomWidth: 1
+  },
+ pricePos: {
+   alignContent: 'flex-end',
+   left: '45%',
+   paddingBottom: 10,
+ }
+}
 );
 
 const mapStateToProps = state => {
