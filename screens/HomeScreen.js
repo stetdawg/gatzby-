@@ -38,8 +38,7 @@ class HomeScreen extends React.Component {
     email: "",
     password: "",
     repeatPassword: "",
-    textInput: "",
-    uID: ""
+    textInput: ''
   };
   ///////////////////////////////////////////////
   // checks if we have permistion to used the camera from the user
@@ -205,8 +204,8 @@ const styles = StyleSheet.create({
     width: '90%', 
     height: '40%',
     borderRadius: 20,
-    borderColor: 'black',
-    backgroundColor: 'transparent',    
+    backgroundColor: 'transparent',
+    
   },
   containerStyle: {
     borderRadius: 30,

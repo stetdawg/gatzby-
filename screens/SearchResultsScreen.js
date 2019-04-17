@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { saveCode, walRes, itemsFetch } from "../actions";
 import * as urls from "../services/urlbuilder";
-
+ 
 
 class SearchResultsScreen extends Component {
   static navigationOptions = {
@@ -23,9 +23,10 @@ class SearchResultsScreen extends Component {
     };
         state = {
           isVisible: false,
-          isLiked: false, //TODO: do something with this
+          isLiked: true, //TODO: do something with this
           sendTo: ""
         };
+        
         onMapButtonPress = () => {
           this.props.navigation.navigate('Map');
         } 
@@ -33,23 +34,34 @@ class SearchResultsScreen extends Component {
           this.props.navigation.navigate('Home');
         }
         onsavedbuttonPress = () => {
+          console.log(this.props.itemInfo);
           //alert('Item favorited.');
+          this.setState({isLiked: !this.state.isLiked});
+          
           try { 
-            this.setState({isLiked: !this.state.isLiked});
             //this.setState({items: this.props.itemInfo});
             const { currentUser } = firebase.auth();
-                //console.log({ itemInfo });
-              firebase.database().ref(`/users/${currentUser.uid}/items`)
-                .push(this.props.itemInfo);
+            firebase.database().ref(`/users/${currentUser.uid}/items`).push(this.props.itemInfo);
+                console.log(this.state.isLiked);
             } catch (e) {
               if (e instanceof EvalError) {
                 console.log(e.name + e.message);
               } else if (e instanceof RangeError) {
                 console.log(e.name + e.message);
             }    
-        }
+          }
       }
-        componentWillMount = () => { }          
+        componentDidMount = () => {
+          //check if item exists in database
+          // const upc = '';
+          // const dbRef = firebase.database().ref(`/Items/${upc}`);
+          // dbRef.once('value').then(_Snapshot => {
+          //   const snap = _Snapshot.val();
+          //   const a = snap.child(`Item/${upc}`).exists();
+          //   console.log(a);
+          // });
+          //    var b = snapshot.child("name").exists(); // true
+         }          
           
           onDescripTog() {
             this.setState({isVisible: !this.state.isVisible});
@@ -90,7 +102,7 @@ class SearchResultsScreen extends Component {
               break;
           }
         }
-    render() {   
+    render() {
         return (
           <View>
             <View
@@ -130,19 +142,21 @@ class SearchResultsScreen extends Component {
               <Button
               title='Map'
               onPress={this.onMapButtonPress}
-              buttonStyle={styles.buttonStyle}
+              buttonStyle={styles.buttonStyle} 
               />
                  
 
             </View>
             <TouchableOpacity //SAVED ITEMS BUTTON
-                       onPress={this.onsavedbuttonPress}>
+                       onPress={this.onsavedbuttonPress}
+                       
+                       >
                            <Icon 
                             activeOpacity={20}
                             style={{paddingLeft: "8%",
                             paddingRight: '70%',
-                            paddingTop: 0}}
-                            color='black'
+                            paddingTop: 0,
+                            }}
                             name="heart"
                             size={30}
                        />
@@ -263,7 +277,7 @@ const mapStateToProps = state => {
     itemInfo: {
             name: state.item.SingleResponseData.name,
             MSRP: state.item.SingleResponseData.msrp,
-            codeData: state.code.CodeData,
+            //codeData: state.code.codeData,
             salePrice: state.item.SingleResponseData.salePrice,
             shortDescription: state.item.SingleResponseData.shortDescription,
             largeImage: state.item.SingleResponseData.largeImage,

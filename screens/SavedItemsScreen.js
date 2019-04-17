@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import firebase from 'firebase';
-import { FlatList, View, Text, StyleSheet, Image } from "react-native";
+import { FlatList, View, Text, StyleSheet, Modal, Image, TouchableOpacity, TouchableHighlight } from "react-native";
 import { connect } from "react-redux";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import _ from "lodash";
@@ -9,7 +9,6 @@ import { itemsFetch, savedToResults } from "../actions";
 import SearchResultsScreen from "../screens/SearchResultsScreen";
 import Button from '../components/Button';
 import Card from '../components/Card';
-
 class SavedItemsScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
   // Properties automatically referred to by react-navigation navigators
@@ -20,6 +19,7 @@ class SavedItemsScreen extends Component {
     };
     state = {
       itemList: [],
+      itemDetail: false,
     };
 
 
@@ -38,13 +38,17 @@ class SavedItemsScreen extends Component {
     });
   }
 
-  onHomePress = () => {
+onHomePress = () => {
     this.props.navigation.navigate('Home');
-  }  
+    }  
 onButtonPress() {
     console.log(this.props.item.itemInfo.upc);
     this.props.savedToResults(this.props.item.itemInfo.upc);
     this.props.navigation.navigate("searchResults");
+}
+onItemPress() {
+ this.setState({itemDetail: !this.state.itemDetail});
+console.log('press');
 }
 //_keyExtractor = (this.state.itemList, item) => item.id;
 
@@ -62,33 +66,44 @@ onButtonPress() {
     //console.log(this.props);
     try {
     return (
+   
       <View
         style={styles.container}>
+
       <FlatList
       data={_.values(this.state.itemList)}
       //keyExtractor = ({data, item})
           renderItem={({item}) => 
-            <View 
-              style={styles.itemContainer}>
-              <Text>
-                {item.name}
-              </Text>
-                    <Text>
-                      {item.MSRP}
-                    </Text>
-                    <Text>
-                      {item.salePrice}
-                    </Text>
+          <TouchableOpacity onPress={this.onItemPress} style={{height: 200, borderBottomColor: 'gray', borderBottomWidth: 1}}>
+                    <Image source={{uri: item.largeImage}} style={{width: '100%', height: '50%'}} />
+
+            <View style={{flexDirection: "row"}}>
+              <View >
+                
+                <Text>
+                  {item.name}
+                </Text>
+             
+                <View style={styles.pricePos}>
+                        <Text style={styles.textStyle}>
+                          MSRP: {item.MSRP}
+                        </Text>
+                        <Text>
+                          Sale: {item.salePrice}
+                        </Text>
+                  </View>
               <Text>
                 {item.shortDescription}
               </Text>
-            
             </View>
+                </View>
+            </TouchableOpacity>   
+
             }
         keyExtractor={(item) => item.key}      
       />
             <Card>
-      <Button //SAVED ITEMS BUTTON
+      <Button 
                 onPress={this.onHomePress}  
                 >
                         <Icon 
@@ -114,16 +129,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start'
   },
   itemContainer: {
+    flexDirection: 'row',
+  },
+  textContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
     borderColor: 'darkgrey',
     borderBottomWidth: 1
   },
  pricePos: {
-   alignContent: 'flex-end',
-   left: '45%',
    paddingBottom: 10,
+ },
+ textStyle: {
+  textDecorationLine: 'line-through', 
+  textDecorationStyle: 'solid', 
+ },
+ textPos: {
+   alignItems: 'flex-start',
+ },
+ imageView: {
+   overflow: 'visible',
  }
 }
 );
