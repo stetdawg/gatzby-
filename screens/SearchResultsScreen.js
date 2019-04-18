@@ -27,9 +27,12 @@ class SearchResultsScreen extends Component {
         onMapButtonPress = () => {
           this.props.navigation.navigate('Map');
         } 
-        onHomeButtonPress = () => {
-          this.props.navigation.navigate('Home');
+        onMultPress = () => {
+          this.props.navigation.navigate('multi');
         }
+        onSavedPress = () => {
+          this.props.navigation.navigate('saved');
+        }  
         componentWillMount = () => { }          
           
           onDescripTog() {
@@ -71,281 +74,329 @@ class SearchResultsScreen extends Component {
               break;
           }
         }
-    render() {   
-        return (
-          <View>
+        render() {   
+          return (
             <View
-            style={styles.borderStyle}>
+            style={styles.backgroundStyle}>
             <View
-            style={styles.ItemNameViewStyle}>
-              <Text
-                style={styles.ItemNameTextStyle}>
-                {this.props.itemInfo.name}
-              </Text>
+            style={styles.head}
+            > 
             </View>
-            <Image
-            source={{ uri: this.props.itemInfo.largeImage }} 
-            style={styles.ImageStyle} />
-            <View
-            style={styles.DescriptionViewStyle}>
-            <View
-            style={{
-              marginTop: "2%",
-              paddingLeft: "2%",
-              marginBottom: "2%"}}>
-            <Text
-            style={styles.DescritionTextStyle}>
-              MSRP: {this.props.itemInfo.MSRP}
-              </Text>
-              <Text
-            style={styles.DescritionTextStyle}>
-              Current Price: {this.props.itemInfo.salePrice}
-              </Text>
-              </View>
-              <Button
-              title='Description'
-              onPress={this.onDescripTog.bind(this)}
-              buttonStyle={{borderRadius: 15}}
-              />
-              <Button
-              title='Map'
-              onPress={this.onMapButtonPress}
-              buttonStyle={styles.buttonStyle}
-              />
-             
-
-            </View>
-            
             <ScrollView
             horizontal
             style={{
-              maxHeight: 100
+             maxHeight: '5%',
+             borderTopWidth: .1,
+                borderColor: 'grey',
+                shadowOpacity: 0.2,
             }}
+            >  
+                         <Text
+                         style={styles.titleText}>
+                         {this.props.itemInfo.name}
+                         </Text>
+                         </ScrollView>
+              <Image
+              source={{ uri: this.props.itemInfo.largeImage }} 
+              style={styles.ImageStyle} />
+              <View
+                        style={styles.buttonBox}>
+                        <Text
+                        style={styles.DescritionTextStyle}>
+                          MSRP: {this.props.itemInfo.MSRP}
+                          {"\n"}
+                          Current Price: {this.props.itemInfo.salePrice}
+                          </Text>
+                        <TouchableOpacity 
+                        style={{
+                         
+                        }}
+                        onPress={this.onSavedPress}
+                        >
+                         <Icon
+                         style={{
+                          paddingLeft: "48%",
+                          paddingRight: "2%"
+                        }}
+                        activeOpacity={10}
+                           name="heart"
+                           size={30}
+                           color='black'
+                                 /> 
+                                 
+                         </TouchableOpacity> 
+                         <TouchableOpacity 
+                        style={{
+                         
+                        }}
+                        onPress={this.onMapButtonPress}
+                        >
+                         <Icon
+                         style={{
+                             paddingLeft: "2%",
+                          paddingRight: "2%"
+                        }}
+                        activeOpacity={10}
+                           name="crosshairs"
+                           size={30}
+                           color='black'
+                                 /> 
+                                 
+                         </TouchableOpacity> 
+                         </View>
+              <View
+              style={styles.textBox}>
+              <Button
+              title='Description'
+              onPress={this.onDescripTog.bind(this)}
+              buttonStyle={{borderRadius: 15,
+                width: '100%',
+                borderWidth: .1,
+                borderColor: 'grey',
+                shadowOpacity: 0.2,
+              }}
+              /> 
+                </View>  
+              <ScrollView
+              horizontal
+              style={{
+               maxHeight: '8%',
+                borderTopWidth: .1,
+              //  borderBottomWidth: .2,
+                borderColor: 'black',
+              }}
+              >     
+              <Button
+              buttonStyle={styles.Walmart.buttonStyle}
+              title="Walmart"
+              onPress={() => Linking.openURL(urls.walmartUrl(this.props.itemInfo.name))}
+              /> 
+              <Button
+              buttonStyle={styles.Target.buttonStyle}
+              title="Target"
+              onPress={() => Linking.openURL(urls.targetUrl(this.props.itemInfo.name))}
+              />
+              <Button
+              buttonStyle={styles.Best.buttonStyle}
+              title="Best Buy"
+              onPress={() => Linking.openURL(urls.BestUrl(this.props.itemInfo.name))}
+              />              
+              <Button
+              buttonStyle={styles.Amazon.buttonStyle}
+              title="Amazon"
+              onPress={() => Linking.openURL(urls.amazonUrl(this.props.itemInfo.name))}
+              />
+              </ScrollView> 
+              <View
+            style={styles.foot}>
+            <TouchableOpacity 
+            style={{
+              alignSelf: 'center',
+              position: "absolute",
+              left: 8,
+              top: 0
+            }}
+            onPress={this.onMultPress}
             >
-            <View
-              style={styles.Walmart.ViewStyle}
-              >           
-            <Button
-            buttonStyle={styles.Walmart.buttonStyle}
-            title="Walmart"
-            onPress={() => Linking.openURL(urls.walmartUrl(this.props.itemInfo.name))}
-            /> 
-            </View>   
-            <View
-            style={styles.Target.ViewStyle}
-            >   
-            <Button
-            buttonStyle={styles.Target.buttonStyle}
-            title="Target"
-            onPress={() => Linking.openURL(urls.targetUrl(this.props.itemInfo.name))}
-            />
-            </View>  
-            <View
-            style={styles.Best.ViewStyle}
-            >
-            <Button
-            buttonStyle={styles.Best.buttonStyle}
-            title="Best Buy"
-            onPress={() => Linking.openURL(urls.BestUrl(this.props.itemInfo.name))}
-            />
-            </View>   
-            <View
-            style={styles.Amazon.ViewStyle}
-            >               
-            <Button
-            buttonStyle={styles.Amazon.buttonStyle}
-            title="Amazon"
-            onPress={() => Linking.openURL(urls.amazonUrl(this.props.itemInfo.name))}
-            />
-            </View> 
-            </ScrollView> 
-
-              <TouchableOpacity 
-        alignContent='center'
-        onPress={this.onHomeButtonPress}
-        style={{
-          alignSelf: 'center',
-          position: "absolute",
-          bottom: 0
-        }}>
-        
-         <Icon
-           activeOpacity={20}
-           name="home"
-           size={75}
-           color='black'
-           style={{
-            alignSelf: 'center'
-          }}
-                 /> 
-                 
-         </TouchableOpacity>
+             <Icon
+             style={{
+            }}
+            activeOpacity={10}
+               name="angle-double-left"
+               size={40}
+               color='black'
+                     /> 
+                     
+             </TouchableOpacity>   
             </View>
-            <Modal
-        visible={this.state.isVisible}
-        animationType='fade'
-        transparent
-        onRequestClose={() => {}}
-        >
-        <View
-        >
-        <ScrollView
-        style={styles.DescriptionModalStyle}
-        >
-        <View
-        style={{
-          marginLeft: '2%',
-          marginRight: '2%'
-        }}>
-          <Text 
-          style={styles.MobleDescritionTextStyle}
-          >Description: {this.props.itemInfo.shortDescription}</Text>
-          
-          </View>
-          
-        </ScrollView>
-        <Button
-          title='Close'
-          onPress={this.onDescripTog.bind(this)}
-          buttonStyle={{
-            borderBottomLeftRadius: 20,
-            borderBottomRightRadius: 20,
-            width: '97%',
-            alignSelf: 'center',
+              <Modal
+          visible={this.state.isVisible}
+          animationType='fade'
+          transparent
+          onRequestClose={() => {}}
+          >
+          <View
+          >
+          <ScrollView
+          style={styles.DescriptionModalStyle}
+          >
+          <View
+          style={{
+            marginLeft: '2%',
+            marginRight: '2%'
+          }}>
+            <Text 
+            style={styles.MobleDescritionTextStyle}
+            >Description: {this.props.itemInfo.shortDescription}</Text>
             
-          }}
-          />
-          </View>
-        </Modal>  
             </View>
-
-        );
-      }
-      
-}
-
-const mapStateToProps = state => {
-  //console.log(state.item.SingleResponseData);
-  return {
-    codeData: state.code.codeData,
-    itemInfo: {
-            name: state.item.SingleResponseData.name,
-            MSRP: state.item.SingleResponseData.msrp,
-            codeData: state.code.CodeData,
-            salePrice: state.item.SingleResponseData.salePrice,
-            shortDescription: state.item.SingleResponseData.shortDescription,
-            largeImage: state.item.SingleResponseData.largeImage,
-          }
-    };
-};
-
-
-const styles = { 
-  backgroundStyle: {
-    width: '100%', 
-    height: '100%',
-},
-    borderStyle: {
-      alignSelf: 'center',
-      width: '90%', 
-      height: '90%',
-      marginTop: "15%",
-      borderRadius: 20,
-      backgroundColor: "white",
-      flexDirection: 'column'
-    },
-    buttonStyle: {
-      backgroundColor: '#0489B1',
-      borderRadius: 10,
-      borderWidth: 0.5,
-      width: 125,
-      height: 45,
-    },
-    ItemNameViewStyle: {
-      alignSelf: 'center',
-      marginTop: '3%'
-    },
-    ItemNameTextStyle: {
-      fontSize: 20,
-      textAlign: "center",
-      color: "black",
-      textShadowColor: 'black'
-    },
-    ImageStyle: {
-      height: '60%',
-      resizeMode: "contain"
-    },
-    DescriptionModalStyle: {
-      alignSelf: 'center',
-      marginTop: '75%',
-      height: '54%',
-      width: "90%",
-      backgroundColor: "rgba(52, 52, 52, 1)",
-    },
-    DescritionTextStyle: {
-      fontSize: 15,
-      color: 'black',
-      textShadowColor: 'black'
-    },
-    MobleDescritionTextStyle: {
-      fontSize: 15,
-      color: 'white',
-      textShadowColor: 'black'
-    },
-
-    save: {
-    ViewStyle: {
-      marginBottom: 10,
-      borderRadius: 15
-    },
-    buttonStyle: {
-      backgroundColor: '#0a8e05',
-      borderRadius: 15
-    } 
-  },
-  Target: { 
-    ViewStyle: {
-      paddingTop: 15,
-      borderRadius: 15
-    },
-    buttonStyle: {
-      backgroundColor: '#d82424',
-      borderRadius: 15
-    } 
-    },
-  Amazon: { 
-    ViewStyle: {
-    paddingTop: 15,
-    borderRadius: 15
-  },
-  buttonStyle: {
-    backgroundColor: '#ffaa00',
-    borderRadius: 15,
-    marginBottom: 10
-  } 
-
-  }, 
-  Best: { 
-    ViewStyle: {
-    paddingTop: 15,
-    borderRadius: 15
-  }, 
-    buttonStyle: {
-      backgroundColor: '#0000ff',
-      borderRadius: 15
-    }
-  },
-  Walmart: {
-    ViewStyle: {
-      paddingTop: 15,
-      borderRadius: 15,
-    },
-    buttonStyle: {
-      backgroundColor: '#2093e5',
-      borderRadius: 15
-    } 
+            
+          </ScrollView>
+          <Button
+            title='Close'
+            onPress={this.onDescripTog.bind(this)}
+            buttonStyle={{
+              borderBottomLeftRadius: 20,
+              borderBottomRightRadius: 20,
+              width: '97%',
+              alignSelf: 'center',
+              
+            }}
+            />
+            </View>
+            </Modal>  
+          </View>
+          );
+        }
+        
   }
-};
-  export default connect(mapStateToProps, { saveCode,
-                                            walRes,
-                                            itemsFetch })(SearchResultsScreen);
+  
+  const mapStateToProps = state => {
+    //console.log(state.item.SingleResponseData);
+    return {
+      codeData: state.code.codeData,
+      itemInfo: {
+              name: state.item.SingleResponseData.name,
+              MSRP: state.item.SingleResponseData.msrp,
+              codeData: state.code.CodeData,
+              salePrice: state.item.SingleResponseData.salePrice,
+              shortDescription: state.item.SingleResponseData.shortDescription,
+              largeImage: state.item.SingleResponseData.largeImage,
+            }
+      };
+  };
+  
+  
+  const styles = { 
+    backgroundStyle: {
+      width: '100%', 
+      height: '100%',
+      backgroundColor: 'white',
+      alignItems: 'center',
+      justifyContent: 'center',
+  },
+  container: {
+    width: '100%', 
+      height: '100%',
+    backgroundColor: 'white',
+    borderRadius: 15,
+    borderWidth: 1,
+      borderColor: 'blue',
+  },
+  foot: {
+  position: 'absolute',
+    bottom: 0,
+    width: '100%',
+  height: '7%',
+  backgroundColor: 'white',
+  borderTopWidth: .2,
+                borderColor: 'grey',
+                shadowOpacity: 0.2,
+
+  },
+  head: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    height: '8%',
+    backgroundColor: 'white',
+    },
+  titleText: {
+  fontSize: 20,
+  color: 'black',
+  fontWeight: 'bold',
+  fontFamily: 'Avenir-Roman',
+
+  
+  },
+  textBox: {
+    height: '7%',
+    width: '100%',
+   // borderWidth: 1,
+    //borderColor: 'red',
+    marginLeft: '2%',
+    marginRight: '2%',
+    marginTop: '2%',
+    justifyContent: 'center'
+  },
+  buttonBox: {
+    flexDirection: 'row',
+    height: '5%',
+    width: '100%',
+   // borderWidth: 1,
+   // borderColor: 'red',
+    alignItems: 'center',
+    marginLeft: '2%',
+    marginRight: '2%',
+  },
+      buttonStyle: {
+        backgroundColor: '#0489B1',
+        borderRadius: 30,
+        width: 60,
+        height: 45,
+      },
+      ImageStyle: {
+        resizeMode: "contain",
+        height: '58%',
+        width: '100%',
+        marginRight: '2%',
+        marginLeft: '2%',
+      //  borderWidth: 1,
+      //  borderColor: 'red'
+  
+      },
+      DescriptionModalStyle: {
+        alignSelf: 'center',
+        marginTop: '75%',
+        height: '54%',
+        width: "90%",
+        backgroundColor: "rgba(52, 52, 52, 1)",
+      },
+      DescritionTextStyle: {
+        marginLeft: '2%',
+        fontSize: 13,
+        color: 'black',
+        textShadowColor: 'black',
+        fontFamily: 'Avenir-Roman',
+      },
+      MobleDescritionTextStyle: {
+        fontSize: 15,
+        color: 'white',
+        textShadowColor: 'black'
+      },
+  
+      Save: {
+      buttonStyle: {
+        backgroundColor: '#0a8e05',
+        borderRadius: 15
+      } 
+    },
+    Target: { 
+      buttonStyle: {
+        backgroundColor: '#d82424',
+        borderRadius: 15
+      } 
+      },
+    Amazon: { 
+    buttonStyle: {
+      backgroundColor: '#ffaa00',
+      borderRadius: 15,
+      marginBottom: 10
+      } 
+    }, 
+    Best: { 
+      buttonStyle: {
+        backgroundColor: '#0000ff',
+        borderRadius: 15
+      }
+    },
+    Walmart: {
+      buttonStyle: {
+        backgroundColor: '#2093e5',
+        borderRadius: 15
+      } 
+    }
+  };
+    export default connect(mapStateToProps, { saveCode,
+                                              walRes,
+                                              itemsFetch })(SearchResultsScreen);
