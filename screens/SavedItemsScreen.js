@@ -8,7 +8,8 @@ import { itemsFetch, savedToResults } from "../actions";
 //import { PRIMARY_COLOR } from "../constants/style";
 import SearchResultsScreen from "../screens/SearchResultsScreen";
 import Button from '../components/Button';
-import Card from '../components/Card';
+import Card from '../components/SavedComponents/Card';
+import CardSection from '../components/SavedComponents/CardSection';
 class SavedItemsScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
   // Properties automatically referred to by react-navigation navigators
@@ -69,56 +70,58 @@ console.log('press');
    
       <View
         style={styles.container}>
-
+      
       <FlatList
+      style={styles.listContainer}
       data={_.values(this.state.itemList)}
       //keyExtractor = ({data, item})
           renderItem={({item}) => 
-          <TouchableOpacity onPress={this.onItemPress} style={{height: 200, borderBottomColor: 'gray', borderBottomWidth: 1}}>
-                    <Image source={{uri: item.largeImage}} style={{width: '100%', height: '50%'}} />
-
-            <View style={{flexDirection: "row"}}>
-              <View >
-                
-                <Text>
-                  {item.name}
-                </Text>
-             
-                <View style={styles.pricePos}>
-                        <Text style={styles.textStyle}>
-                          MSRP: {item.MSRP}
-                        </Text>
-                        <Text>
-                          Sale: {item.salePrice}
-                        </Text>
-                  </View>
-              <Text>
-                {item.shortDescription}
-              </Text>
-            </View>
-                </View>
-            </TouchableOpacity>   
-
+         <Card>
+          <TouchableOpacity onPress={this.onItemPress} style={{height: 300, borderBottomColor: 'gray', borderBottomWidth: 1}}>
+                    <Image source={{uri: item.largeImage}} style={{width: '100%', height: '100%'}} />
+                    </TouchableOpacity>  
+                    <CardSection>
+            <Text>
+            {item.name}
+            {"\n"}
+            MSRP: {item.MSRP}
+                      {"\n"}
+                      Sale: {item.salePrice}
+                    </Text>
+                    </CardSection>
+         <CardSection>
+                    <Text>
+            {item.shortDescription}
+          </Text>
+          </CardSection> 
+            </Card>
             }
         keyExtractor={(item) => item.key}      
       />
-            <Card>
-      <Button 
-                onPress={this.onHomePress}  
-                >
-                        <Icon 
-                            activeOpacity={20}
-                            style={{paddingLeft: "8%",
-                            paddingRight: '70%',
-                            paddingTop: 0}}
-                            color='black'
-                            name="arrow-left"
-                            size={50}
-                       />
-                       back to home (:
-                       </Button>
-        </Card>
-     </View>
+      <View
+      style={styles.foot}>
+      <TouchableOpacity 
+      style={{
+        alignSelf: 'center',
+        position: "absolute",
+        left: 8,
+        top: 0
+      }}
+      onPress={this.onHomePress}
+      >
+       <Icon
+       style={{
+      }}
+      activeOpacity={10}
+         name="arrow-left"
+         size={40}
+         color='black'
+               /> 
+               
+       </TouchableOpacity>   
+      </View>
+      </View>
+
     );
   } catch (e) {
     console.log("Range error");
@@ -127,12 +130,20 @@ console.log('press');
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start'
+   height: '100%',
+   width: '100%',
+   backgroundColor: 'white',
+   justifyContent: 'center',
+   alignItems: 'center'
   },
   itemContainer: {
     flexDirection: 'row',
+  },
+  listContainer: {
+    marginTop: '15%', 
+    marginBottom: '2%', 
+    height: '90%',
+     width: '100%'
   },
   textContainer: {
     flexDirection: 'column',
@@ -152,7 +163,18 @@ const styles = StyleSheet.create({
  },
  imageView: {
    overflow: 'visible',
- }
+ },
+ foot: {
+  position: 'absolute',
+    bottom: 0,
+    width: '100%',
+  height: '7%',
+  backgroundColor: 'white',
+  borderTopWidth: .2,
+                borderColor: 'grey',
+                shadowOpacity: 0.2,
+
+  },
 }
 );
 
