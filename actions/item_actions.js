@@ -88,11 +88,10 @@ export const singleResponce = (text) => async dispatch => {
   const price = text.salePrice;
   priceDate = priceDate.toDateString();
  // console.log(priceDate);
-  if (temp === null){
+  if (temp === null) {
     text.history = [{priceDate: priceDate, price: price}];
-    firebase.database().ref(`/Items/${text.upc}/`)
-.set({ text });
-return singData(dispatch, text);
+    firebase.database().ref(`/Items/${text.upc}/`).set({ text });
+      return singData(dispatch, text);
   }
   const latestPrice = _.toArray(temp.history);
   let lastDate = latestPrice[latestPrice.length-1].priceDate;
@@ -100,8 +99,7 @@ return singData(dispatch, text);
   console.log(lastDate);
   const delta = new Date() - lastDate;
   console.log(delta);
-  if (delta > 86400000)
-  {
+  if (delta > 86400000) {
     latestPrice[latestPrice.length] = { priceDate: priceDate, price: price};
     console.log(latestPrice);
     temp.history = latestPrice;
@@ -111,12 +109,13 @@ return singData(dispatch, text);
 return singData(dispatch, temp);  
   };
 
- export const itemsFetch = () =>async dispatch => {
+ export const itemsFetch = () => async dispatch => {
   const { currentUser } = firebase.auth();
   //console.log(uid);
    const items = firebase.database().ref(`/users/${currentUser.uid}/items/`)
    .get();
  };
+
 export const amRes = (text) => async dispatch => {
  try {
 const amdata = await axios.get(urls.amazonUrl(text));

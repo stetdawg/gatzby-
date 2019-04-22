@@ -1,8 +1,9 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, YellowBox } from 'react-native';
 import firebase from 'firebase';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import { Provider } from "react-redux";
+import _ from "lodash";
 import store from './store';
 import { GOOGLE_FIREBASE_CONFIG } from "./assets/constants/api_keys";
 import AppNavigator from './navigation/AppNavigator';
@@ -13,6 +14,15 @@ export default class App extends React.Component {
   };
   componentWillMount() {
     firebase.initializeApp(GOOGLE_FIREBASE_CONFIG);
+    firebase.auth().signInWithEmailAndPassword('stet@stet.com', 'stetson');
+
+    YellowBox.ignoreWarnings(['Setting a timer']);
+    const _console = _.clone(console);
+    console.warn = message => {
+      if (message.indexOf('Setting a timer') <= -1) {
+        _console.warn(message);
+      }
+    };
   }
 
   render() {
