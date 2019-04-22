@@ -1,56 +1,43 @@
 import React, { Component } from "react";
-import {     
+import {
     AppRegistry,
     View,
     Text,
-    StyleSheet
-} from 'react-native';
+    StyleSheet,
+    Button,
+    TouchableOpacity,
+} from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import MapView from "react-native-maps";
 
 export default class MapScreen extends Component {
-    constructor() {
-        super();
-        this.state = {
-            ready: false,
-            where: {lat: null, lng: null},
-            error: null
-        };
-    }
-    componentDidMount() {
-        let geoOptions = {
-            enableHighAccuracy: true,
-        };
-        navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoFailure, geoOptions);
-    }
-    geoSuccess = (position) => {
-        //console.log(position.coords.latitude);
-        
-        this.setState({
-            ready: true,
-            where: {lat: position.coords.latitude, lng: position.coords.longitude }
-        });
-    }
-    
-    geoFailure = (err) => {
-        this.setState({error: err.message});
-    }
-    
-    
+
+    onHomePress = () => {
+        this.props.navigation.navigate('Home');
+      } 
+
     render() {
         return (
-            <View style={styles.container}>
+            <View 
+           style={styles.container}>
+           <View
+           sytle={styles.head}>
+           <Text
+           style={styles.textStyle}>Map View</Text>
+           </View>
+            <View style={styles.box}>
                 <MapView
                     style={styles.map}
                     initialRegion={{
-                        latitude: this.state.where.lat,
-                        longitude: this.state.where.lng,
+                        latitude: 37.78825,
+                        longitude: -122.4324,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}>
                         <MapView.Marker
                             coordinate={{
-                                latitude: Number(this.state.where.lat),
-                                longitude: Number(this.state.where.lng),
+                                latitude: 37.78825,
+                                longitude: -122.4324,
                             }}>
                                 <View style={styles.radius}>
                                     <View style={styles.marker} />
@@ -58,7 +45,29 @@ export default class MapScreen extends Component {
                             </MapView.Marker>
                     
                     </MapView>
-                
+                    </View>
+                    <View
+            style={styles.foot}>
+            <TouchableOpacity 
+            style={{
+              alignSelf: 'center',
+              position: "absolute",
+              left: 8,
+              top: 0
+            }}
+            onPress={this.onHomePress}
+            >
+             <Icon
+             style={{
+            }}
+            activeOpacity={10}
+               name="angle-double-left"
+               size={40}
+               color='black'
+                     /> 
+                     
+             </TouchableOpacity>   
+            </View>
             </View>
         );
     }
@@ -86,20 +95,65 @@ const styles = StyleSheet.create({
         backgroundColor: '#007AFF'
     },
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center'
+        height: '100%',
+        width: '100%',
+        backgroundColor: 'white',
+    //    justifyContent: 'flex-start'
+      
     },
-    big: {
-        fontSize: 48
+    box: {
+        //  alignItems: 'center',
+      //  justifyContent: 'center',
+   // borderRadius: 15,
+      alignSelf: 'center',
+      alignContent: 'center',
+      justifyContent: 'center',
+   backgroundColor: 'transparent',
+        height: '80%',
+        width: '90%',
+        marginLeft: '5%',
+        marginRight: '5%',
+        borderWidth: .2,
+        borderColor: 'grey',
+        shadowColor: 'grey',
+        shadowOpacity: .5,
+        shadowRadius: 10
+    
+
     },
     map: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        position: 'absolute'
+      height: '100%',
+      width: '100%',
+    //  marginLeft: '10%'
 
-    }
+
+    },
+    foot: {
+        position: 'absolute',
+          bottom: 0,
+          width: '100%',
+        height: '7%',
+        backgroundColor: 'white',
+        borderTopWidth: .2,
+                      borderColor: 'grey',
+                      shadowOpacity: 0.2,
+      
+        },
+        head: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            height: '10%',
+         backgroundColor: 'blue',
+            borderWidth: 3,
+            borderColor: 'red',
+            marginBottom: '5%'
+            },
+            textStyle: {
+                fontSize: 50,
+                color: 'black',
+                fontWeight: 'bold',
+                fontFamily: 'Avenir-Roman',
+            }
+            
 });
