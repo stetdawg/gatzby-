@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import firebase from 'firebase';
-import { FlatList, View, Text, StyleSheet, Modal, Image, TouchableOpacity, TouchableHighlight } from "react-native";
+import { Button, ScrollView, FlatList, View, Text, StyleSheet, Modal, Image, TouchableOpacity, TouchableHighlight } from "react-native";
 import { connect } from "react-redux";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import _ from "lodash";
 import { itemsFetch, savedToResults } from "../actions";
 //import { PRIMARY_COLOR } from "../constants/style";
-import SearchResultsScreen from "../screens/SearchResultsScreen";
-import Button from '../components/Button';
-import Card from '../components/Card';
+//import SearchResultsScreen from "../screens/SearchResultsScreen";
+import Card from '../components/SavedComponents/Card';
+import CardSection from '../components/SavedComponents/CardSection';
 class SavedItemsScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
   // Properties automatically referred to by react-navigation navigators
@@ -46,6 +46,9 @@ onButtonPress() {
     this.props.savedToResults(this.props.item.itemInfo.upc);
     this.props.navigation.navigate("searchResults");
 }
+onDescripTog() {
+  this.setState({isVisible: !this.state.isVisible});
+}
 onItemPress() {
  this.setState({itemDetail: !this.state.itemDetail});
 console.log('press');
@@ -69,56 +72,108 @@ console.log('press');
    
       <View
         style={styles.container}>
-
+      
       <FlatList
+      style={styles.listContainer}
       data={_.values(this.state.itemList)}
       //keyExtractor = ({data, item})
           renderItem={({item}) => 
-          <TouchableOpacity onPress={this.onItemPress} style={{height: 200, borderBottomColor: 'gray', borderBottomWidth: 1}}>
-                    <Image source={{uri: item.largeImage}} style={{width: '100%', height: '50%'}} />
 
-            <View style={{flexDirection: "row"}}>
-              <View >
-                
-                <Text>
+          <Card>
+                  <Image source={{uri: item.largeImage}} style={{width: '100%', height: 300}} />
+                  <CardSection>
+                  <Text
+                  style={styles.textStyle}>
                   {item.name}
-                </Text>
-             
-                <View style={styles.pricePos}>
-                        <Text style={styles.textStyle}>
-                          MSRP: {item.MSRP}
-                        </Text>
-                        <Text>
-                          Sale: {item.salePrice}
-                        </Text>
-                  </View>
-              <Text>
-                {item.shortDescription}
-              </Text>
-            </View>
-                </View>
-            </TouchableOpacity>   
+                  </Text>
+                  </CardSection> 
+                <CardSection>
+                <Text
+                style={styles.textStyle}>
+                MSRP: {item.MSRP}
+                            {"\n"}
+                            Sale: {item.salePrice}
+                            {"\n"}
+                            </Text> 
+                            
+                            
+                            <TouchableOpacity 
+                            style={{
+                            }}
+                            onPress={this.onDescripTog.bind(this)}
+                            >
+                             <Icon
+                             style={{
+                              marginLeft: '73%'
 
-            }
+                            }}
+                            activeOpacity={10}
+                               name="plus"
+                               size={40}
+                               color='grey'
+                                     /> 
+                                     
+                             </TouchableOpacity>   
+                            </CardSection> 
+                            <Modal
+                            visible={this.state.isVisible}
+                            animationType='slide'
+                            transparent
+                            onRequestClose={() => {}}
+                            > 
+                            <ScrollView
+                            style={styles.modalStyle}>
+                            <View>
+                            <Text 
+                                  style={styles.modalText}>
+                                  {item.shortDescription}
+                                  </Text>
+                            </View>
+                            <TouchableOpacity 
+                            style={{
+                            }}
+                            onPress={this.onDescripTog.bind(this)}
+                            >
+                             <Icon
+                             style={{
+                               marginLeft: '89%'
+                            }}
+                            activeOpacity={10}
+                               name="close"
+                               size={30}
+                               color='white'
+                                     /> 
+                             </TouchableOpacity>  
+                            </ScrollView> 
+                            </Modal> 
+                  </Card>
+        }
         keyExtractor={(item) => item.key}      
       />
-            <Card>
-      <Button 
-                onPress={this.onHomePress}  
-                >
-                        <Icon 
-                            activeOpacity={20}
-                            style={{paddingLeft: "8%",
-                            paddingRight: '70%',
-                            paddingTop: 0}}
-                            color='black'
-                            name="arrow-left"
-                            size={50}
-                       />
-                       back to home (:
-                       </Button>
-        </Card>
-     </View>
+      <View
+      style={styles.foot}>
+      <TouchableOpacity 
+      style={{
+        alignSelf: 'center',
+        position: "absolute",
+        left: 8,
+        top: 0
+      }}
+      onPress={this.onHomePress}
+      >
+       <Icon
+       style={{
+      }}
+      activeOpacity={10}
+         name="arrow-left"
+         size={40}
+         color='black'
+               /> 
+               
+       </TouchableOpacity>   
+      </View>
+      </View>
+
     );
   } catch (e) {
     console.log("Range error");
@@ -127,12 +182,17 @@ console.log('press');
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start'
+   height: '100%',
+   width: '100%',
+   backgroundColor: 'white',
+   justifyContent: 'center',
+   alignItems: 'center'
   },
-  itemContainer: {
-    flexDirection: 'row',
+  listContainer: {
+    marginTop: '15%', 
+    marginBottom: '2%', 
+    height: '90%',
+     width: '100%',
   },
   textContainer: {
     flexDirection: 'column',
@@ -144,15 +204,45 @@ const styles = StyleSheet.create({
    paddingBottom: 10,
  },
  textStyle: {
-  textDecorationLine: 'line-through', 
-  textDecorationStyle: 'solid', 
+ fontFamily: 'Avenir-Roman',
+  flexWrap: 'wrap',
+  marginLeft: '2%'
  },
+ modalText: {
+  fontFamily: 'Avenir-Roman',
+   flexWrap: 'wrap',
+   color: 'white',
+   marginRight: '2%',
+   marginLeft: '2%'
+  },
+ modalStyle: {
+  alignSelf: 'center',
+  marginTop: '90%',
+  marginBottom: '90%',
+  shadowOpacity: 0.2,
+borderWidth: .5,
+borderRadius: 10,
+  height: '10%',
+  width: "100%",
+  backgroundColor: "grey",
+},
  textPos: {
    alignItems: 'flex-start',
  },
  imageView: {
    overflow: 'visible',
- }
+ },
+ foot: {
+  position: 'absolute',
+    bottom: 0,
+    width: '100%',
+  height: '7%',
+  backgroundColor: 'white',
+  borderTopWidth: .2,
+                borderColor: 'grey',
+                shadowOpacity: 0.2,
+
+  },
 }
 );
 
@@ -166,3 +256,4 @@ return { items };
 
 
 export default connect(mapStateToProps, { itemsFetch, savedToResults })(SavedItemsScreen);
+
