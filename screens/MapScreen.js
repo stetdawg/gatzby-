@@ -53,7 +53,7 @@ class MapItems extends Component {
           {this.props.item.city} {", "}
           {this.props.item.state1} {", "}
           {this.props.item.zip}
-          {"\n"}
+          {"\n"} Phone: {" "}
           {this.props.item.phone.toString().replace(/\D+1/g, '')}
           </Text>
           </CardSection>
