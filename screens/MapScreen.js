@@ -1,6 +1,7 @@
 import YelpService from '../components/YelpApi';
 import Map from '../components/Map';
 import React, { Component } from "react";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {     
     AppRegistry,
     View,
@@ -12,9 +13,9 @@ import {
     Image,
     ListItem,
 } from 'react-native';
+import Card from '../components/MapComponents/Card';
+import CardSection from '../components/MapComponents/CardSection';
 import { Location, Permissions, Marker } from 'expo';
-//import MapView from 'react-native-elements';
-//import console = require('console');
 
 const region = {
   latitude: 37.321996988,
@@ -28,110 +29,39 @@ const deltas = {
   longitudeDelta: 0.15
 };
 
-  class HorizontalFlatListItem extends Component {
+/*////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                 //                                                     
+//                                                                                                //                                                      
+//////////////////////////////////////////////////////////////////////////////////////////////////*/
+class MapItems extends Component {
     render() {
       return (
-        // <TouchableOpacity 
-        // onPress={() => {
-        // console.log(`lat: ${this.props.item.coords.region}, long: ${this.props.item.coords.longitude}`);
-        // this.setState({region});
-        // // this.map.fitToCoordinates({
-        // //   latitude: 37.321996988,
-        // //   longitude: -122.0325472123455,
-        // //   latitudeDelta: 0.15,
-        // //   longitudeDelta: 0.15
-        // // },
-        // // { edgePadding: { top: 10, right: 10, bottom: 10, left: 10 }, 
-        // // animated: true});
-        // // this.mapView.animateToRegion({
-        // //   latitude: 37.321996988,
-        // //   longitude: -122.0325472123455,
-        // //   latitudeDelta: 0.15,
-        // //   longitudeDelta: 0.15
-        // // }, 1000);
-        // }}>
-        <View 
-          style={{
-            flex: 1,
-            //flexDirectection: 'column',
-            alignItems: 'center',
-            width: 125,
-            borderRadius: 10,
-            borderWidth: 1,
-            borderColor: 'black',
-            margin: 4,
-          }}>
-          <Text 
-          style={{
-          textAlign: 'center',
-          flex: 1,
-          fontSize: 12,
-          fontWeight: 'bold',
-          //color: 'white',
-          //margin: 20
-          }}>{this.props.item.name}
+       <View
+       style={styles.container}>
+       <Card>
+        <CardSection>
+        <Text 
+          style={styles.textStyle}>{this.props.item.name}
           </Text>
-          <Image source={{uri: this.props.item.image}} style={{width: '100%', height: '50%'}} />
+          </CardSection>
+          <Image source={{uri: this.props.item.image}} style={styles.imageStyle} />
+          <CardSection>
           <Text 
-          style={{
-          textAlign: 'center',
-          flex: 1,
-          fontSize: 12,
-          //margin: 10,
-          //color: 'white',
-          }}>{`${this.props.item.addr} ${this.props.item.city}, ${this.props.item.state1} ${this.props.item.zip}`}
+          style={styles.textSubStyle}>
+          {this.props.item.addr} {", "}
+          {"\n"}
+          {this.props.item.city} {", "}
+          {this.props.item.state1} {", "}
+          {this.props.item.zip}
+          {"\n"}
+          {this.props.item.phone.toString().replace(/\D+1/g, '')}
           </Text>
-          <Text 
-          style={{
-          textAlign: 'center',
-          flex: 1,
-          fontSize: 12,
-          margin: 10,
-          //color: 'white',
-          }}>{this.props.item.phone}
-          </Text>
-
+          </CardSection>
+        </Card>
         </View>
-        //</TouchableOpacity>
       );
     }
   }
-
-  // class Map extends Component {
-  //   renderMarkers() {
-  //     return this.props.places.map((place, i) => (
-  //       <MapView.Marker 
-  //         key={i}
-  //         title={place.name}
-  //         coordinate={place.coords}
-  //         description={`${place.addr} ${place.name}`}
-  //       />
-  //     ));
-  //   }
-    
-  //   render() {
-  //     const { region } = this.props;
-  
-  //     return (
-  //       <MapView
-  //       style={{ 
-  //         left: 0,
-  //         right: 0,
-  //         top: 0,
-  //         bottom: 0,
-  //         position: 'absolute',
-  //         width: '100%',
-  //         height: '100%'}}
-  //       region={region}
-  //       showsUserLocation
-  //       showsMyLocationButton
-  //       >
-  //         {this.renderMarkers()}
-  //       </MapView>
-  //     );
-  //   }
-  // }
-
 export default class MapScreen extends Component {
   state = {
     region: null,
@@ -166,18 +96,27 @@ export default class MapScreen extends Component {
     await this.setState({ region });
     await this.getStores();
   }
-
+  onHomePress = () => {
+    this.props.navigation.navigate('Home');
+    }  
+/*////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                 //                                                     
+//                                                                                                //                                                      
+//////////////////////////////////////////////////////////////////////////////////////////////////*/
   render() {
     const { region, stores } = this.state;
-    return (
-      <View style={styles.main}>
-        <View style={styles.container}>
+    return (      
+      <View
+      style={styles.container}>
+      
+      
+      <View style={styles.mapContainer}>
           <Map region={region} places={stores} />
         </View>
-         <FlatList
-          horizontal={true}
+        <FlatList
+        style={styles.listContainer}
+         horizontal={true}
           data={this.state.stores}
-          //renderRow={this.onMarkerPress.bind(this)}
           renderItem={({ item }) => (
             <TouchableOpacity 
             onPress={(e) => {
@@ -194,50 +133,97 @@ export default class MapScreen extends Component {
               latitudeDelta: 0.15,
               longitudeDelta: 0.15
             });
+            
             console.log({region});
-            //console.log(e.nativeEvent.coordinate);
-            //console.log(e.nativeEvent.key.showCallout());
-            //this.map.animateToRegion(region, 100);
-            //this.animateEvent(region);
-            // this.setState({
-            //   latitude: 37.321996988,
-            //   longitude: -122.0325472123455
-            // });
-            // this.map.animateToRegion({
-            //   latitude: item.coords.latitude,
-            //   longitude: item.coords.longitude,
-            //   latitudeDelta: 0.15,
-            //   longitudeDelta: 0.15
-            // }, 100);
-            // this.map.fitToCoordinates({
-            //   latitude: 37.321996988,
-            //   longitude: -122.0325472123455,
-            //   latitudeDelta: 0.15,
-            //   longitudeDelta: 0.15
-            // },
-            // { edgePadding: { top: 10, right: 10, bottom: 10, left: 10 }, 
-            // animated: true});
-            // this.mapView.animateToRegion({
-            //   latitude: 37.321996988,
-            //   longitude: -122.0325472123455,
-            //   latitudeDelta: 0.15,
-            //   longitudeDelta: 0.15
-            // }, 1000);
             }}>
-                <HorizontalFlatListItem item={item}>
-                
-                </HorizontalFlatListItem>
+                <MapItems item={item}>
+                </MapItems>
               
               </TouchableOpacity>             
           )}
           keyExtractor={item => item.id}
         /> 
+        <View
+      style={styles.foot}>
+      <TouchableOpacity 
+      style={{
+        alignSelf: 'center',
+        position: "absolute",
+        left: 8,
+        top: 0
+      }}
+      onPress={this.onHomePress}
+      >
+       <Icon
+       style={{
+      }}
+      activeOpacity={10}
+         name="arrow-left"
+         size={40}
+         color='black'
+               /> 
+               
+       </TouchableOpacity>   
       </View>
+        </View>
     );
   }
 }
-
+/*////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                 //                                                     
+//                                                                                                //                                                      
+//////////////////////////////////////////////////////////////////////////////////////////////////*/
 const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: 'white',
+    alignItems: 'center',
+
+  },
+  listContainer: {
+   flex: .4,
+    borderWidth: .2,
+   borderColor: '#6495ed',
+    marginTop: '2%',
+    marginBottom: '8%',
+    backgroundColor: 'white'
+  }, 
+  textStyle: {
+    textAlign: 'center',
+    fontSize: 12,
+    fontWeight: 'bold',
+          fontFamily: 'Avenir-Roman',
+
+},
+textSubStyle: {
+  textAlign: 'center',
+        fontSize: 12,
+        fontFamily: 'Avenir-Roman',
+
+},
+  mapContainer: {
+    height: '55%',
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderWidth: .1,
+    borderRadius: 10,
+    borderColor: '#6495ed',
+    shadowColor: 'grey',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 1,
+    marginLeft: 2,
+    marginRight: 2,
+  },
+  imageStyle: {
+    flex: 2,
+    resizeMode: 'contain',
+    borderWidth: .1,
+     borderColor: 'grey'
+},
   radius: {
       height: 50,
       width: 50,
@@ -256,36 +242,17 @@ const styles = StyleSheet.create({
       borderColor: 'white',
       borderRadius: 20 / 2,
       overflow: 'hidden',
-      backgroundColor: '#007AFF'
+     backgroundColor: '#007AFF'
   },
-  container: {
+  foot: {
+    position: 'absolute',
+      bottom: 0,
       width: '100%',
-      height: '100%',
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      //paddingBottom: 50
-      // justifyContent: 'center',
-      // overflow: 'hidden'
-      // position: 'absolute',
-      // top: 0,
-      // left: 0,
-      // right: 0,
-      // bottom: 0
-  },
-  big: {
-      fontSize: 48
-  },
-  // map: {
-  //     left: 0,
-  //     right: 0,
-  //     top: 0,
-  //     bottom: 0,
-  //     position: 'absolute',
-  //     width: 200,
-  //     height: 200
-  // },
-  main: {
-    flex: 1
-  }
+    height: '7%',
+    backgroundColor: 'white',
+    borderTopWidth: .2,
+                  borderColor: 'grey',
+                  shadowOpacity: 0.2,
+  
+    },
 });
