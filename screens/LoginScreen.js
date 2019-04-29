@@ -9,15 +9,12 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import {  Card, FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
-import AuthButtons from '../components/AuthComponents/AuthButtons';
 import logo from '../assets//images/icon.png';
 import { Spinner } from "../components/common/Spinner";
 import { Button } from '../components/AuthComponents/Button';
 import {loginUser,
-        signupUser,
         emailChanged,
         passwordChanged,
-        signoutUser
     } from "../actions";
 
 class LoginScreen extends Component {

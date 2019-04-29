@@ -50,7 +50,7 @@ class multipleResultesScreen extends Component {
       </View>
       <TouchableOpacity 
         alignContent='center'
-        onPress={this.onHomeButtonPress}
+        onPress={this.onHomeButtonPress.bind(this)}
         style={{
           alignSelf: 'center',
           bottom: 0
