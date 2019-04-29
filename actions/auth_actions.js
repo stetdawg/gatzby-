@@ -1,7 +1,7 @@
 
 import { Facebook, SecureStore } from 'expo';
-import firebase from 'firebase';
 import { FACEBOOK_API_KEY } from '../assets/constants/api_keys';
+import axios from "axios"
 import {
   FACEBOOK_LOGIN_SUCCESS,
   FACEBOOK_LOGIN_FAIL,
@@ -11,7 +11,6 @@ import {
   AUTH_USER_SUCCESS,
   AUTH_USER_FAIL,
   AUTH_USER_ATTEMPT,
-  RESET_APP_STATE,
   RESET_SIGNUP_LOGIN_PAGES
 } from './types.js';
 
@@ -47,23 +46,26 @@ export const resetSignupLoginPages = () => ({
 });
 
 ////////////////////////////////////////////////////////////////
-// Call appropriate FireBase method to login
-export const loginUser = (email, password) => {
-  return (dispatch) => {
-    dispatch({type: AUTH_USER_ATTEMPT});
-
-  firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(user => authUserSuccess(dispatch, user))
-    .catch((error) => {
-      console.log(error);
-
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(user => authUserSuccess(dispatch, user))
-      .catch(() => loginUserFail(dispatch));
-    });
-  };
+// Call appropriate method to login
+export const loginUser = (email, password) =>  async dispatch =>{
+  try {
+    console.log("hi")
+    let res = await axios({
+        method: "post",
+        url:`http://127.0.0.1:5000/userSignIn`, 
+        body:{
+          user:email,
+          password
+        } 
+      });
+      console.log(res.data);
+    
+    authUserSuccess(dispatch, "saldk;fjlaksd");
+  } catch (err) {
+    console.error(err);
+    loginUserFail(dispatch, 'Authentication Failed');
+  }
 };
-
 ////////////////////////////////////////////////////////////////
 // Helper method for successful email/password login
 const authUserSuccess = (dispatch, user) => {
@@ -81,56 +83,26 @@ const loginUserFail = (dispatch) => {
   });
 };
 
-// export const loginUser = (email, password) => async dispatch => {
-//     try {
-//       // Dispatch event to trigger loading spinner
-//       dispatch({ type: AUTH_USER_ATTEMPT });
 
-//       // Attempt to login user
-//       const { user } = await firebase.auth().signInWithEmailAndPassword(email, password);
-//       //console.log(user);
-//       authUserSuccess(dispatch, user);
-//     } catch (err) {
-//       console.error(err);
-//       loginUserFail(dispatch, 'Authentication Failed');
-//     }
-
-// };
 
 ////////////////////////////////////////////////////////////////
-// Call appropriate FireBase method to signup user
+// Call appropriate method to signup user
 export const signupUser = (email, password) => async dispatch => {
-  // if (password !== passwordRetype) {
-  //   return loginUserFail(dispatch, 'Passwords do not match');
-  // }
-  try {
-    // Dispatch event to trigger loading spinner
-    dispatch({ type: AUTH_USER_ATTEMPT });
-    // Attempt to signup new user
-    const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password);
-    //console.log(user);
-    authUserSuccess(dispatch, user);
-  } catch (err) {
-    switch (err.code) {
-      case 'auth/email-already-in-use':
-        return loginUserFail(
-          dispatch,
-          `${email} already in use - Please try anothere-
-          mail address or log in with a social media provider`
-        );
-      case 'auth/invalid-email':
-        return loginUserFail(
-          dispatch,
-          `${email} is an invalid email address - Please ensure you typed your e-mail correctly`
-        );
-      case 'auth/weak-password':
-        return loginUserFail(dispatch, 'Password is too weak - Please try again.');
-      default:
-        // console.log(err.message);
-        return loginUserFail(dispatch, err.message);
+    try {
+      const {data } = await axios.get("127.0.0.1:5000/userSignIn",{
+          
+            user:email,
+            password:password
+       }
+      );
+        console.log(data);
+      
+      authUserSuccess(dispatch, "saldk;fjlaksd");
+    } catch (err) {
+      console.error(err);
+      loginUserFail(dispatch, 'Authentication Failed');
     }
-  }
-};
+  };
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ///////////////////FACEBOOK LOGIN METHODS///////////////////////
@@ -184,52 +156,6 @@ const doFacebookLogin = async dispatch => {
     }
 
     await loginWithFacebookToken(token, dispatch);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-////////////////////////////////////////////////////////////////
-// Login to Firebase w/ Facebook Token
-const loginWithFacebookToken = async (token, dispatch) => {
-  try {
-    // Build Firebase credential with the Facebook access token
-    const credential = firebase.auth.FacebookAuthProvider.credential(token);
-
-    // Sign in w/ credential from the Facebook user
-    await firebase.auth().signInWithCredential(credential);
-
-    // Save token onto device memory and dispatch action
-    //await AsyncStorage.setItem('fb_token', token);
-    await SecureStore.setItemAsync('fb_token', token); // Encrypts before storing!
-    dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: token });
-  } catch (err) {
-    //await AsyncStorage.removeItem('fb_token'); // Remove if exists
-    await SecureStore.deleteItemAsync('fb_token');
-    console.error(err);
-    return dispatch({ type: FACEBOOK_LOGIN_FAIL, payload: 'Facebook login cancelled/failed' });
-  }
-};
-
-////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-///////////////////////SHARED METHODS///////////////////////////
-////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-// Called when user wants to signout
-export const signoutUser = () => async dispatch => {
-  try {
-    // Dispatch event to trigger loading spinner
-    dispatch({ type: AUTH_USER_ATTEMPT });
-
-    // Attempt to signout user
-    await firebase.auth().signOut();
-    //await AsyncStorage.removeItem('fb_token'); // Remove if exists
-    //await SecureStore.deleteItemAsync('fb_token');
-
-    // Dispatch signout user event
-    dispatch({ type: RESET_APP_STATE });
   } catch (err) {
     console.error(err);
   }

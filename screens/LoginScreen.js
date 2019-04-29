@@ -8,16 +8,14 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
-import {  Card, FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
-import AuthButtons from '../components/AuthComponents/AuthButtons';
+import { FormInput, FormValidationMessage } from "react-native-elements";
 import logo from '../assets//images/icon.png';
 import { Spinner } from "../components/common/Spinner";
 import { Button } from '../components/AuthComponents/Button';
 import {loginUser,
-        signupUser,
         emailChanged,
         passwordChanged,
-        signoutUser
+        signupUser
     } from "../actions";
 
 class LoginScreen extends Component {
@@ -57,30 +55,11 @@ class LoginScreen extends Component {
     onLoginAttempt() {
       const { email, password } = this.props;
       this.props.loginUser(email, password);
-        console.log(this.state.user);
-          if (this.props.user !== '') {
-            console.log(this.props.user);
-            this.onLoginSuccess(); 
-            this.props.navigation.navigate('Home');  
-          }
-            if (this.props.user === '') {
-            this.onLoginFail();
-            }
       }
-      onLogOutAttempt() {
-        this.props.signoutUser(this.props.uid);
-      }
-      onSignupAttempt() {
+    onSignupAttempt() {
         const { email, password } = this.props;
         this.props.signupUser(email, password);
-        console.log(this.props.user);
-              if (this.props.user !== '') {
-                this.onLoginSuccess(); 
-              }
-              if (this.props.user === '') {
-                this.onLoginFail();
-              }
-           //}
+
         }
     renderError() {
       if (this.props.error) {
@@ -98,6 +77,7 @@ class LoginScreen extends Component {
         return <Spinner size='large' />;
       }
       return (
+        <View>
         <TouchableOpacity>
         <Button 
           styles={styles.buttonStyle}
@@ -107,6 +87,16 @@ class LoginScreen extends Component {
         Sign In
         </Button>
       </TouchableOpacity>
+      <TouchableOpacity>
+      <Button 
+        styles={styles.buttonStyle}
+        title="Sign up"
+        onPress={this.onSignupAttempt.bind(this)}
+      >
+      Sign Up
+      </Button>
+    </TouchableOpacity>
+    </View>
       );
     }
 
@@ -249,18 +239,9 @@ const mapStateToProps = ({ auth }) => {
 
   return { email, password, error, loading };
 };
-const mapDispatchToProps = (dispatch) => {
-  return {
-    emailChanged: (emailAddress) => dispatch(emailChanged(emailAddress)),
-    passwordChanged: (password) => dispatch(passwordChanged(password)),
-    loginUser: (email, password) => dispatch(loginUser(email, password))
-    };
-};
 
-export default connect(mapStateToProps, 
-                  mapDispatchToProps)(LoginScreen);
 
-// export default connect(mapStateToProps, {emailChanged,
-//                       passwordChanged,
-//                       signupUser,
-//                       loginUser,})(LoginScreen);
+export default connect(mapStateToProps, {emailChanged,
+                      passwordChanged,
+                      signupUser,
+                      loginUser,})(LoginScreen);

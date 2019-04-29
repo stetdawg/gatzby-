@@ -21,39 +21,8 @@ class AuthScreen extends Component {
   //////////////////////////////////////////////////////////////////////////////////
   // Register the event which detects a change of state in the logged-in user
   componentWillMount() {
-    //this.props.loading = true;
-    //const nav = this.props.navigation;
-    // Check if user is persisted and "login" by navigating to main if so
-    if (firebase.auth().currentUser) {
-      console.log(`${firebase.auth().currentUser.email} already logged in.`);
-      return this.props.navigation.navigationAction.pop(); // Navigate to main page
+
     }
-
-    //console.log(this.props.navigation.state.params);
-
-    // Listen for authentication state to change.
-    firebase.auth().onAuthStateChanged(user => {
-      // Show login screen b/c firebase has just authenticated/denied user
-      this.props.loading = false;
-      this.setState({ showLoading: this.props.loading }); // Retrigger components
-
-      //console.log('onAuthStateChanged()');
-      if (user) {
-        // Print out debug info
-        console.log('--We are authenticated now!');
-        console.log(`--Display Name: ${user.displayName}`);
-        console.log(`--Email: ${user.email}`);
-        //console.log(`--Provider: ${user.providerId}`);
-        console.log(`--uid: ${user.uid}`);
-
-        // Navigate to main page
-        this.props.navigation.navigate('main');
-        return;
-      }
-      this.props.navigation.navigate('auth');
-      //this.props.navigation.navigate('auth');
-    });
-  }
 
   //////////////////////////////////////////////////////////////////////////////////
   // Called whenever one of the props (properties) changes - when the login/token
