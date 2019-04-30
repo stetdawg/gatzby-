@@ -20,6 +20,8 @@ class SavedItemsScreen extends Component {
     state = {
       itemList: [],
       itemDetail: false,
+      isVisible:false,
+      discriotion:""
     };
 
 
@@ -46,8 +48,9 @@ onButtonPress() {
     this.props.savedToResults(this.props.item.itemInfo.upc);
     this.props.navigation.navigate("searchResults");
 }
-onDescripTog() {
+onDescripTog = (text) =>{
   this.setState({isVisible: !this.state.isVisible});
+  this.setState({discriotion:text})
 }
 onItemPress() {
  this.setState({itemDetail: !this.state.itemDetail});
@@ -100,7 +103,7 @@ console.log('press');
                             <TouchableOpacity 
                             style={{
                             }}
-                            onPress={this.onDescripTog.bind(this)}
+                            onPress={this.onDescripTog.bind(this, item.shortDescription)}
                             >
                              <Icon
                              style={{
@@ -115,7 +118,12 @@ console.log('press');
                                      
                              </TouchableOpacity>   
                             </CardSection> 
-                            <Modal
+                         
+                  </Card>
+        }
+        keyExtractor={(item) => item.key}      
+      />
+         <Modal
                             visible={this.state.isVisible}
                             animationType='slide'
                             transparent
@@ -126,13 +134,13 @@ console.log('press');
                             <View>
                             <Text 
                                   style={styles.modalText}>
-                                  {item.shortDescription}
+                                  {this.state.discriotion}
                                   </Text>
                             </View>
                             <TouchableOpacity 
                             style={{
                             }}
-                            onPress={this.onDescripTog.bind(this)}
+                            onPress={this.onDescripTog.bind(this, "")}
                             >
                              <Icon
                              style={{
@@ -146,10 +154,6 @@ console.log('press');
                              </TouchableOpacity>  
                             </ScrollView> 
                             </Modal> 
-                  </Card>
-        }
-        keyExtractor={(item) => item.key}      
-      />
       <View
       style={styles.foot}>
       <TouchableOpacity 
@@ -190,7 +194,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     marginTop: '15%', 
-    marginBottom: '2%', 
+    marginBottom: '18%', 
     height: '90%',
      width: '100%',
   },
