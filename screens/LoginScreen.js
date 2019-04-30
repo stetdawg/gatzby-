@@ -53,13 +53,14 @@ class LoginScreen extends Component {
       });
     }
     onLoginAttempt() {
-      const { email, password } = this.props;
-      this.props.loginUser(email, password);
+      //const { email, password } = this.props;
+     // this.props.loginUser(email, password);
+     this.props.navigation.navigate("Home");
       }
     onSignupAttempt() {
-        const { email, password } = this.props;
-        this.props.signupUser(email, password);
-
+        //const { email, password } = this.props;
+        //this.props.signupUser(email, password);
+        this.props.navigation.navigate("Home");
         }
     renderError() {
       if (this.props.error) {
