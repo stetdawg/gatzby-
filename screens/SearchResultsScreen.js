@@ -36,19 +36,19 @@ class SearchResultsScreen extends Component {
           console.log(this.props.itemInfo);
           //alert('Item favorited.');
           this.setState({isLiked: !this.state.isLiked});
-          
+
           try { 
-            //this.setState({items: this.props.itemInfo});
+            console.log(this.state.isLiked);
             const { currentUser } = firebase.auth();
-            firebase.database().ref(`/users/${currentUser.uid}/items`).push(this.props.itemInfo);
-                console.log(this.state.isLiked);
+              firebase.database().ref(`/users/${currentUser.uid}/items`)
+                .push(this.props.itemInfo);
             } catch (e) {
               if (e instanceof EvalError) {
                 console.log(e.name + e.message);
               } else if (e instanceof RangeError) {
                 console.log(e.name + e.message);
             }    
-          }
+        }
       }
         componentDidMount = () => {
           //check if item exists in database
@@ -100,7 +100,13 @@ class SearchResultsScreen extends Component {
               break;
           }
         }
-        render() {   
+        render() {  
+          let likeColor = 'black';
+        if (this.state.isLiked === true) {
+          likeColor = 'black';
+        } else {
+          likeColor = 'red';
+        }  
           return (
             <View
             style={styles.backgroundStyle}>
@@ -133,24 +139,20 @@ class SearchResultsScreen extends Component {
                           {"\n"}
                           Current Price: {this.props.itemInfo.salePrice}
                           </Text>
-                        <TouchableOpacity 
-                        style={{
-                         
-                        }}
-                        onPress={this.onSavedPress}
-                        >
-                         <Icon
-                         style={{
-                          paddingLeft: "48%",
-                          paddingRight: "2%"
-                        }}
-                        activeOpacity={10}
-                           name="heart"
-                           size={30}
-                           color='black'
-                                 /> 
-                                 
-                         </TouchableOpacity> 
+                          <TouchableOpacity //SAVED ITEMS BUTTON
+                       onPress={this.onsavedPress}
+                       
+                       >
+                           <Icon 
+                            activeOpacity={20}
+                            style={{paddingLeft: "50%",
+                            paddingTop: 0,
+                            color: likeColor,
+                          }}
+                            name="heart"
+                            size={30}
+                       />
+                       </TouchableOpacity>  
                          <TouchableOpacity 
                         style={{
                          
