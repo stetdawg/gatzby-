@@ -13,10 +13,10 @@ const getStores = userLocation => {
   return api
     .get('/businesses/search', {
       params: {
-        limit: 5,
-        //term: 'target walmart bestbuy',
-        radius: 20000,
-        //sort_by: 'best_match',
+        limit: 7,
+        //term: 'bestbuy',
+        radius: 5000,
+        sort_by: 'best_match',
         categories: 'deptstores',
         //open_now: true,
         ...userLocation
@@ -35,7 +35,8 @@ const getStores = userLocation => {
           phone: business.phone,
           city: business.location.city,
           state1: business.location.state,
-          zip: business.location.zip_code
+          zip: business.location.zip_code,
+          rating: business.rating
 
         };
       })

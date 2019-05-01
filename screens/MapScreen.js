@@ -16,6 +16,7 @@ import {
 import Card from '../components/MapComponents/Card';
 import CardSection from '../components/MapComponents/CardSection';
 import { Location, Permissions, Marker } from 'expo';
+import StarRating from 'react-native-star-rating';
 
 const region = {
   latitude: 37.321996988,
@@ -39,11 +40,9 @@ class MapItems extends Component {
        <View
        style={styles.container}>
        <Card>
-        <CardSection>
         <Text 
           style={styles.textStyle}>{this.props.item.name}
           </Text>
-          </CardSection>
           <Image source={{uri: this.props.item.image}} style={styles.imageStyle} />
           <CardSection>
           <Text 
@@ -56,6 +55,14 @@ class MapItems extends Component {
           {"\n"} Phone: {" "}
           {this.props.item.phone.toString().replace(/\D+1/g, '')}
           </Text>
+          <StarRating
+            disabled
+            maxStars={5}
+            rating={this.props.item.rating}
+            emptyStarColor={'grey'}
+            fullStarColor={'gold'}
+            starSize={15}
+          />
           </CardSection>
         </Card>
         </View>
@@ -185,7 +192,7 @@ const styles = StyleSheet.create({
    flex: .4,
     borderWidth: .2,
    borderColor: '#6495ed',
-    marginTop: '2%',
+    //marginTop: '2%',
     marginBottom: '8%',
     backgroundColor: 'white'
   }, 
@@ -219,9 +226,9 @@ textSubStyle: {
     marginRight: 2,
   },
   imageStyle: {
-    flex: 2,
+    flex: 1,
     resizeMode: 'contain',
-    borderWidth: .1,
+    //borderWidth: .1,
      borderColor: 'grey'
 },
   radius: {
