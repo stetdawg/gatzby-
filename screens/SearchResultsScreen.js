@@ -9,9 +9,9 @@ import { View,
   Modal
 } from "react-native";
 import firebase from 'firebase';
-import { Button } from "react-native-elements";
+import { Button, Icon } from "react-native-elements";
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/FontAwesome';
+//import {Icon} from 'react-native-vector-icons/FontAwesome';
 import { saveCode, walRes, itemsFetch } from "../actions";
 import * as urls from "../services/urlbuilder";
 
@@ -110,15 +110,11 @@ class SearchResultsScreen extends Component {
           return (
             <View
             style={styles.backgroundStyle}>
-            <View
-            style={styles.head}
-            > 
-            </View>
             <ScrollView
             horizontal
             style={{
              maxHeight: '5%',
-             borderTopWidth: .1,
+             borderTopWidth: 0.1,
                 borderColor: 'grey',
                 shadowOpacity: 0.2,
             }}
@@ -139,7 +135,8 @@ class SearchResultsScreen extends Component {
                           {"\n"}
                           Current Price: {this.props.itemInfo.salePrice}
                           </Text>
-                        {/* <TouchableOpacity 
+                        <TouchableOpacity 
+                        style={{marginLeft: 30}}
                         onPress={this.onSavedPress}
                         >
                          <Icon
@@ -150,6 +147,7 @@ class SearchResultsScreen extends Component {
                         }}
                         activeOpacity={10}
                            name="heart"
+                           type='font-awesome'
                            size={30}
                             color= ({likeColor})
                                  /> 
@@ -171,124 +169,161 @@ class SearchResultsScreen extends Component {
                        </TouchableOpacity>  
                          <TouchableOpacity 
                         style={{
-                         
+                         marginLeft: 15
                         }}
                         onPress={this.onMapButtonPress}
                         >
                          <Icon
                          style={{
-                             paddingLeft: "2%",
-                          paddingRight: "2%"
+                             
                         }}
                         activeOpacity={10}
                            name="crosshairs"
+                           type='font-awesome'
                            size={30}
                            color='black'
                                  /> 
                                  
                          </TouchableOpacity> 
                          </View>
-              <View
-              style={styles.textBox}>
-              <Button
-              title='Description'
+
+              <TouchableOpacity
               onPress={this.onDescripTog.bind(this)}
-              buttonStyle={{borderRadius: 15,
+              style={{
+                height: '10%',
                 width: '100%',
-                borderWidth: .1,
+                marginLeft: 20,
+                marginRight: 20,  
                 borderColor: 'grey',
                 shadowOpacity: 0.2,
+                backgroundColor: '#ddffeb', 
               }}
-              /> 
-                </View>  
+              > 
+              <Text
+                style={{
+                  flex: 2,
+                  textAlign: "center",
+                  textAlignVertical: 'center',
+
+                }}>
+                Description
+              </Text>
+              </TouchableOpacity>
               <ScrollView
               horizontal
               style={{
                maxHeight: '8%',
-                borderTopWidth: .1,
+                borderTopWidth: 0.1,
               //  borderBottomWidth: .2,
                 borderColor: 'black',
               }}
               >     
-              <Button
-              buttonStyle={styles.Walmart.buttonStyle}
-              title="Walmart"
-              onPress={() => Linking.openURL(urls.walmartUrl(this.props.itemInfo.name))}
-              /> 
-              <Button
-              buttonStyle={styles.Target.buttonStyle}
-              title="Target"
-              onPress={() => Linking.openURL(urls.targetUrl(this.props.itemInfo.name))}
-              />
-              <Button
-              buttonStyle={styles.Best.buttonStyle}
-              title="Best Buy"
-              onPress={() => Linking.openURL(urls.BestUrl(this.props.itemInfo.name))}
-              />              
-              <Button
-              buttonStyle={styles.Amazon.buttonStyle}
-              title="Amazon"
-              onPress={() => Linking.openURL(urls.amazonUrl(this.props.itemInfo.name))}
-              />
+              <TouchableOpacity           
+                 style={styles.storeButtonLeft}
+                 onPress={() => Linking.openURL(urls.walmartUrl(this.props.itemInfo.name))
+                }
+                 >
+                <Text>
+                  Walmart
+                </Text>
+              </TouchableOpacity> 
+
+              <TouchableOpacity              
+                style={styles.storeButtonDefault}
+                onPress={() => 
+                  Linking.openURL(urls.targetUrl(this.props.itemInfo.name))
+                }
+                >
+                <Text>
+                  Target
+                </Text>              
+              </TouchableOpacity>
+
+              <TouchableOpacity              
+                style={styles.storeButtonDefault}
+                onPress={() => Linking.openURL(urls.BestUrl(this.props.itemInfo.name))
+                }
+                >
+                <Text>
+                  Best Buy
+                </Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity            
+                style={styles.storeButtonRight}
+                onPress={() => Linking.openURL(urls.amazonUrl(this.props.itemInfo.name))
+                }
+                >
+                <Text>
+                  Amazon
+                </Text>
+              </TouchableOpacity>
+
               </ScrollView> 
               <View
             style={styles.foot}>
-            <TouchableOpacity 
-            style={{
-              alignSelf: 'center',
-              position: "absolute",
-              left: 8,
-              top: 0
-            }}
-            onPress={this.onMultPress}
-            >
-             <Icon
-             style={{
-            }}
-            activeOpacity={10}
-               name="angle-double-left"
-               size={40}
-               color='black'
-                     /> 
-                     
-             </TouchableOpacity>   
+                <TouchableOpacity 
+                  style={{
+                    alignSelf: 'center',
+                    position: "absolute",
+                    left: 8,
+                    top: 0
+                  }}
+                    onPress={this.onMultPress}
+                >
+                <Icon
+                style={{
+                      }}
+                activeOpacity={10}
+                  name="angle-double-left"
+                  type='font-awesome'
+                  size={40}
+                  color='black'
+                        /> 
+                        
+                </TouchableOpacity>   
             </View>
+       
+
               <Modal
-          visible={this.state.isVisible}
-          animationType='fade'
-          transparent
-          onRequestClose={() => {}}
+                visible={this.state.isVisible}
+                animationType='slide'
+                transparent
+                onRequestClose={() => this.onDescripTog}
           >
-          <View
-          >
-          <ScrollView
-          style={styles.DescriptionModalStyle}
-          >
-          <View
-          style={{
-            marginLeft: '2%',
-            marginRight: '2%'
-          }}>
-            <Text 
-            style={styles.MobleDescritionTextStyle}
-            >Description: {this.props.itemInfo.shortDescription}</Text>
-            
-            </View>
-            
-          </ScrollView>
-          <Button
-            title='Close'
-            onPress={this.onDescripTog.bind(this)}
-            buttonStyle={{
-              borderBottomLeftRadius: 20,
-              borderBottomRightRadius: 20,
-              width: '97%',
-              alignSelf: 'center',
-              
-            }}
-            />
-            </View>
-            </Modal>  
+                <View>
+                <ScrollView
+                style={styles.DescriptionModalStyle}
+                >
+                <View
+                style={{
+                  marginLeft: '2%',
+                  marginRight: '2%'
+                }}>
+                     <Icon 
+                     name='expand-more'
+                     type='material'
+                    onPress={() => { this.setState({isVisible: false}); }} />
+                  <Text 
+                  style={styles.MobleDescritionTextStyle}
+                  >Description: {this.props.itemInfo.shortDescription}</Text>
+                  
+                  </View>
+                  
+                </ScrollView>
+                <Button
+                  title='Close'
+                  onPress={this.onDescripTog.bind(this)}
+                  buttonStyle={{
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20,
+                    width: '97%',
+                    alignSelf: 'center',
+                    
+                  }}
+                  />
+                  </View>
+            </Modal> 
           </View>
           );
         }
@@ -333,7 +368,7 @@ class SearchResultsScreen extends Component {
     width: '100%',
   height: '7%',
   backgroundColor: 'white',
-  borderTopWidth: .2,
+  borderTopWidth: 0.2,
                 borderColor: 'grey',
                 shadowOpacity: 0.2,
 
@@ -355,7 +390,7 @@ class SearchResultsScreen extends Component {
   },
   textBox: {
     height: '7%',
-    width: '100%',
+    width: '99%',
    // borderWidth: 1,
     //borderColor: 'red',
     marginLeft: '2%',
@@ -373,12 +408,6 @@ class SearchResultsScreen extends Component {
     marginLeft: '2%',
     marginRight: '2%',
   },
-      buttonStyle: {
-        backgroundColor: '#0489B1',
-        borderRadius: 30,
-        width: 60,
-        height: 45,
-      },
       ImageStyle: {
         resizeMode: "contain",
         height: '58%',
@@ -397,7 +426,7 @@ class SearchResultsScreen extends Component {
         backgroundColor: "rgba(52, 52, 52, 1)",
       },
       DescritionTextStyle: {
-        marginLeft: '2%',
+        marginLeft: '5%',
         fontSize: 13,
         color: 'black',
         textShadowColor: 'black',
@@ -415,31 +444,36 @@ class SearchResultsScreen extends Component {
         borderRadius: 15
       } 
     },
-    Target: { 
-      buttonStyle: {
-        backgroundColor: '#d82424',
-        borderRadius: 15
-      } 
-      },
-    Amazon: { 
-    buttonStyle: {
-      backgroundColor: '#ffaa00',
-      borderRadius: 15,
-      marginBottom: 10
-      } 
-    }, 
-    Best: { 
-      buttonStyle: {
-        backgroundColor: '#0000ff',
-        borderRadius: 15
-      }
+    buttonPadding: {
+      paddingRight: 30,
     },
-    Walmart: {
-      buttonStyle: {
-        backgroundColor: '#2093e5',
-        borderRadius: 15
-      } 
-    }
+    storeButtonLeft: {
+      backgroundColor: '#51d688',
+      flex: 1,
+      marginLeft: 5,
+      padding: 20,
+      height: 20,
+      borderTopLeftRadius: 2.4,
+      borderBottomLeftRadius: 10
+
+    }, 
+    storeButtonRight: {
+      backgroundColor: '#51d688',
+      flex: 1,
+      marginLeft: 5,
+      padding: 20,
+      height: 20,
+      borderTopRightRadius: 2.4,
+      borderBottomRightRadius: 10
+
+    },
+    storeButtonDefault: {
+      backgroundColor: '#51d688',
+      flex: 1,
+      marginLeft: 5,
+      padding: 20,
+      height: 20,
+    },
   };
     export default connect(mapStateToProps, { saveCode,
                                               walRes,
